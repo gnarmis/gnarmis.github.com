@@ -1,0 +1,309 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Primes and Sieves - Kilotau</title>
+  <meta name="author" content="Gursimran Singh">
+
+  
+  <meta name="description" content="Project Euler is one of the best things I have discovered in a while.
+It&#8217;s simply a huge open list of problems in numeric order that you can &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://gnarmis.github.com/blog/2011/06/28/primes-and-sieves/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="Kilotau" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Kilotau</a></h1>
+  
+    <h2>code, science, etc</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:gnarmis.github.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Primes and Sieves</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-06-28T00:39:00-05:00" pubdate data-updated="true">Jun 28<span>th</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p><a href="http://projecteuler.net/">Project Euler</a> is one of the best things I have discovered in a while.
+It&#8217;s simply a huge open list of problems in numeric order that you can solve
+using any math or code you want, provided that any code you write runs under
+one minute.</p>
+
+<p>The problems get interesting from the very start and are actually entertaining!
+After reading <a href="https://www.facebook.com/l.php?u=http%3A%2F%2Fwww.maa.org%2Fdevlin%2FLockhartsLament.pdf&amp;h=dba0d">Lokhart&#8217;s Lament</a>, I&#8217;d say these problems would definitely
+fit the category of challenging and yet stimulating. Math truly is an art,
+and code is a cool way to access a subset of it.</p>
+
+<p> </p>
+
+<p>Anyway, primes! Here&#8217;s the problem itself:</p>
+
+<p>The prime factors of 13195 are 5, 7, 13 and 29.</p>
+
+<p>What is the largest prime factor of the number 600851475143 ?</p>
+
+<p>And here&#8217;s my solution (skip if you want to try this yourself!):</p>
+
+<p>The code should be pretty much clear, at least except for that initial part
+where I restrict the range. It was hard getting my super-easy-to-write-yet-inefficient
+prime numbered array generator to solve for 600851475143 quickly. I was too
+lazy to try to implement Sieve of Atkin so I just decided to try limiting the
+range as much as I could. Apparently, if you take the root of the number of
+digits in the given composite number, and then raise the upper limit of your
+range to the inverse of that number, you get a much more limited range that
+still gives you the right highest prime factor of the original number. I tried
+this out down to two-digit composites and it seems to work.</p>
+
+<p>Also, if I tried using a quick prime test on each element and deleting non-primes
+that way (instead of a sieve), the performance was actually worse somehow.
+And while trying to do this exact thing, I discovered a freaking <a href="http://www.noulakaz.net/weblog/2007/03/18/a-regular-expression-to-check-for-prime-numbers/">regular expression
+that detects primes</a>! Yeah.</p>
+
+<p>I literally spent close to three hours just researching a number of tangential
+topics, such as <a href="http://en.wikipedia.org/wiki/Sieve_of_Eratosthenes">Sieve of Eratothenes</a>, <a href="http://en.wikipedia.org/wiki/Sieve_of_Atkin">Sieve of Atkin</a>, <a href="http://en.wikipedia.org/wiki/Sieve_theory">Sieve theory</a>,
+<a href="http://en.wikipedia.org/wiki/GNFS">GNFS</a>, and <a href="http://en.wikipedia.org/wiki/RSA">RSA</a>. While the problem itself wasn&#8217;t too challenging (I
+ended up learning much more about Ruby, though), the whole experience was amazing.
+And of course, there&#8217;s a lot of room for gains in efficiency too.</p>
+
+<p>I highly recommend you sign up for an account on <a href="http://projecteuler.net/">Project Euler</a> and work
+your way through some of those problems! It&#8217;s a great way to try out new languages,
+learn more efficient techniques, or just have some fun. No, really, it&#8217;s actually
+fun.</p>
+
+<p> </p>
+
+<p> </p>
+
+<p> </p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Gursimran Singh</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-06-28T00:39:00-05:00" pubdate data-updated="true">Jun 28<span>th</span>, 2011</time>
+      
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://gnarmis.github.com/blog/2011/06/28/primes-and-sieves/" data-via="gnarmis" data-counturl="http://gnarmis.github.com/blog/2011/06/28/primes-and-sieves/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2011/06/21/template-for-deploying-static-sites-on-heroku/" title="Previous Post: Template for Deploying Static Sites on Heroku">&laquo; Template for Deploying Static Sites on Heroku</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2011/07/06/cozy-a-database-less-restful-layer/" title="Next Post: Cozy: a Database-less RESTful Layer">Cozy: a Database-less RESTful Layer &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2012/07/06/creating-a-simple-sentiment-analyzer-using-cl/">Creating a simple sentiment analyzer using Clojure</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/07/05/a-brief-foray-into-deploying-clojure-librarie/">A brief foray into deploying Clojure libraries</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/07/03/experimenting-with-persistence-using-korma-an/">Experimenting with persistence using Korma and Lobos</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/07/02/i-made-a-clojure-and-fp-themed-wallpaper-for/">I made a Clojure and FP themed wallpaper for myself</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/07/02/rich-hickeys-awesome-talk-simple-made-easy/">Rich Hickey's awesome talk: Simple Made Easy</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/gnarmis">@gnarmis</a> on GitHub
+  
+  <script type="text/javascript">
+    $.domReady(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'gnarmis',
+            count: 17,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+<section>
+  <h1>Latest Tweets</h1>
+  <ul id="tweets">
+    <li class="loading">Status updating...</li>
+  </ul>
+  <script type="text/javascript">
+    $.domReady(function(){
+      getTwitterFeed("gnarmis", 426, false);
+    });
+  </script>
+  <script src="/javascripts/twitter.js" type="text/javascript"> </script>
+  
+    <a href="http://twitter.com/gnarmis" class="twitter-follow-button" data-show-count="false">Follow @gnarmis</a>
+  
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2012 - Gursimran Singh -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

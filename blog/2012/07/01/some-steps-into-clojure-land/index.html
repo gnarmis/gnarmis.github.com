@@ -1,0 +1,296 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Some Steps Into Clojure Land - Kilotau</title>
+  <meta name="author" content="Gursimran Singh">
+
+  
+  <meta name="description" content="I&#8217;m really digging this wonderful little language called Clojure. It&#8217;s a modern
+Lisp, meaning it has all the functional goodness I have &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://gnarmis.github.com/blog/2012/07/01/some-steps-into-clojure-land/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="Kilotau" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Kilotau</a></h1>
+  
+    <h2>code, science, etc</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:gnarmis.github.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Some Steps Into Clojure Land</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-07-01T01:32:00-05:00" pubdate data-updated="true">Jul 1<span>st</span>, 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>I&#8217;m really digging this wonderful little language called Clojure. It&#8217;s a modern
+Lisp, meaning it has all the functional goodness I have been craving after
+using Racket. It&#8217;s awesome being able to build things like interpreters and
+type checkers, which I didn&#8217;t think I&#8217;d be able to approach so easily (this
+was part of an awesome programming languages class taught by Robbie Findler).
+But Clojure is also a JVM language and can be compiled ahead of time, so it&#8217;s
+exceedingly practical and efficient. You can use any Java library and interop
+with other JVM languages pretty well.</p>
+
+<p>Clojure is a young language, but has a very energetic community. It&#8217;s also
+seeing use both in industry and startups. Check out <a href="http://www.infoq.com/presentations/Clojure-powered-Startups">this talk</a> for more
+on that.</p>
+
+<p>There&#8217;s a lot of resources out there too. I&#8217;ve gone through parts of <a href="http://www.clojurebook.com/">Clojure
+Programming</a>, done some challenges on <a href="http://www.4clojure.com/">4Clojure</a>, played around with <a href="http://www.chris-granger.com/2012/06/24/its-playtime/">Light
+Table Playground</a>, and keep finding more things to explore. One book I definitely
+want to explore is <a href="http://joyofclojure.com/">The Joy of Clojure</a>. Also, I&#8217;ve decided to go through
+SICP using clojure, and ran across <a href="http://sicpinclojure.com/">this gem</a>.</p>
+
+<p>As for tools, I&#8217;ve tried <a href="http://code.google.com/p/counterclockwise/">CounterClockwise</a> and <a href="http://devnet.jetbrains.net/community/idea/clojure">La Clojure</a>, but for
+now I&#8217;ve settled for my usual lightweight editor: Sublime Text 2, with SublimeREPL.
+Having a syntax-highlighted REPL that behaves like my editor is pretty nice. <a href="https://github.com/technomancy/leiningen/">Leiningen</a> has
+been brilliant as a dependency-management tool, which also supports a host
+of other things like building, testing, running, or launching a REPL with your
+project. Honestly, Leiningen is the best dependency manager I&#8217;ve ever used.
+I wish there was something this good in Ruby-land.</p>
+
+<p>A great place to find links to all sorts of tools for Clojure development is <a href="http://www.clojure-toolbox.com/">Clojure
+Toolbox</a>. It shows how practical Clojure is today.</p>
+
+<p>I have to mention <a href="http://webnoir.org/">Noir</a> and <a href="http://sqlkorma.com/">Korma</a>. If you&#8217;re into web dev, you might
+find yourself loving the simplicity of Noir and the interesting functional
+approach to persistence in Korma. I find it awesome that <a href="http://chris-granger.com/">Chris Granger</a>,
+the guy behind Light Table, wrote both of them.</p>
+
+<p>Btw, #clojure on irc.freenode.net is friendly!</p>
+
+<p> </p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Gursimran Singh</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-07-01T01:32:00-05:00" pubdate data-updated="true">Jul 1<span>st</span>, 2012</time>
+      
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://gnarmis.github.com/blog/2012/07/01/some-steps-into-clojure-land/" data-via="gnarmis" data-counturl="http://gnarmis.github.com/blog/2012/07/01/some-steps-into-clojure-land/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2012/04/29/its-alive/" title="Previous Post: It's Alive!">&laquo; It's Alive!</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2012/07/02/rich-hickeys-awesome-talk-simple-made-easy/" title="Next Post: Rich Hickey's awesome talk: Simple Made Easy">Rich Hickey's awesome talk: Simple Made Easy &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2012/07/06/creating-a-simple-sentiment-analyzer-using-cl/">Creating a simple sentiment analyzer using Clojure</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/07/05/a-brief-foray-into-deploying-clojure-librarie/">A brief foray into deploying Clojure libraries</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/07/03/experimenting-with-persistence-using-korma-an/">Experimenting with persistence using Korma and Lobos</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/07/02/i-made-a-clojure-and-fp-themed-wallpaper-for/">I made a Clojure and FP themed wallpaper for myself</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/07/02/rich-hickeys-awesome-talk-simple-made-easy/">Rich Hickey's awesome talk: Simple Made Easy</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/gnarmis">@gnarmis</a> on GitHub
+  
+  <script type="text/javascript">
+    $.domReady(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'gnarmis',
+            count: 17,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+<section>
+  <h1>Latest Tweets</h1>
+  <ul id="tweets">
+    <li class="loading">Status updating...</li>
+  </ul>
+  <script type="text/javascript">
+    $.domReady(function(){
+      getTwitterFeed("gnarmis", 426, false);
+    });
+  </script>
+  <script src="/javascripts/twitter.js" type="text/javascript"> </script>
+  
+    <a href="http://twitter.com/gnarmis" class="twitter-follow-button" data-show-count="false">Follow @gnarmis</a>
+  
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2012 - Gursimran Singh -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,309 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Creating a simple sentiment analyzer using Clojure - Kilotau</title>
+  <meta name="author" content="Gursimran Singh">
+
+  
+  <meta name="description" content="TL;DR https://github.com/gnarmis/sentimental Sentiment analysis is the hot thing to do these days. One example is ViralHeat,
+a social media &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://gnarmis.github.com/blog/2012/07/06/creating-a-simple-sentiment-analyzer-using-cl/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="Kilotau" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Kilotau</a></h1>
+  
+    <h2>code, science, etc</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:gnarmis.github.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Creating a Simple Sentiment Analyzer Using Clojure</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-07-06T19:49:00-05:00" pubdate data-updated="true">Jul 6<span>th</span>, 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>TL;DR <a href="https://github.com/gnarmis/sentimental">https://github.com/gnarmis/sentimental</a></p>
+
+<p>Sentiment analysis is the hot thing to do these days. One example is ViralHeat,
+a social media monitoring platform that uses sentiment analysis to provide
+a picture about how the conversation is trending about certain keywords (or
+combinations of keywords, which they call profiles). There&#8217;s a lot of such
+products, and for developers there&#8217;s a lot of high-quality and extensive libraries
+and toolkits that provide for this among other solutions, such Java&#8217;s WEKA
+or OpenNLP, or Python&#8217;s NLTK. There&#8217;s even many third-party solutions that
+provide an API you can use to get sentiment analysis, such as AlchemyAPI.</p>
+
+<p>After deciding to create my very own sentiment analysis tool using Clojure,
+I began researching libraries in both Java and Clojure (because Clojure&#8217;s interop
+means that I can easily use Java libraries). There&#8217;s a lot of powerful tools
+out there, but my goal was to find something simple that could allow me to
+make a good enough sentiment analyzer without breaking the technical bank,
+so to speak.</p>
+
+<p>At first, I was looking for facilities to stem words, for which someone had
+already provided a Clojure-wrapper around the Java library Snowball. <a href="http://kilotau.com/a-brief-foray-into-deploying-clojure-librarie">I forked
+this and deployed it to Clojars</a>. This, and a simple list of stop words
+to ignore, would allow me to reduce redundancies and get a &#8220;bag of words&#8221; representation
+of the target document.</p>
+
+<p>Next, I wanted a nice and simple NLP library. <a href="https://github.com/dakrone/clojure-opennlp">Clojure-OpenNLP</a> fit the
+bill perfectly. It even had a document categorizer I could train!</p>
+
+<p>Now, I should briefly explain the overall process. At the heart of the sentiment
+analyzer is a naive-Bayesian classifier. This classifier is provided with a
+labelled list as training material (&#8220;sad&#8221; is &#8220;negative&#8221;, &#8220;happy&#8221; is &#8220;positive&#8221;).
+The various categories are the sentiments, such as &#8220;positive&#8221;, &#8220;negative&#8221;,
+&#8220;neutral&#8221; (I used 6 categories, for strong/weak sentiment). The classifier
+then learns to associate categories with words, based on training information
+that is supplied to it. Given a new sentence, the classifier then calculates
+the probabilities of each word belonging to each category, and the category
+with the best probability of covering the sentence is returned. Learn more
+about how to build naive-Bayes classifiers <a href="http://bionicspirit.com/blog/2012/02/09/howto-build-naive-bayes-classifier.html">here</a>.</p>
+
+<p>So, the next step was to get the actual training data. I found the <a href="http://www.cs.pitt.edu/mpqa/">subjectivity
+lexicon</a> to fit my needs perfectly. After parsing the document into a vector
+of hash-maps, I was able to create a <a href="https://github.com/gnarmis/sentimental/blob/master/src/models/sentiment.train">training document</a> for my very own
+opennlp model, which was to be the classifier. The other step was to create
+a function that would remove stop words and also stem each word. This was pretty
+easy to do using the <a href="https://github.com/gnarmis/snowball-stemmer">snowball-stemmer</a> library and a few lines of Clojure.</p>
+
+<p>Granted, I didn&#8217;t build my own naive-Bayes classifier, but that&#8217;s a project
+for another time :)</p>
+
+<p>And here&#8217;s the project: https://github.com/gnarmis/sentimental</p>
+
+<p>You do need to install Leiningen and have JDK 1.6 on your machine. After these
+two steps, simply <code>cd</code> into the project and type <code>lein repl</code>, following the
+example in the readme.</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Gursimran Singh</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-07-06T19:49:00-05:00" pubdate data-updated="true">Jul 6<span>th</span>, 2012</time>
+      
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://gnarmis.github.com/blog/2012/07/06/creating-a-simple-sentiment-analyzer-using-cl/" data-via="gnarmis" data-counturl="http://gnarmis.github.com/blog/2012/07/06/creating-a-simple-sentiment-analyzer-using-cl/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2012/07/05/a-brief-foray-into-deploying-clojure-librarie/" title="Previous Post: A brief foray into deploying Clojure libraries">&laquo; A brief foray into deploying Clojure libraries</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2012/07/06/creating-a-simple-sentiment-analyzer-using-cl/">Creating a simple sentiment analyzer using Clojure</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/07/05/a-brief-foray-into-deploying-clojure-librarie/">A brief foray into deploying Clojure libraries</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/07/03/experimenting-with-persistence-using-korma-an/">Experimenting with persistence using Korma and Lobos</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/07/02/i-made-a-clojure-and-fp-themed-wallpaper-for/">I made a Clojure and FP themed wallpaper for myself</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/07/02/rich-hickeys-awesome-talk-simple-made-easy/">Rich Hickey's awesome talk: Simple Made Easy</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/gnarmis">@gnarmis</a> on GitHub
+  
+  <script type="text/javascript">
+    $.domReady(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'gnarmis',
+            count: 17,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+<section>
+  <h1>Latest Tweets</h1>
+  <ul id="tweets">
+    <li class="loading">Status updating...</li>
+  </ul>
+  <script type="text/javascript">
+    $.domReady(function(){
+      getTwitterFeed("gnarmis", 426, false);
+    });
+  </script>
+  <script src="/javascripts/twitter.js" type="text/javascript"> </script>
+  
+    <a href="http://twitter.com/gnarmis" class="twitter-follow-button" data-show-count="false">Follow @gnarmis</a>
+  
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2012 - Gursimran Singh -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

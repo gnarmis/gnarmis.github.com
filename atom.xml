@@ -1,16 +1,741 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[My Octopress Blog]]></title>
+  <title><![CDATA[Kilotau]]></title>
   <link href="http://gnarmis.github.com/atom.xml" rel="self"/>
   <link href="http://gnarmis.github.com/"/>
-  <updated>2012-09-06T23:05:42-05:00</updated>
+  <updated>2012-09-14T02:19:15-05:00</updated>
   <id>http://gnarmis.github.com/</id>
   <author>
-    <name><![CDATA[Your Name]]></name>
+    <name><![CDATA[Gursimran Singh]]></name>
     
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Creating a simple sentiment analyzer using Clojure]]></title>
+    <link href="http://gnarmis.github.com/blog/2012/07/06/creating-a-simple-sentiment-analyzer-using-cl/"/>
+    <updated>2012-07-06T19:49:00-05:00</updated>
+    <id>http://gnarmis.github.com/blog/2012/07/06/creating-a-simple-sentiment-analyzer-using-cl</id>
+    <content type="html"><![CDATA[<p>TL;DR <a href="https://github.com/gnarmis/sentimental">https://github.com/gnarmis/sentimental</a></p>
+
+<p>Sentiment analysis is the hot thing to do these days. One example is ViralHeat,
+a social media monitoring platform that uses sentiment analysis to provide
+a picture about how the conversation is trending about certain keywords (or
+combinations of keywords, which they call profiles). There&#8217;s a lot of such
+products, and for developers there&#8217;s a lot of high-quality and extensive libraries
+and toolkits that provide for this among other solutions, such Java&#8217;s WEKA
+or OpenNLP, or Python&#8217;s NLTK. There&#8217;s even many third-party solutions that
+provide an API you can use to get sentiment analysis, such as AlchemyAPI.</p>
+
+<p>After deciding to create my very own sentiment analysis tool using Clojure,
+I began researching libraries in both Java and Clojure (because Clojure&#8217;s interop
+means that I can easily use Java libraries). There&#8217;s a lot of powerful tools
+out there, but my goal was to find something simple that could allow me to
+make a good enough sentiment analyzer without breaking the technical bank,
+so to speak.</p>
+
+<p>At first, I was looking for facilities to stem words, for which someone had
+already provided a Clojure-wrapper around the Java library Snowball. <a href="http://kilotau.com/a-brief-foray-into-deploying-clojure-librarie">I forked
+this and deployed it to Clojars</a>. This, and a simple list of stop words
+to ignore, would allow me to reduce redundancies and get a &#8220;bag of words&#8221; representation
+of the target document.</p>
+
+<p>Next, I wanted a nice and simple NLP library. <a href="https://github.com/dakrone/clojure-opennlp">Clojure-OpenNLP</a> fit the
+bill perfectly. It even had a document categorizer I could train!</p>
+
+<p>Now, I should briefly explain the overall process. At the heart of the sentiment
+analyzer is a naive-Bayesian classifier. This classifier is provided with a
+labelled list as training material (&#8220;sad&#8221; is &#8220;negative&#8221;, &#8220;happy&#8221; is &#8220;positive&#8221;).
+The various categories are the sentiments, such as &#8220;positive&#8221;, &#8220;negative&#8221;,
+&#8220;neutral&#8221; (I used 6 categories, for strong/weak sentiment). The classifier
+then learns to associate categories with words, based on training information
+that is supplied to it. Given a new sentence, the classifier then calculates
+the probabilities of each word belonging to each category, and the category
+with the best probability of covering the sentence is returned. Learn more
+about how to build naive-Bayes classifiers <a href="http://bionicspirit.com/blog/2012/02/09/howto-build-naive-bayes-classifier.html">here</a>.</p>
+
+<p>So, the next step was to get the actual training data. I found the <a href="http://www.cs.pitt.edu/mpqa/">subjectivity
+lexicon</a> to fit my needs perfectly. After parsing the document into a vector
+of hash-maps, I was able to create a <a href="https://github.com/gnarmis/sentimental/blob/master/src/models/sentiment.train">training document</a> for my very own
+opennlp model, which was to be the classifier. The other step was to create
+a function that would remove stop words and also stem each word. This was pretty
+easy to do using the <a href="https://github.com/gnarmis/snowball-stemmer">snowball-stemmer</a> library and a few lines of Clojure.</p>
+
+<p>Granted, I didn&#8217;t build my own naive-Bayes classifier, but that&#8217;s a project
+for another time :)</p>
+
+<p>And here&#8217;s the project: https://github.com/gnarmis/sentimental</p>
+
+<p>You do need to install Leiningen and have JDK 1.6 on your machine. After these
+two steps, simply <code>cd</code> into the project and type <code>lein repl</code>, following the
+example in the readme.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[A brief foray into deploying Clojure libraries]]></title>
+    <link href="http://gnarmis.github.com/blog/2012/07/05/a-brief-foray-into-deploying-clojure-librarie/"/>
+    <updated>2012-07-05T15:50:00-05:00</updated>
+    <id>http://gnarmis.github.com/blog/2012/07/05/a-brief-foray-into-deploying-clojure-librarie</id>
+    <content type="html"><![CDATA[<p>Having found an <a href="https://github.com/weavejester/snowball-stemmer">awesome little wrapper</a> for <a href="http://snowball.tartarus.org/">Snowball</a> (which allows
+for stemming of words, like &#8220;going&#8221; -> &#8220;go&#8221;), I decided that it was the perfect
+opportunity to try creating my very own &#8220;Clojar&#8221; and deploying it. It didn&#8217;t
+take long to fork the repo, make an account on clojars.org, make some minimal
+changes, and deploy this library. The nice thing is that everyone now has an
+easy way to try this out. I&#8217;m honestly surprised it was this easy and quick
+to deploy the thing!</p>
+
+<p>Check out my fork: (<a href="https://github.com/gnarmis/snowball-stemmer)">https://github.com/gnarmis/snowball-stemmer)</a></p>
+
+<p>And the clojar itself is here: (<a href="https://clojars.org/org.clojars.gnarmis/snowball-stemmer)">https://clojars.org/org.clojars.gnarmis/snowball-stemmer)</a></p>
+
+<p>Cheers!</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Experimenting with persistence using Korma and Lobos]]></title>
+    <link href="http://gnarmis.github.com/blog/2012/07/03/experimenting-with-persistence-using-korma-an/"/>
+    <updated>2012-07-03T22:47:00-05:00</updated>
+    <id>http://gnarmis.github.com/blog/2012/07/03/experimenting-with-persistence-using-korma-an</id>
+    <content type="html"><![CDATA[<p><a href="http://webnoir.org">Noir</a> is an excellent, Sinatra-like framework in Clojure, and <a href="http://sqlkorma.com">Korma</a>
+is a great companion. But in a lot of database-backed services, you often need
+migrations to make sane changes to the database and have the abilitiy to roll
+back your various schema changes. Lobos is a little library (among a few) that
+tries to do this, but seeing only a few examples <a href="http://www.vijaykiran.com/2012/01/17/web-application-development-with-clojure-part-2/">here</a> and <a href="http://pupeno.com/2011/08/20/how-to-use-lobos-with-heroku/">there</a>,
+I decided to make my own little template that explores this.</p>
+
+<p>So, here&#8217;s the repo: https://github.com/gnarmis/korma-lobos-tpl</p>
+
+<p>I did run into an issue trying to find out how to do the classic &#8220;alter&#8221; SQL
+command to add a column using Lobos. Turns out, just try <code>(doc alter)</code> after
+first typing in that first long <code>(use ...)</code> command in the repo&#8217;s readme. But
+I just documented the bug for now.</p>
+
+<p>Also, there is a very simple entity definition to demonstrate Korma, and I&#8217;ve
+tested the setup and confirmed that the migration executed, and the entity
+got added.</p>
+
+<p>I&#8217;ll maybe explore Drift in the future, although there&#8217;s already <a href="https://github.com/pjlegato/korma-drift-template">this excellent
+template</a> I could build on.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[I made a Clojure and FP themed wallpaper for myself]]></title>
+    <link href="http://gnarmis.github.com/blog/2012/07/02/i-made-a-clojure-and-fp-themed-wallpaper-for/"/>
+    <updated>2012-07-02T17:14:00-05:00</updated>
+    <id>http://gnarmis.github.com/blog/2012/07/02/i-made-a-clojure-and-fp-themed-wallpaper-for</id>
+    <content type="html"><![CDATA[<p>There&#8217;s few things as iconic as the Y-Combinator in functional programming.
+I must mention http://www.fatvat.co.uk/2009/04/understanding-y-combinator.html
+as providing the actual snippet. To learn more, check out <a href="http://en.wikipedia.org/wiki/Fixed-point_combinator#Y_combinator">the wiki</a>.</p>
+
+<p>Update: http://imgur.com/Tgg54. Yep, it&#8217;s 2880x1800.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Rich Hickey's awesome talk: Simple Made Easy]]></title>
+    <link href="http://gnarmis.github.com/blog/2012/07/02/rich-hickeys-awesome-talk-simple-made-easy/"/>
+    <updated>2012-07-02T12:41:00-05:00</updated>
+    <id>http://gnarmis.github.com/blog/2012/07/02/rich-hickeys-awesome-talk-simple-made-easy</id>
+    <content type="html"><![CDATA[<p><a href="http://www.infoq.com/presentations/Simple-Made-Easy">http://www.infoq.com/presentations/Simple-Made-Easy</a></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Some Steps Into Clojure Land]]></title>
+    <link href="http://gnarmis.github.com/blog/2012/07/01/some-steps-into-clojure-land/"/>
+    <updated>2012-07-01T01:32:00-05:00</updated>
+    <id>http://gnarmis.github.com/blog/2012/07/01/some-steps-into-clojure-land</id>
+    <content type="html"><![CDATA[<p>I&#8217;m really digging this wonderful little language called Clojure. It&#8217;s a modern
+Lisp, meaning it has all the functional goodness I have been craving after
+using Racket. It&#8217;s awesome being able to build things like interpreters and
+type checkers, which I didn&#8217;t think I&#8217;d be able to approach so easily (this
+was part of an awesome programming languages class taught by Robbie Findler).
+But Clojure is also a JVM language and can be compiled ahead of time, so it&#8217;s
+exceedingly practical and efficient. You can use any Java library and interop
+with other JVM languages pretty well.</p>
+
+<p>Clojure is a young language, but has a very energetic community. It&#8217;s also
+seeing use both in industry and startups. Check out <a href="http://www.infoq.com/presentations/Clojure-powered-Startups">this talk</a> for more
+on that.</p>
+
+<p>There&#8217;s a lot of resources out there too. I&#8217;ve gone through parts of <a href="http://www.clojurebook.com/">Clojure
+Programming</a>, done some challenges on <a href="http://www.4clojure.com/">4Clojure</a>, played around with <a href="http://www.chris-granger.com/2012/06/24/its-playtime/">Light
+Table Playground</a>, and keep finding more things to explore. One book I definitely
+want to explore is <a href="http://joyofclojure.com/">The Joy of Clojure</a>. Also, I&#8217;ve decided to go through
+SICP using clojure, and ran across <a href="http://sicpinclojure.com/">this gem</a>.</p>
+
+<p>As for tools, I&#8217;ve tried <a href="http://code.google.com/p/counterclockwise/">CounterClockwise</a> and <a href="http://devnet.jetbrains.net/community/idea/clojure">La Clojure</a>, but for
+now I&#8217;ve settled for my usual lightweight editor: Sublime Text 2, with SublimeREPL.
+Having a syntax-highlighted REPL that behaves like my editor is pretty nice. <a href="https://github.com/technomancy/leiningen/">Leiningen</a> has
+been brilliant as a dependency-management tool, which also supports a host
+of other things like building, testing, running, or launching a REPL with your
+project. Honestly, Leiningen is the best dependency manager I&#8217;ve ever used.
+I wish there was something this good in Ruby-land.</p>
+
+<p>A great place to find links to all sorts of tools for Clojure development is <a href="http://www.clojure-toolbox.com/">Clojure
+Toolbox</a>. It shows how practical Clojure is today.</p>
+
+<p>I have to mention <a href="http://webnoir.org/">Noir</a> and <a href="http://sqlkorma.com/">Korma</a>. If you&#8217;re into web dev, you might
+find yourself loving the simplicity of Noir and the interesting functional
+approach to persistence in Korma. I find it awesome that <a href="http://chris-granger.com/">Chris Granger</a>,
+the guy behind Light Table, wrote both of them.</p>
+
+<p>Btw, #clojure on irc.freenode.net is friendly!</p>
+
+<p> </p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[It's Alive!]]></title>
+    <link href="http://gnarmis.github.com/blog/2012/04/29/its-alive/"/>
+    <updated>2012-04-29T17:15:37-05:00</updated>
+    <id>http://gnarmis.github.com/blog/2012/04/29/its-alive</id>
+    <content type="html"><![CDATA[<p><a href="http://getsoundboard.com">http://getsoundboard.com</a></p>
+
+<p>Me and Jon are finally at the stage where we can start showing off our <br/>
+idea called SoundBoard, which was conceived and well received at a <br/>
+hackathon last weekend. After talking about it with several great <br/>
+people at TEDxUChicago, we feel the need to learn as much as possible <br/>
+about how people use it. We have also put up a link on the site to <br/>
+allow easy feedback, so be sure to check it out and tell us what you <br/>
+think!</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[my hackathon experience last weekend]]></title>
+    <link href="http://gnarmis.github.com/blog/2012/04/27/my-hackathon-experience-last-weekend/"/>
+    <updated>2012-04-27T01:23:00-05:00</updated>
+    <id>http://gnarmis.github.com/blog/2012/04/27/my-hackathon-experience-last-weekend</id>
+    <content type="html"><![CDATA[<p>Me and Jonathan Chan (@jonishungry) had quite the adventure last weekend. Managing
+a two hour El ride; being completely lost on the UChicago campus; sleeping
+in a tiny student government office since the venue wasn&#8217;t 24/7 (graciously
+provided by @hackuc); discovering that Fermi worked in Ryerson Hall (where
+we hacked), and that Carl Sagan used to go to the observation tower there.
+Oh, and winning second place (by 1 vote)!</p>
+
+<p>The app we built was <a href="http://soundingboard.heroku.com">SoundingBoard</a>: a crowd-driven music player. Let&#8217;s
+say you have a venue and you want to play some music while also allowing people
+to suggest artists they love (with minimal effort on your part). You sign in
+with an Rdio account, give us the place name in a hashtag-friendly manner,
+give us the place&#8217;s address, and we setup a page for you that plays songs.
+Now, put this up on a screen and people can tweet their favorite artists (with
+the appropriate hashtag) in order to add them to the artist pool. The player
+then randomly selects from the artist pool, which ranks artists based on the
+number of mentions in tweets/retweets. Needless to say, it was an API-wrangling
+bonanza, with lots of hard decisions about which features we had to cut and
+which were absolutely essential to the experience. It was also probably our
+most productive 30 hour sprint ever.</p>
+
+<p>We successfully demoed our app, adding tweets live which were parsed for artist
+names, updating the pool and affecting the next song&#8217;s choice. And we almost
+won the whole thing! But it&#8217;s ok; we still got VIP tickets to TEDxUChicago,
+which promises to be amazing. Enova, the company backing the hackathon, and
+the hack@uchicago team (@hackuc) should be lauded for supporting such an amazing
+event.</p>
+
+<p>We were definitely thrilled to see some validation of our idea and want to
+explore it further. Any updates will be up on our launch-rock page at <a href="http://soundingboard.heroku.com">http://soundingboard.heroku.com</a>,
+and emailed to everyone who&#8217;s signed up to our mailing list!</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Model Checking]]></title>
+    <link href="http://gnarmis.github.com/blog/2012/04/12/model-checking/"/>
+    <updated>2012-04-12T20:20:00-05:00</updated>
+    <id>http://gnarmis.github.com/blog/2012/04/12/model-checking</id>
+    <content type="html"><![CDATA[<blockquote><p>I had a scheme, which I still use today when somebody is explaining something
+that I&#8217;m trying to understand: I keep making up examples. For instance, the
+mathematicians would come in with a terrific theorem, and they&#8217;re all excited.
+As they&#8217;re telling me the conditions of the theorem, I construct something
+which fits all the conditions. You know, you have a set (one ball) - disjoint
+(two halls). Then the balls turn colors, grow hairs, or whatever, in my head
+as they put more conditions on. Finally they state the theorem, which is some
+dumb thing about the ball which isn&#8217;t true for my hairy green ball thing, so
+I say, &#8220;False!&#8221;</p>
+
+<p> If it&#8217;s true, they get all excited, and I let them go on for a while. Then
+I point out my counterexample.</p>
+
+<p>&#8220;Oh. We forgot to tell you that it&#8217;s Class 2 Hausdorff homomorphic.&#8221;</p>
+
+<p>&#8220;Well, then,&#8221; I say, &#8220;It&#8217;s trivial! It&#8217;s trivial!&#8221;</p></blockquote>
+
+<ul>
+<li>Richard Feynman</li>
+</ul>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Rocketship]]></title>
+    <link href="http://gnarmis.github.com/blog/2012/03/10/rocketship/"/>
+    <updated>2012-03-10T20:07:00-06:00</updated>
+    <id>http://gnarmis.github.com/blog/2012/03/10/rocketship</id>
+    <content type="html"><![CDATA[<p>Introducing Rocketship: a Rack based template that integrates multiple micro-frameworks.</p>
+
+<p><a href="https://github.com/gnarmis/rocketship"><strong>github.com/gnarmis/rocketship</strong></a></p>
+
+<p> </p>
+
+<p>I recently came across some useful Sinatra templates and ended up having to
+integrate several things together in a service I&#8217;m currently working on. So,
+I extracted the basic stuff out and it&#8217;s turned out to be useful for spinning
+up a quick web service. Best thing is that it doesn&#8217;t impose a strict structure
+and you can follow best-practices of your micro-framework of choice.</p>
+
+<p>Currently, Rocketship integrates Grape and Sinatra, along with a bevy of testing
+facilities.</p>
+
+<p>Comments/improvements welcome!</p>
+
+<p> </p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[A modular, test-driven Sinatra template]]></title>
+    <link href="http://gnarmis.github.com/blog/2012/03/02/a-modular-test-driven-sinatra-template/"/>
+    <updated>2012-03-02T19:28:00-06:00</updated>
+    <id>http://gnarmis.github.com/blog/2012/03/02/a-modular-test-driven-sinatra-template</id>
+    <content type="html"><![CDATA[<p>I recently found a (somewhat old) but great repository: https://github.com/daddz/sinatra-rspec-bundler-template.
+The structure really helps you build modular Sinatra apps and has the basics
+needed for you to jump in and start building.</p>
+
+<p>However, after discovering the joys of the <a href="https://www.ruby-toolbox.com/projects/simplecov">SimpleCov</a> gem, which generates
+code coverage reports in HTML, I wanted to tweak this already-awesome repository.
+Also, I wanted a few more Rake tasks to help with everyday development.</p>
+
+<p>So, <a href="https://github.com/gnarmis/sinatra-rspec-bundler-template">here&#8217;s my fork</a> with some improvements.</p>
+
+<p>To begin, just define your own app like the one defined in lib/foo.rb. You
+can create multiple such apps and route requests to each one separately. To
+do that, just add those mappings to config.ru (foo and bar have been configured
+in this manner).</p>
+
+<p>This template also uses Bundler to manage its dependencies, so if you need
+a new gem just add it to the Gemfile and run <code>bundle install</code>. I also recommend
+using RVM to manage your gems (create a new gemset for each app).</p>
+
+<p>Also, use RSpec to test your app, and run the specs with the defined Rake tasks.
+Run <code>rake</code> or <code>rake help</code> to see available tasks. Run <code>rake spec</code> to run your
+specs defined under spec/.</p>
+
+<p>You can generate code coverage reports by running <code>rake coverage</code>.</p>
+
+<p>You can also run a console with your app&#8217;s environment by running <code>rake console</code>.</p>
+
+<p>So, there you have it: a simple template with enough structure to support your
+Sinatra development.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[My CATS mini-course about web dev]]></title>
+    <link href="http://gnarmis.github.com/blog/2012/02/28/my-cats-mini-course-about-web-dev/"/>
+    <updated>2012-02-28T14:34:00-06:00</updated>
+    <id>http://gnarmis.github.com/blog/2012/02/28/my-cats-mini-course-about-web-dev</id>
+    <content type="html"><![CDATA[<p>Northwestern&#8217;s <a href="http://nucats.org">CATS</a> group is an amazing mix of technical and creative
+talent, and I recently had a great opportunity to help people interested in
+web development get their feet wet. I decided to choose Sinatra, which I&#8217;m
+actively using at my <a href="http://nux.northwestern.edu">work</a> and which allows a greatly simplified introduction
+to real web development.</p>
+
+<p>Here&#8217;s a link to the video: http://www.youtube.com/watch?feature=player_embedded&amp;v=oDwZPXfCOYs</p>
+
+<p>Also, here&#8217;s a link to the associated Github repo: https://github.com/gnarmis/meerkat</p>
+
+<p>Based on this experience, I&#8217;m hoping to teach a few more mini-courses in the
+coming quarters. Maybe RESTful services? Mobile dev? There&#8217;s quite a few useful
+topics to choose from.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[My first (extremely simple) Chrome extension!]]></title>
+    <link href="http://gnarmis.github.com/blog/2011/12/16/my-first-extremely-simple-chrome-extension/"/>
+    <updated>2011-12-16T02:17:00-06:00</updated>
+    <id>http://gnarmis.github.com/blog/2011/12/16/my-first-extremely-simple-chrome-extension</id>
+    <content type="html"><![CDATA[<p>&#8230;and it was really quite simple to do! <strong>Sherlock</strong> is pretty stupid: all
+you can do is click on him to specifically google the current tab&#8217;s website.
+So, if you find yourself adding &#8220;site:example.com&#8221; to your Google searches
+often, this should be a nice shortcut.</p>
+
+<p>Here&#8217;s the MIT-licensed code: <a href="https://github.com/gnarmis/sherlock">https://github.com/gnarmis/sherlock</a>. Download
+the install package <a href="https://github.com/downloads/gnarmis/sherlock/sherlock-0.1.1.crx">here</a>; double-click to install. I&#8217;ve even put this
+puny release on the Chrome Web Store, but it&#8217;s not showing up yet.</p>
+
+<p><strong>EDIT: <a href="https://chrome.google.com/webstore/detail/ddkcfeidojaepdblgejjcggpgobiepnj">this link</a> should work!</strong></p>
+
+<p>I&#8217;d love some comments/feedback! I&#8217;d rather not spend my precious winter break
+on a doomed hobbyist project&#8230;</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Running processes in background and redirecting to file]]></title>
+    <link href="http://gnarmis.github.com/blog/2011/11/11/running-processes-in-background-and-redirecti/"/>
+    <updated>2011-11-11T14:15:00-06:00</updated>
+    <id>http://gnarmis.github.com/blog/2011/11/11/running-processes-in-background-and-redirecti</id>
+    <content type="html"><![CDATA[<p>When developing locally, I find it useful to have the full development server
+logs available. Luckily, Rails 3.1 does this for you in the file ./log/development.log.
+However, if you want something similar for other frameworks/commands that run
+continuously and post any errors, etc, directly to the terminal, something
+like this is useful:</p>
+
+<p>[code]rails s >> console.out 2>&amp;1 &amp;[/code]</p>
+
+<p>(Replace <code>rails s</code> with any similar command)</p>
+
+<p>Also, you can easily send signals (like ctrl-c) to background processes with
+<code>kill</code>.</p>
+
+<p>List of signals:</p>
+
+<p>[code]kill -l[/code]</p>
+
+<p>Closing a background process with id 1:</p>
+
+<p>[code]kill -s SIGKILL %1[/code]</p>
+
+<p> </p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Sass and CoffeeScript - Compile and Watch Files with One Command]]></title>
+    <link href="http://gnarmis.github.com/blog/2011/08/09/sass-and-coffeescript-compile-and-watch-files/"/>
+    <updated>2011-08-09T16:30:00-05:00</updated>
+    <id>http://gnarmis.github.com/blog/2011/08/09/sass-and-coffeescript-compile-and-watch-files</id>
+    <content type="html"><![CDATA[<p>Do you use Sass and CoffeeScript? Tired of remembering and typing out the compile
+and watch commands on both of those command-line utilities? I used to do:</p>
+
+<p>[code] compass watch <br/>
+ coffee -o scripts/ -cw coffee/ [/code]</p>
+
+<p>&#8230;on all of my projects, in separate tabs on the terminal. There had to be
+an easier way.</p>
+
+<p>Do them both, with the standard configuration, using the script below. Download
+it into your project, do</p>
+
+<p>[code]chmod +x sassycoffee.sh[/code]</p>
+
+<p>to make it executable, and forget about it! I&#8217;m planning on some edits in the
+future, but it works well enough and gets the job done. Now, all you need to
+do is:</p>
+
+<p>[code]./sassycoffee.sh[/code]</p>
+
+<p>This was a quick little hack in bash but pretty helpful for my workflow.</p>
+
+<p>Tips? Improvements? I&#8217;d be glad to hear &#8216;em.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Deploying TinyPM on Amazon EC2 with Tomcat]]></title>
+    <link href="http://gnarmis.github.com/blog/2011/07/19/deploying-tinypm-on-amazon-ec2-with-tomcat/"/>
+    <updated>2011-07-19T22:04:00-05:00</updated>
+    <id>http://gnarmis.github.com/blog/2011/07/19/deploying-tinypm-on-amazon-ec2-with-tomcat</id>
+    <content type="html"><![CDATA[<p>I had a particularly interesting time trying to install TinyPM, which is a
+Java-based project management solution. After searching el goog for a bit,
+I couldn&#8217;t find an exact walkthrough or recipe, so I decided to make one here
+for anyone else who&#8217;s looking into doing the same.</p>
+
+<p>First, the platform. I chose Amazon&#8217;s Elastic Computing Cloud (EC2), although
+you could easily opt for Rackspace or one of the many Java hosts (Oxxus seemed
+compelling too). EC2 has a free usage tier that fit the needs of the project
+so I decided to go with it.</p>
+
+<p>Amazon&#8217;s EC2 allows you to select disk images, called AMI&#8217;s (Amazon Machine
+Image), and then install and run them seamlessly. You can spin up multiple
+instances rapidly and manage every last detail about them. Access to these
+AMI&#8217;s (what requests can go to them and from them) is controlled by Security
+Groups, which need to be applied to instances. In the free-tier, you can&#8217;t
+change a security group after selecting it at instance-creation-time. Also,
+there are a lot of community-submitted AMI&#8217;s that you can use as well.</p>
+
+<p>After logging in with my pre-existing Amazon AWS account, I went to the <a href="https://console.aws.amazon.com/">AWS
+management console</a> and selected EC2.</p>
+
+<p>Oh, cool! This console has a lot of options. You can actually launch your very
+own server instance by following a simple wizard.</p>
+
+<p>Ok, now that the platform has been selected and introduced, the next step is to select a good, base AMI that does most of the work for us. The AMI I used was the <a href="http://bitnami.org/stack/tomcatstack">Bitnami Tomcat stack</a> (ami-0eec1167), which is publicly available and can be used with the free-tier.</p>
+
+<p>Now, I launched the instance-creation wizard from the AWS console.</p>
+
+<p>As you can see, I entered the specific AMI id and then proceeded to select
+the search item that matched.</p>
+
+<p>Next, you need to select the first few configuration items about the new instance:</p>
+
+<p> </p>
+
+<p>The defaults should suffice. After that, you can optionally enter some unique
+key/value pairs for your own purposes. </p>
+
+<p>And now comes a very important step, making and downloading your key. You need
+to give a unique name and then download the given key to your computer. This
+key will be used to SSH into your instance.</p>
+
+<p>Most importantly, you need to define the Security Group to be used with your
+instance. Remember, if you&#8217;re doing free-tier, this cannot be changed later.
+For the different rules, add a Custom TCP rule for 0.0.0.0/0 with port 8080,
+an HTTP rule for 0.0.0.0/0, and a Custom TCP rule for 0.0.0.0/0 for port 22.
+Make sure the SSH port 22 rule shows up in the group&#8217;s definition.</p>
+
+<p> </p>
+
+<p>You should now have a functioning EC2 instance. Awesome! Now, SSH into that
+baby:</p>
+
+<p>[code] $ cd path/to/folder/containing/key $ ssh -i ./ bitnami@ [/code]</p>
+
+<p>Replace with your key and with the instance&#8217;s public dns name (look in details).
+Also, you can right-click on the instance in the AWS console and select &#8220;Connect&#8221;
+to get your own personal ssh command.</p>
+
+<p><em><strong>Note</strong>: the root user for this AMI is manager/bitnami (check <a href="http://bitnami.org/faq/cloud_amazon_ec2">bitnami FAQ</a>
+for details). I tend to log in with the bitnami user to my instance and then
+use sudo for any admin commands.</em></p>
+
+<p>A bit of an overview about Tomcat and TinyPM:</p>
+
+<p>The webapps folder is like www in Apache. Individual WAR files can be unzipped
+into folders inside webapps to deploy them. The environment variable $CATALINA_HOME
+points to the root tomcat directory. Also, any .jar files that are dependencies
+go in the lib folder. The installation procedure that can now be followed is
+<a href="http://documentation.tinypm.com/display/DOC/Tomcat+6.0.x+%28from+WAR+file%29">here</a>. </p>
+
+<p>After you&#8217;re logged in, do the following:</p>
+
+<p>[code] $ Java -server -Xms256m -Xmx512m -XX:MaxPermSize=96m -XX:+UseParallelGC
+$ cd /opt/bitnami/apache-tomcat/webapps $ wget http://www.tinypm.com/downloads/tinypm-2.5.6-tomcat6.0.zip
+$ sudo unzip tinypm-2.5.6-tomcat6.0.zip $ /opt/bitnami/apache-tomcat/bin/shutdown.sh
+$ mkdir tinypm $ sudo unzip tinypm.war -d tinypm $ sudo cp dependency/* ../lib
+[/code]</p>
+
+<p>At this point, you have downloaded and installed the WAR file, taking care to shutdown Tomcat first. You&#8217;ve also moved TinyPM&#8217;s dependencies to Tomcat&#8217;s lib folder (you already have the mysql-java connector dependency fulfilled by the bitnami stack).</p>
+
+<p> Next, you need to setup the mysql database. To do this, follow the directions for the database setup <a href="http://documentation.tinypm.com/display/DOC/Tomcat+6.0.x+%28from+WAR+file%29">here</a>. I kept the defaults just to keep things simple. If you change something, it can easily be accounted for in the hibernate.properties files under webapps/tinypm/WEB-INF/classes.</p>
+
+<p>After that is done, you need to edit the file at $CATALINA_HOME/webapps/tinypm/WEB-INF/classes/hibernate.properties
+so as to uncomment the line:</p>
+
+<h1>hibernate.search.default.indexBase = /var/search_index/tinypm</h1>
+
+<p>by removing the <code>#</code> sign. You might need to change permissions by doing:</p>
+
+<p>$ sudo chmod +w hibernate.properties</p>
+
+<p>Now, the next step is to create the folder that the above uncommented line
+mentions:</p>
+
+<p>[code] $ sudo mkdir /var/search_index /var/search_index/tinypm $ chown -R root /var/search_index/tinypm
+[/code]</p>
+
+<p>Finally, start your Tomcat server:</p>
+
+<p>[code]$ /opt/bitnami/apache-tomcat/bin/startup.sh [/code]</p>
+
+<p>And point your browser to /tinypm. The credentials are admin/admin.</p>
+
+<p>Hope this is helpful for someone out there!</p>
+
+<p> </p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Cozy: a Database-less RESTful Layer]]></title>
+    <link href="http://gnarmis.github.com/blog/2011/07/06/cozy-a-database-less-restful-layer/"/>
+    <updated>2011-07-06T18:35:00-05:00</updated>
+    <id>http://gnarmis.github.com/blog/2011/07/06/cozy-a-database-less-restful-layer</id>
+    <content type="html"><![CDATA[<p>After exploring some static site recipes in my <a href="https://github.com/gnarmis/staticRack">staticRack</a> project, I wanted
+to explore the world of simple, static Content Management Systems. There is
+a PHP implementation of that sort of idea in <a href="http://pulsecms.com/">Pulse CMS</a>, and Ruby has something
+a bit different called <a href="http://nestacms.com/">Nesta</a>. The latter, in particular, is a great solution
+if you love managing static sites with a desktop text editor and want a simple
+way to customize or build completely new designs. I decided to explore a custom
+CMS based on Sinatra to learn building apps with Rack and Sinatra.</p>
+
+<p>The idea was to have a general-purpose layer that can be easily deployed using
+pretty much any web server and that allows flexible management and development
+of content. Imagine a RESTful API that abstracts away the messy local filesystem
+and lets you create objects that are stored as static files. If you&#8217;re working
+on a simple JavaScript client and want local filesystem access, such a layer
+would be immensely helpful. There is also some separation of concerns between
+the client and server and the whole thing starts looking like a general mini-framework
+that can be used to target a wide range of problems. Also, after initial deployment,
+such a project could allow continued development through a REST client on any
+browser or even mobile device. And with the possibility of <a href="http://www.modrails.com/documentation/Users%20guide%20Standalone.html">standalone deployment
+with Passenger</a> and even simpler deployment with <a href="http://www.heroku.com/">Heroku</a>, such a project
+can actually have widespread, general use.</p>
+
+<p>I worked out some initial functionality and pushed it <a href="https://github.com/gnarmis/cozy">here</a>. I&#8217;m calling
+it <strong>Cozy</strong>, and hopefully it evolves into a good way to make basic prototypes,
+to have database-less dynamic web apps, or to manage static websites. For now,
+Cozy can create, read, update, and delete &#8220;nodes,&#8221; which can be any kind of
+file. There is also some authentication to protect the create, update, and
+delete actions. The code is a little brittle right now, but you get the idea.</p>
+
+<p>While the true capabilities and drawbacks are not clear yet, this idea of a
+static REST backend is turning out to be a great educational project. If anything,
+it can help inform a future attempt to create a light framework. In the meantime,
+I&#8217;m absolutely loving Sinatra&#8217;s simplicity and will have some followups exploring
+the specifics of Cozy.</p>
+
+<p>Cheers!</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Primes and Sieves]]></title>
+    <link href="http://gnarmis.github.com/blog/2011/06/28/primes-and-sieves/"/>
+    <updated>2011-06-28T00:39:00-05:00</updated>
+    <id>http://gnarmis.github.com/blog/2011/06/28/primes-and-sieves</id>
+    <content type="html"><![CDATA[<p><a href="http://projecteuler.net/">Project Euler</a> is one of the best things I have discovered in a while.
+It&#8217;s simply a huge open list of problems in numeric order that you can solve
+using any math or code you want, provided that any code you write runs under
+one minute.</p>
+
+<p>The problems get interesting from the very start and are actually entertaining!
+After reading <a href="https://www.facebook.com/l.php?u=http%3A%2F%2Fwww.maa.org%2Fdevlin%2FLockhartsLament.pdf&amp;h=dba0d">Lokhart&#8217;s Lament</a>, I&#8217;d say these problems would definitely
+fit the category of challenging and yet stimulating. Math truly is an art,
+and code is a cool way to access a subset of it.</p>
+
+<p> </p>
+
+<p>Anyway, primes! Here&#8217;s the problem itself:</p>
+
+<p>The prime factors of 13195 are 5, 7, 13 and 29.</p>
+
+<p>What is the largest prime factor of the number 600851475143 ?</p>
+
+<p>And here&#8217;s my solution (skip if you want to try this yourself!):</p>
+
+<p>The code should be pretty much clear, at least except for that initial part
+where I restrict the range. It was hard getting my super-easy-to-write-yet-inefficient
+prime numbered array generator to solve for 600851475143 quickly. I was too
+lazy to try to implement Sieve of Atkin so I just decided to try limiting the
+range as much as I could. Apparently, if you take the root of the number of
+digits in the given composite number, and then raise the upper limit of your
+range to the inverse of that number, you get a much more limited range that
+still gives you the right highest prime factor of the original number. I tried
+this out down to two-digit composites and it seems to work.</p>
+
+<p>Also, if I tried using a quick prime test on each element and deleting non-primes
+that way (instead of a sieve), the performance was actually worse somehow.
+And while trying to do this exact thing, I discovered a freaking <a href="http://www.noulakaz.net/weblog/2007/03/18/a-regular-expression-to-check-for-prime-numbers/">regular expression
+that detects primes</a>! Yeah.</p>
+
+<p>I literally spent close to three hours just researching a number of tangential
+topics, such as <a href="http://en.wikipedia.org/wiki/Sieve_of_Eratosthenes">Sieve of Eratothenes</a>, <a href="http://en.wikipedia.org/wiki/Sieve_of_Atkin">Sieve of Atkin</a>, <a href="http://en.wikipedia.org/wiki/Sieve_theory">Sieve theory</a>,
+<a href="http://en.wikipedia.org/wiki/GNFS">GNFS</a>, and <a href="http://en.wikipedia.org/wiki/RSA">RSA</a>. While the problem itself wasn&#8217;t too challenging (I
+ended up learning much more about Ruby, though), the whole experience was amazing.
+And of course, there&#8217;s a lot of room for gains in efficiency too.</p>
+
+<p>I highly recommend you sign up for an account on <a href="http://projecteuler.net/">Project Euler</a> and work
+your way through some of those problems! It&#8217;s a great way to try out new languages,
+learn more efficient techniques, or just have some fun. No, really, it&#8217;s actually
+fun.</p>
+
+<p> </p>
+
+<p> </p>
+
+<p> </p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Template for Deploying Static Sites on Heroku]]></title>
+    <link href="http://gnarmis.github.com/blog/2011/06/21/template-for-deploying-static-sites-on-heroku/"/>
+    <updated>2011-06-21T23:20:00-05:00</updated>
+    <id>http://gnarmis.github.com/blog/2011/06/21/template-for-deploying-static-sites-on-heroku</id>
+    <content type="html"><![CDATA[<p>Have you ever looked for a way to quickly build a live prototype as a static
+site that nevertheless had some sensible version control and had potential
+for future extension? Well, I have a template (complete with very minimal HTML5
+boilerplate) for you <a href="https://github.com/gnarmis/staticRack">right here</a>! Read on for details.</p>
+
+<p>After recently experimenting with CoffeeScript (and loving it), I felt the
+need to stage some code quickly somewhere. I already had my computer setup
+for deployment to Heroku so that was the obvious choice, and a quick search
+on the interwebz meant that my static sites could now run on Heroku easily.
+The upside was that I could add a lot of complexity to such a website down
+the road with minimal hassle. Basically, in the future I could build on it
+as a Rack-based app or use one of the many easy Ruby frameworks that are Rack-based
+(like Sinatra). Also, it would mean that I would use Git from the very start
+of the process, adding some much needed version control to the early stages
+of prototypes.</p>
+
+<p>So, I basically extracted the basic code into a template, and even added a
+branch for Sass and Coffeescript enthusiasts to have a base to build on. I
+included some simple commands that free you up from the terminal so you can
+still have the familiar edit/refresh development cycle with the convenience
+of Coffee/Sass.</p>
+
+<p>Here&#8217;s the main branch: https://github.com/gnarmis/staticRack</p>
+
+<p>Here&#8217;s the sassycoffee branch: https://github.com/gnarmis/staticRack/tree/sassycoffee</p>
+
+<p>Clone the branch you want, customize, and push to Heroku. Enjoy!</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Finally Found a Good Notebook App]]></title>
+    <link href="http://gnarmis.github.com/blog/2011/06/17/finally-found-a-good-notebook-app/"/>
+    <updated>2011-06-17T21:00:00-05:00</updated>
+    <id>http://gnarmis.github.com/blog/2011/06/17/finally-found-a-good-notebook-app</id>
+    <content type="html"><![CDATA[<p>Windows users have long enjoyed OneNote, a truly great solution that has sensible
+note-taking and note-management. However, those of us on macs, even after buying
+Office for Mac, don&#8217;t quite have something that really solves that issue. Well,
+I&#8217;ve finally found a solution that more than measures up to the challenge:
+Circus Ponies&#8217; <a href="http://www.circusponies.com/">NoteBook</a>.</p>
+
+<p>NoteBook looks, feels, and performs like you would expect it to - that&#8217;s reason
+enough to use it for me. The past few weeks, I&#8217;ve been managing everything
+I do, to some degree, with this app. And I&#8217;ve only just started discovering
+the <a href="http://www.circusponies.com/technical-specifications">rich featureset</a>. From managing a complicated project that involves
+a lot of research to everyday idea-management, I&#8217;ve just naturally been drawn
+to using NoteBook exclusively.</p>
+
+<p>One of the best things I found in NoteBook is that the core task that you do
+(take notes) is extremely elegant and easy. Bullets are easily shuffled, contracted,
+and deleted with simple shortcuts and external media attachment works perfectly.</p>
+
+<p>Sketching out concepts with shapes and diagrams is also quite easy, and the
+export functionality is also phenomenal. This app can spit out an entire website,
+with the same slick tabs and expandable bullets as the app itself. Imagine
+using this for quickly writing up the entire project outline for a new web
+project, with research, issues, and wireframes, and then putting it up easily
+on a local network (or behind some generic auth) for colleagues to share. It&#8217;s
+really quite a flexible tool.</p>
+
+<p>There are obviously other alternatives too. I&#8217;ve tried Evernote and while the
+platform support is excellent, it didn&#8217;t result in me significantly changing
+the way I take notes and organize them. Most importantly, I felt a lack of
+the kind of support for mash-up notes that OneNote and NoteBook allow you to
+make, which means including links, images, text, and anything else that is
+relevant to a note in an elegant way. Also, every note-taking app should be
+completely and easily accessible from the keyboard, which was another pain
+point with Evernote for me. Of course, Evernote is available on many more platforms,
+so it might still be a better option for some.</p>
+
+<p>All I know is that OneNote will no longer be missed on my machine. And even
+if it was ever offered on macs, I don&#8217;t think I&#8217;ll be switching anytime soon.</p>
+]]></content>
+  </entry>
   
 </feed>

@@ -1,0 +1,897 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Kilotau</title>
+  <meta name="author" content="Gursimran Singh">
+
+  
+  <meta name="description" content="I recently found a (somewhat old) but great repository: https://github.com/daddz/sinatra-rspec-bundler-template.
+The structure really helps you build &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://gnarmis.github.com/blog/page/2/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="Kilotau" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Kilotau</a></h1>
+  
+    <h2>code, science, etc</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:gnarmis.github.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div class="blog-index">
+  
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/03/02/a-modular-test-driven-sinatra-template/">A Modular, Test-driven Sinatra Template</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-03-02T19:28:00-06:00" pubdate data-updated="true">Mar 2<span>nd</span>, 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>I recently found a (somewhat old) but great repository: https://github.com/daddz/sinatra-rspec-bundler-template.
+The structure really helps you build modular Sinatra apps and has the basics
+needed for you to jump in and start building.</p>
+
+<p>However, after discovering the joys of the <a href="https://www.ruby-toolbox.com/projects/simplecov">SimpleCov</a> gem, which generates
+code coverage reports in HTML, I wanted to tweak this already-awesome repository.
+Also, I wanted a few more Rake tasks to help with everyday development.</p>
+
+<p>So, <a href="https://github.com/gnarmis/sinatra-rspec-bundler-template">here&#8217;s my fork</a> with some improvements.</p>
+
+<p>To begin, just define your own app like the one defined in lib/foo.rb. You
+can create multiple such apps and route requests to each one separately. To
+do that, just add those mappings to config.ru (foo and bar have been configured
+in this manner).</p>
+
+<p>This template also uses Bundler to manage its dependencies, so if you need
+a new gem just add it to the Gemfile and run <code>bundle install</code>. I also recommend
+using RVM to manage your gems (create a new gemset for each app).</p>
+
+<p>Also, use RSpec to test your app, and run the specs with the defined Rake tasks.
+Run <code>rake</code> or <code>rake help</code> to see available tasks. Run <code>rake spec</code> to run your
+specs defined under spec/.</p>
+
+<p>You can generate code coverage reports by running <code>rake coverage</code>.</p>
+
+<p>You can also run a console with your app&#8217;s environment by running <code>rake console</code>.</p>
+
+<p>So, there you have it: a simple template with enough structure to support your
+Sinatra development.</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/02/28/my-cats-mini-course-about-web-dev/">My CATS Mini-course About Web Dev</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-02-28T14:34:00-06:00" pubdate data-updated="true">Feb 28<span>th</span>, 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Northwestern&#8217;s <a href="http://nucats.org">CATS</a> group is an amazing mix of technical and creative
+talent, and I recently had a great opportunity to help people interested in
+web development get their feet wet. I decided to choose Sinatra, which I&#8217;m
+actively using at my <a href="http://nux.northwestern.edu">work</a> and which allows a greatly simplified introduction
+to real web development.</p>
+
+<p>Here&#8217;s a link to the video: http://www.youtube.com/watch?feature=player_embedded&amp;v=oDwZPXfCOYs</p>
+
+<p>Also, here&#8217;s a link to the associated Github repo: https://github.com/gnarmis/meerkat</p>
+
+<p>Based on this experience, I&#8217;m hoping to teach a few more mini-courses in the
+coming quarters. Maybe RESTful services? Mobile dev? There&#8217;s quite a few useful
+topics to choose from.</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2011/12/16/my-first-extremely-simple-chrome-extension/">My First (Extremely Simple) Chrome Extension!</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-12-16T02:17:00-06:00" pubdate data-updated="true">Dec 16<span>th</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>&#8230;and it was really quite simple to do! <strong>Sherlock</strong> is pretty stupid: all
+you can do is click on him to specifically google the current tab&#8217;s website.
+So, if you find yourself adding &#8220;site:example.com&#8221; to your Google searches
+often, this should be a nice shortcut.</p>
+
+<p>Here&#8217;s the MIT-licensed code: <a href="https://github.com/gnarmis/sherlock">https://github.com/gnarmis/sherlock</a>. Download
+the install package <a href="https://github.com/downloads/gnarmis/sherlock/sherlock-0.1.1.crx">here</a>; double-click to install. I&#8217;ve even put this
+puny release on the Chrome Web Store, but it&#8217;s not showing up yet.</p>
+
+<p><strong>EDIT: <a href="https://chrome.google.com/webstore/detail/ddkcfeidojaepdblgejjcggpgobiepnj">this link</a> should work!</strong></p>
+
+<p>I&#8217;d love some comments/feedback! I&#8217;d rather not spend my precious winter break
+on a doomed hobbyist project&#8230;</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2011/11/11/running-processes-in-background-and-redirecti/">Running Processes in Background and Redirecting to File</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-11-11T14:15:00-06:00" pubdate data-updated="true">Nov 11<span>th</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>When developing locally, I find it useful to have the full development server
+logs available. Luckily, Rails 3.1 does this for you in the file ./log/development.log.
+However, if you want something similar for other frameworks/commands that run
+continuously and post any errors, etc, directly to the terminal, something
+like this is useful:</p>
+
+<p>[code]rails s >> console.out 2>&amp;1 &amp;[/code]</p>
+
+<p>(Replace <code>rails s</code> with any similar command)</p>
+
+<p>Also, you can easily send signals (like ctrl-c) to background processes with
+<code>kill</code>.</p>
+
+<p>List of signals:</p>
+
+<p>[code]kill -l[/code]</p>
+
+<p>Closing a background process with id 1:</p>
+
+<p>[code]kill -s SIGKILL %1[/code]</p>
+
+<p> </p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2011/08/09/sass-and-coffeescript-compile-and-watch-files/">Sass and CoffeeScript - Compile and Watch Files With One Command</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-08-09T16:30:00-05:00" pubdate data-updated="true">Aug 9<span>th</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Do you use Sass and CoffeeScript? Tired of remembering and typing out the compile
+and watch commands on both of those command-line utilities? I used to do:</p>
+
+<p>[code] compass watch <br/>
+ coffee -o scripts/ -cw coffee/ [/code]</p>
+
+<p>&#8230;on all of my projects, in separate tabs on the terminal. There had to be
+an easier way.</p>
+
+<p>Do them both, with the standard configuration, using the script below. Download
+it into your project, do</p>
+
+<p>[code]chmod +x sassycoffee.sh[/code]</p>
+
+<p>to make it executable, and forget about it! I&#8217;m planning on some edits in the
+future, but it works well enough and gets the job done. Now, all you need to
+do is:</p>
+
+<p>[code]./sassycoffee.sh[/code]</p>
+
+<p>This was a quick little hack in bash but pretty helpful for my workflow.</p>
+
+<p>Tips? Improvements? I&#8217;d be glad to hear &#8216;em.</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2011/07/19/deploying-tinypm-on-amazon-ec2-with-tomcat/">Deploying TinyPM on Amazon EC2 With Tomcat</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-07-19T22:04:00-05:00" pubdate data-updated="true">Jul 19<span>th</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>I had a particularly interesting time trying to install TinyPM, which is a
+Java-based project management solution. After searching el goog for a bit,
+I couldn&#8217;t find an exact walkthrough or recipe, so I decided to make one here
+for anyone else who&#8217;s looking into doing the same.</p>
+
+<p>First, the platform. I chose Amazon&#8217;s Elastic Computing Cloud (EC2), although
+you could easily opt for Rackspace or one of the many Java hosts (Oxxus seemed
+compelling too). EC2 has a free usage tier that fit the needs of the project
+so I decided to go with it.</p>
+
+<p>Amazon&#8217;s EC2 allows you to select disk images, called AMI&#8217;s (Amazon Machine
+Image), and then install and run them seamlessly. You can spin up multiple
+instances rapidly and manage every last detail about them. Access to these
+AMI&#8217;s (what requests can go to them and from them) is controlled by Security
+Groups, which need to be applied to instances. In the free-tier, you can&#8217;t
+change a security group after selecting it at instance-creation-time. Also,
+there are a lot of community-submitted AMI&#8217;s that you can use as well.</p>
+
+<p>After logging in with my pre-existing Amazon AWS account, I went to the <a href="https://console.aws.amazon.com/">AWS
+management console</a> and selected EC2.</p>
+
+<p>Oh, cool! This console has a lot of options. You can actually launch your very
+own server instance by following a simple wizard.</p>
+
+<p>Ok, now that the platform has been selected and introduced, the next step is to select a good, base AMI that does most of the work for us. The AMI I used was the <a href="http://bitnami.org/stack/tomcatstack">Bitnami Tomcat stack</a> (ami-0eec1167), which is publicly available and can be used with the free-tier.</p>
+
+<p>Now, I launched the instance-creation wizard from the AWS console.</p>
+
+<p>As you can see, I entered the specific AMI id and then proceeded to select
+the search item that matched.</p>
+
+<p>Next, you need to select the first few configuration items about the new instance:</p>
+
+<p> </p>
+
+<p>The defaults should suffice. After that, you can optionally enter some unique
+key/value pairs for your own purposes. </p>
+
+<p>And now comes a very important step, making and downloading your key. You need
+to give a unique name and then download the given key to your computer. This
+key will be used to SSH into your instance.</p>
+
+<p>Most importantly, you need to define the Security Group to be used with your
+instance. Remember, if you&#8217;re doing free-tier, this cannot be changed later.
+For the different rules, add a Custom TCP rule for 0.0.0.0/0 with port 8080,
+an HTTP rule for 0.0.0.0/0, and a Custom TCP rule for 0.0.0.0/0 for port 22.
+Make sure the SSH port 22 rule shows up in the group&#8217;s definition.</p>
+
+<p> </p>
+
+<p>You should now have a functioning EC2 instance. Awesome! Now, SSH into that
+baby:</p>
+
+<p>[code] $ cd path/to/folder/containing/key $ ssh -i ./ bitnami@ [/code]</p>
+
+<p>Replace with your key and with the instance&#8217;s public dns name (look in details).
+Also, you can right-click on the instance in the AWS console and select &#8220;Connect&#8221;
+to get your own personal ssh command.</p>
+
+<p><em><strong>Note</strong>: the root user for this AMI is manager/bitnami (check <a href="http://bitnami.org/faq/cloud_amazon_ec2">bitnami FAQ</a>
+for details). I tend to log in with the bitnami user to my instance and then
+use sudo for any admin commands.</em></p>
+
+<p>A bit of an overview about Tomcat and TinyPM:</p>
+
+<p>The webapps folder is like www in Apache. Individual WAR files can be unzipped
+into folders inside webapps to deploy them. The environment variable $CATALINA_HOME
+points to the root tomcat directory. Also, any .jar files that are dependencies
+go in the lib folder. The installation procedure that can now be followed is
+<a href="http://documentation.tinypm.com/display/DOC/Tomcat+6.0.x+%28from+WAR+file%29">here</a>. </p>
+
+<p>After you&#8217;re logged in, do the following:</p>
+
+<p>[code] $ Java -server -Xms256m -Xmx512m -XX:MaxPermSize=96m -XX:+UseParallelGC
+$ cd /opt/bitnami/apache-tomcat/webapps $ wget http://www.tinypm.com/downloads/tinypm-2.5.6-tomcat6.0.zip
+$ sudo unzip tinypm-2.5.6-tomcat6.0.zip $ /opt/bitnami/apache-tomcat/bin/shutdown.sh
+$ mkdir tinypm $ sudo unzip tinypm.war -d tinypm $ sudo cp dependency/* ../lib
+[/code]</p>
+
+<p>At this point, you have downloaded and installed the WAR file, taking care to shutdown Tomcat first. You&#8217;ve also moved TinyPM&#8217;s dependencies to Tomcat&#8217;s lib folder (you already have the mysql-java connector dependency fulfilled by the bitnami stack).</p>
+
+<p> Next, you need to setup the mysql database. To do this, follow the directions for the database setup <a href="http://documentation.tinypm.com/display/DOC/Tomcat+6.0.x+%28from+WAR+file%29">here</a>. I kept the defaults just to keep things simple. If you change something, it can easily be accounted for in the hibernate.properties files under webapps/tinypm/WEB-INF/classes.</p>
+
+<p>After that is done, you need to edit the file at $CATALINA_HOME/webapps/tinypm/WEB-INF/classes/hibernate.properties
+so as to uncomment the line:</p>
+
+<h1>hibernate.search.default.indexBase = /var/search_index/tinypm</h1>
+
+<p>by removing the <code>#</code> sign. You might need to change permissions by doing:</p>
+
+<p>$ sudo chmod +w hibernate.properties</p>
+
+<p>Now, the next step is to create the folder that the above uncommented line
+mentions:</p>
+
+<p>[code] $ sudo mkdir /var/search_index /var/search_index/tinypm $ chown -R root /var/search_index/tinypm
+[/code]</p>
+
+<p>Finally, start your Tomcat server:</p>
+
+<p>[code]$ /opt/bitnami/apache-tomcat/bin/startup.sh [/code]</p>
+
+<p>And point your browser to /tinypm. The credentials are admin/admin.</p>
+
+<p>Hope this is helpful for someone out there!</p>
+
+<p> </p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2011/07/06/cozy-a-database-less-restful-layer/">Cozy: A Database-less RESTful Layer</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-07-06T18:35:00-05:00" pubdate data-updated="true">Jul 6<span>th</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>After exploring some static site recipes in my <a href="https://github.com/gnarmis/staticRack">staticRack</a> project, I wanted
+to explore the world of simple, static Content Management Systems. There is
+a PHP implementation of that sort of idea in <a href="http://pulsecms.com/">Pulse CMS</a>, and Ruby has something
+a bit different called <a href="http://nestacms.com/">Nesta</a>. The latter, in particular, is a great solution
+if you love managing static sites with a desktop text editor and want a simple
+way to customize or build completely new designs. I decided to explore a custom
+CMS based on Sinatra to learn building apps with Rack and Sinatra.</p>
+
+<p>The idea was to have a general-purpose layer that can be easily deployed using
+pretty much any web server and that allows flexible management and development
+of content. Imagine a RESTful API that abstracts away the messy local filesystem
+and lets you create objects that are stored as static files. If you&#8217;re working
+on a simple JavaScript client and want local filesystem access, such a layer
+would be immensely helpful. There is also some separation of concerns between
+the client and server and the whole thing starts looking like a general mini-framework
+that can be used to target a wide range of problems. Also, after initial deployment,
+such a project could allow continued development through a REST client on any
+browser or even mobile device. And with the possibility of <a href="http://www.modrails.com/documentation/Users%20guide%20Standalone.html">standalone deployment
+with Passenger</a> and even simpler deployment with <a href="http://www.heroku.com/">Heroku</a>, such a project
+can actually have widespread, general use.</p>
+
+<p>I worked out some initial functionality and pushed it <a href="https://github.com/gnarmis/cozy">here</a>. I&#8217;m calling
+it <strong>Cozy</strong>, and hopefully it evolves into a good way to make basic prototypes,
+to have database-less dynamic web apps, or to manage static websites. For now,
+Cozy can create, read, update, and delete &#8220;nodes,&#8221; which can be any kind of
+file. There is also some authentication to protect the create, update, and
+delete actions. The code is a little brittle right now, but you get the idea.</p>
+
+<p>While the true capabilities and drawbacks are not clear yet, this idea of a
+static REST backend is turning out to be a great educational project. If anything,
+it can help inform a future attempt to create a light framework. In the meantime,
+I&#8217;m absolutely loving Sinatra&#8217;s simplicity and will have some followups exploring
+the specifics of Cozy.</p>
+
+<p>Cheers!</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2011/06/28/primes-and-sieves/">Primes and Sieves</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-06-28T00:39:00-05:00" pubdate data-updated="true">Jun 28<span>th</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><a href="http://projecteuler.net/">Project Euler</a> is one of the best things I have discovered in a while.
+It&#8217;s simply a huge open list of problems in numeric order that you can solve
+using any math or code you want, provided that any code you write runs under
+one minute.</p>
+
+<p>The problems get interesting from the very start and are actually entertaining!
+After reading <a href="https://www.facebook.com/l.php?u=http%3A%2F%2Fwww.maa.org%2Fdevlin%2FLockhartsLament.pdf&amp;h=dba0d">Lokhart&#8217;s Lament</a>, I&#8217;d say these problems would definitely
+fit the category of challenging and yet stimulating. Math truly is an art,
+and code is a cool way to access a subset of it.</p>
+
+<p> </p>
+
+<p>Anyway, primes! Here&#8217;s the problem itself:</p>
+
+<p>The prime factors of 13195 are 5, 7, 13 and 29.</p>
+
+<p>What is the largest prime factor of the number 600851475143 ?</p>
+
+<p>And here&#8217;s my solution (skip if you want to try this yourself!):</p>
+
+<p>The code should be pretty much clear, at least except for that initial part
+where I restrict the range. It was hard getting my super-easy-to-write-yet-inefficient
+prime numbered array generator to solve for 600851475143 quickly. I was too
+lazy to try to implement Sieve of Atkin so I just decided to try limiting the
+range as much as I could. Apparently, if you take the root of the number of
+digits in the given composite number, and then raise the upper limit of your
+range to the inverse of that number, you get a much more limited range that
+still gives you the right highest prime factor of the original number. I tried
+this out down to two-digit composites and it seems to work.</p>
+
+<p>Also, if I tried using a quick prime test on each element and deleting non-primes
+that way (instead of a sieve), the performance was actually worse somehow.
+And while trying to do this exact thing, I discovered a freaking <a href="http://www.noulakaz.net/weblog/2007/03/18/a-regular-expression-to-check-for-prime-numbers/">regular expression
+that detects primes</a>! Yeah.</p>
+
+<p>I literally spent close to three hours just researching a number of tangential
+topics, such as <a href="http://en.wikipedia.org/wiki/Sieve_of_Eratosthenes">Sieve of Eratothenes</a>, <a href="http://en.wikipedia.org/wiki/Sieve_of_Atkin">Sieve of Atkin</a>, <a href="http://en.wikipedia.org/wiki/Sieve_theory">Sieve theory</a>,
+<a href="http://en.wikipedia.org/wiki/GNFS">GNFS</a>, and <a href="http://en.wikipedia.org/wiki/RSA">RSA</a>. While the problem itself wasn&#8217;t too challenging (I
+ended up learning much more about Ruby, though), the whole experience was amazing.
+And of course, there&#8217;s a lot of room for gains in efficiency too.</p>
+
+<p>I highly recommend you sign up for an account on <a href="http://projecteuler.net/">Project Euler</a> and work
+your way through some of those problems! It&#8217;s a great way to try out new languages,
+learn more efficient techniques, or just have some fun. No, really, it&#8217;s actually
+fun.</p>
+
+<p> </p>
+
+<p> </p>
+
+<p> </p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2011/06/21/template-for-deploying-static-sites-on-heroku/">Template for Deploying Static Sites on Heroku</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-06-21T23:20:00-05:00" pubdate data-updated="true">Jun 21<span>st</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Have you ever looked for a way to quickly build a live prototype as a static
+site that nevertheless had some sensible version control and had potential
+for future extension? Well, I have a template (complete with very minimal HTML5
+boilerplate) for you <a href="https://github.com/gnarmis/staticRack">right here</a>! Read on for details.</p>
+
+<p>After recently experimenting with CoffeeScript (and loving it), I felt the
+need to stage some code quickly somewhere. I already had my computer setup
+for deployment to Heroku so that was the obvious choice, and a quick search
+on the interwebz meant that my static sites could now run on Heroku easily.
+The upside was that I could add a lot of complexity to such a website down
+the road with minimal hassle. Basically, in the future I could build on it
+as a Rack-based app or use one of the many easy Ruby frameworks that are Rack-based
+(like Sinatra). Also, it would mean that I would use Git from the very start
+of the process, adding some much needed version control to the early stages
+of prototypes.</p>
+
+<p>So, I basically extracted the basic code into a template, and even added a
+branch for Sass and Coffeescript enthusiasts to have a base to build on. I
+included some simple commands that free you up from the terminal so you can
+still have the familiar edit/refresh development cycle with the convenience
+of Coffee/Sass.</p>
+
+<p>Here&#8217;s the main branch: https://github.com/gnarmis/staticRack</p>
+
+<p>Here&#8217;s the sassycoffee branch: https://github.com/gnarmis/staticRack/tree/sassycoffee</p>
+
+<p>Clone the branch you want, customize, and push to Heroku. Enjoy!</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2011/06/17/finally-found-a-good-notebook-app/">Finally Found a Good Notebook App</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-06-17T21:00:00-05:00" pubdate data-updated="true">Jun 17<span>th</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Windows users have long enjoyed OneNote, a truly great solution that has sensible
+note-taking and note-management. However, those of us on macs, even after buying
+Office for Mac, don&#8217;t quite have something that really solves that issue. Well,
+I&#8217;ve finally found a solution that more than measures up to the challenge:
+Circus Ponies&#8217; <a href="http://www.circusponies.com/">NoteBook</a>.</p>
+
+<p>NoteBook looks, feels, and performs like you would expect it to - that&#8217;s reason
+enough to use it for me. The past few weeks, I&#8217;ve been managing everything
+I do, to some degree, with this app. And I&#8217;ve only just started discovering
+the <a href="http://www.circusponies.com/technical-specifications">rich featureset</a>. From managing a complicated project that involves
+a lot of research to everyday idea-management, I&#8217;ve just naturally been drawn
+to using NoteBook exclusively.</p>
+
+<p>One of the best things I found in NoteBook is that the core task that you do
+(take notes) is extremely elegant and easy. Bullets are easily shuffled, contracted,
+and deleted with simple shortcuts and external media attachment works perfectly.</p>
+
+<p>Sketching out concepts with shapes and diagrams is also quite easy, and the
+export functionality is also phenomenal. This app can spit out an entire website,
+with the same slick tabs and expandable bullets as the app itself. Imagine
+using this for quickly writing up the entire project outline for a new web
+project, with research, issues, and wireframes, and then putting it up easily
+on a local network (or behind some generic auth) for colleagues to share. It&#8217;s
+really quite a flexible tool.</p>
+
+<p>There are obviously other alternatives too. I&#8217;ve tried Evernote and while the
+platform support is excellent, it didn&#8217;t result in me significantly changing
+the way I take notes and organize them. Most importantly, I felt a lack of
+the kind of support for mash-up notes that OneNote and NoteBook allow you to
+make, which means including links, images, text, and anything else that is
+relevant to a note in an elegant way. Also, every note-taking app should be
+completely and easily accessible from the keyboard, which was another pain
+point with Evernote for me. Of course, Evernote is available on many more platforms,
+so it might still be a better option for some.</p>
+
+<p>All I know is that OneNote will no longer be missed on my machine. And even
+if it was ever offered on macs, I don&#8217;t think I&#8217;ll be switching anytime soon.</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  <div class="pagination">
+    
+    <a href="/blog/archives">Blog Archives</a>
+    
+    <a class="next" href="/">Newer &rarr;</a>
+    
+  </div>
+</div>
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2012/07/06/creating-a-simple-sentiment-analyzer-using-cl/">Creating a simple sentiment analyzer using Clojure</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/07/05/a-brief-foray-into-deploying-clojure-librarie/">A brief foray into deploying Clojure libraries</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/07/03/experimenting-with-persistence-using-korma-an/">Experimenting with persistence using Korma and Lobos</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/07/02/i-made-a-clojure-and-fp-themed-wallpaper-for/">I made a Clojure and FP themed wallpaper for myself</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/07/02/rich-hickeys-awesome-talk-simple-made-easy/">Rich Hickey&#8217;s awesome talk: Simple Made Easy</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating&#8230;</li>
+  </ul>
+  
+  <a href="https://github.com/gnarmis">@gnarmis</a> on GitHub
+  
+  <script type="text/javascript">
+    $.domReady(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'gnarmis',
+            count: 17,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+<section>
+  <h1>Latest Tweets</h1>
+  <ul id="tweets">
+    <li class="loading">Status updating&#8230;</li>
+  </ul>
+  <script type="text/javascript">
+    $.domReady(function(){
+      getTwitterFeed("gnarmis", 426, false);
+    });
+  </script>
+  <script src="/javascripts/twitter.js" type="text/javascript"> </script>
+  
+    <a href="http://twitter.com/gnarmis" class="twitter-follow-button" data-show-count="false">Follow @gnarmis</a>
+  
+</section>
+
+
+
+
+
+  
+</aside>
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2012 - Gursimran Singh -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>
