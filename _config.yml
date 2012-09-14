@@ -59,13 +59,13 @@ default_asides: [asides/recent_posts.html, asides/github.html, asides/twitter.ht
 
 # Github repositories
 github_user: gnarmis
-github_repo_count: 17
+github_repo_count: 5
 github_show_profile_link: true
 github_skip_forks: true
 
 # Twitter
 twitter_user: gnarmis
-twitter_tweet_count: 426
+twitter_tweet_count: 10
 twitter_show_replies: false
 twitter_follow_button: true
 twitter_show_follower_count: false
@@ -93,7 +93,7 @@ disqus_short_name:
 disqus_show_comment_count: false
 
 # Google Analytics
-google_analytics_tracking_id:
+google_analytics_tracking_id: UA-27751478-1
 
 # Facebook Like
 facebook_like: false
