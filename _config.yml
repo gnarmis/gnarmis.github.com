@@ -3,9 +3,9 @@
 # ----------------------- #
 
 url: http://gnarmis.github.com
-title: My Octopress Blog
-subtitle: A blogging framework for hackers.
-author: Your Name
+title: Kilotau
+subtitle: "code, science, etc"
+author: Gursimran Singh
 simple_search: http://google.com/search
 description:
 
@@ -58,14 +58,14 @@ default_asides: [asides/recent_posts.html, asides/github.html, asides/twitter.ht
 # ----------------------- #
 
 # Github repositories
-github_user:
-github_repo_count: 0
+github_user: gnarmis
+github_repo_count: 17
 github_show_profile_link: true
 github_skip_forks: true
 
 # Twitter
-twitter_user:
-twitter_tweet_count: 4
+twitter_user: gnarmis
+twitter_tweet_count: 426
 twitter_show_replies: false
 twitter_follow_button: true
 twitter_show_follower_count: false
