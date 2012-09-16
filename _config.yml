@@ -4,10 +4,10 @@
 
 url: http://gnarmis.github.com
 title: Kilotau
-subtitle: "code, science, etc"
+subtitle: "a blog about the joys of programming"
 author: Gursimran Singh
 simple_search: http://google.com/search
-description:
+description: "gnarmis's blog about the joys of programming"
 
 # Default date format is "ordinal" (resulting in "July 22nd 2007")
 # You can customize the format as defined in
