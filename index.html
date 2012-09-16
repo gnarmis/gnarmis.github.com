@@ -9,8 +9,7 @@
   <meta name="author" content="Gursimran Singh">
 
   
-  <meta name="description" content="TL;DR https://github.com/gnarmis/sentimental Sentiment analysis is the hot thing to do these days. One example is ViralHeat,
-a social media &hellip;">
+  <meta name="description" content="Ever since Posterous was acquired by Twitter, I&#8217;d been meaning to ditch the service for something better. While it was convenient to post by &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -77,6 +76,112 @@ a social media &hellip;">
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/09/14/moving-from-posterous-to-github-pages/">Moving From Posterous to Github Pages</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-09-14T02:27:00-05:00" pubdate data-updated="true">Sep 14<span>th</span>, 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Ever since Posterous was acquired by Twitter, I&#8217;d been meaning to ditch the service for something better. While it was convenient to post by email and enjoyable to forget about hosting, I missed controlling the structure of my raw posts and the site&#8217;s design.</p>
+
+<p>So when I discovered <a href="http://octopress.org">Octopress</a>, I was quickly won over. Finally, a hacker&#8217;s workflow: compose post in Markdown, generate static content, push content to Github Pages. And since all posts are in Markdown, you truly have portable, human-readable content!</p>
+
+<p>Once I had a repository on Github setup with my Octopress-powered blog, I needed to import posts from Posterous. Unfortunately, it wasn&#8217;t a straightforward process, but I decided to automate away the drudgery and share some code with you in the process.</p>
+
+<p>After consulting <a href="http://posterous.com/api">Posterous&#8217;s API</a>, I realized I only really needed my &#8220;site_id&#8221; to pull all my posts in a single JSON request. The following URLs were helpful for this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># http://posterous.com/api/2/users/me =&gt; authenticated user&#39;s info, including ID</span>
+</span><span class='line'><span class="c1"># http://posterous.com/api/2/sites?id=1021298 =&gt; sites of user; figure out site_id</span>
+</span><span class='line'><span class="c1"># http://posterous.com/api/2/sites/2464344/posts =&gt; all of kilotau&#39;s posts in JSON; using site_id</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>After I had my posts downloaded in <code>posts.json</code>, I transformed each post to Markdown and manually formatted them for Octopress. I used the simple <a href="https://github.com/singpolyma/HTML2Markdown">HTML2Markdown</a> script and the following code:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># this uses ruby-1.9.3</span>
+</span><span class='line'><span class="nb">require</span> <span class="s1">&#39;json&#39;</span>
+</span><span class='line'><span class="nb">require</span> <span class="s1">&#39;fileutils&#39;</span>
+</span><span class='line'><span class="nb">require</span> <span class="s1">&#39;./html2markdown.rb&#39;</span>
+</span><span class='line'><span class="nb">require</span> <span class="s1">&#39;date&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">json</span> <span class="o">=</span> <span class="no">JSON</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="no">File</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="s1">&#39;./posts.json&#39;</span><span class="p">))</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">json</span><span class="o">.</span><span class="n">map</span> <span class="k">do</span> <span class="o">|</span><span class="n">j</span><span class="o">|</span>
+</span><span class='line'>  <span class="n">d</span> <span class="o">=</span> <span class="no">DateTime</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">j</span><span class="o">[</span><span class="s1">&#39;display_date&#39;</span><span class="o">]</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">filename</span> <span class="o">=</span> <span class="s2">&quot;./md/&quot;</span> <span class="o">+</span> <span class="n">d</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">&#39;%Y-%m-%d&#39;</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;-&quot;</span> <span class="o">+</span> <span class="n">j</span><span class="o">[</span><span class="s1">&#39;slug&#39;</span><span class="o">]</span> <span class="o">+</span> <span class="s2">&quot;.markdown&quot;</span>
+</span><span class='line'>  <span class="n">file</span> <span class="o">=</span> <span class="no">File</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">file</span><span class="o">.</span><span class="n">write</span> <span class="s2">&quot;---</span><span class="se">\n</span><span class="s2">&quot;</span>
+</span><span class='line'>  <span class="n">file</span><span class="o">.</span><span class="n">write</span> <span class="s2">&quot;layout: post</span><span class="se">\n</span><span class="s2">&quot;</span>
+</span><span class='line'>  <span class="n">file</span><span class="o">.</span><span class="n">write</span> <span class="s2">&quot;title: &quot;</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\&quot;</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="n">j</span><span class="o">[</span><span class="s1">&#39;title&#39;</span><span class="o">]</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\&quot;</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span>
+</span><span class='line'>  <span class="n">file</span><span class="o">.</span><span class="n">write</span> <span class="s2">&quot;date: &quot;</span> <span class="o">+</span> <span class="n">j</span><span class="o">[</span><span class="s1">&#39;display_date&#39;</span><span class="o">]</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span>
+</span><span class='line'>  <span class="n">file</span><span class="o">.</span><span class="n">write</span> <span class="s2">&quot;comments: false</span><span class="se">\n</span><span class="s2">&quot;</span>
+</span><span class='line'>  <span class="n">file</span><span class="o">.</span><span class="n">write</span> <span class="s2">&quot;external-url:</span><span class="se">\n</span><span class="s2">&quot;</span>
+</span><span class='line'>  <span class="n">file</span><span class="o">.</span><span class="n">write</span> <span class="s2">&quot;categories:</span><span class="se">\n</span><span class="s2">&quot;</span>
+</span><span class='line'>  <span class="n">file</span><span class="o">.</span><span class="n">write</span> <span class="s2">&quot;---</span><span class="se">\n</span><span class="s2">&quot;</span>
+</span><span class='line'>  <span class="n">file</span><span class="o">.</span><span class="n">write</span> <span class="no">HTML2Markdown</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">j</span><span class="o">[</span><span class="s1">&#39;body_cleaned&#39;</span><span class="o">]</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">file</span><span class="o">.</span><span class="n">close</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>In a moment, I had all my posts converted.</p>
+
+<p>Now that I have my past posts, it&#8217;s time to play with the design!</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -583,59 +688,6 @@ I point out my counterexample.</p>
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2012/03/10/rocketship/">Rocketship</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-03-10T20:07:00-06:00" pubdate data-updated="true">Mar 10<span>th</span>, 2012</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>Introducing Rocketship: a Rack based template that integrates multiple micro-frameworks.</p>
-
-<p><a href="https://github.com/gnarmis/rocketship"><strong>github.com/gnarmis/rocketship</strong></a></p>
-
-<p> </p>
-
-<p>I recently came across some useful Sinatra templates and ended up having to
-integrate several things together in a service I&#8217;m currently working on. So,
-I extracted the basic stuff out and it&#8217;s turned out to be useful for spinning
-up a quick web service. Best thing is that it doesn&#8217;t impose a strict structure
-and you can follow best-practices of your micro-framework of choice.</p>
-
-<p>Currently, Rocketship integrates Grape and Sinatra, along with a bevy of testing
-facilities.</p>
-
-<p>Comments/improvements welcome!</p>
-
-<p> </p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/2/">&larr; Older</a>
@@ -651,6 +703,10 @@ facilities.</p>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2012/09/14/moving-from-posterous-to-github-pages/">Moving From Posterous to Github Pages</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2012/07/06/creating-a-simple-sentiment-analyzer-using-cl/">Creating a simple sentiment analyzer using Clojure</a>
       </li>
     
@@ -664,10 +720,6 @@ facilities.</p>
     
       <li class="post">
         <a href="/blog/2012/07/02/i-made-a-clojure-and-fp-themed-wallpaper-for/">I made a Clojure and FP themed wallpaper for myself</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2012/07/02/rich-hickeys-awesome-talk-simple-made-easy/">Rich Hickey&#8217;s awesome talk: Simple Made Easy</a>
       </li>
     
   </ul>

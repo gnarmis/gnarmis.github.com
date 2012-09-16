@@ -103,11 +103,17 @@
         <lastmod>2012-09-14T02:10:40-05:00</lastmod>
     </url>
     <url>
+        <loc>
+            http://gnarmis.github.com/blog/2012/09/14/moving-from-posterous-to-github-pages/
+        </loc>
+        <lastmod>2012-09-15T21:14:15-05:00</lastmod>
+    </url>
+    <url>
         <loc>http://gnarmis.github.com/blog/archives/</loc>
-        <lastmod>2012-09-14T02:10:40-05:00</lastmod>
+        <lastmod>2012-09-15T21:14:15-05:00</lastmod>
     </url>
     <url>
         <loc>http://gnarmis.github.com/</loc>
-        <lastmod>2012-09-14T02:10:40-05:00</lastmod>
+        <lastmod>2012-09-15T21:14:15-05:00</lastmod>
     </url>
 </urlset>
