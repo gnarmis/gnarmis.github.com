@@ -26,8 +26,7 @@ categories:
 > 
 > "Well, then," I say, "It's trivial! It's trivial!"
 > 
-
-- Richard Feynman
+> -- Richard Feynman
 
 
 
