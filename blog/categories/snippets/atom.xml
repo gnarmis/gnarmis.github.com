@@ -4,7 +4,7 @@
   <title><![CDATA[Category: snippets | Kilotau]]></title>
   <link href="http://gnarmis.github.com/blog/categories/snippets/atom.xml" rel="self"/>
   <link href="http://gnarmis.github.com/"/>
-  <updated>2012-09-19T16:31:48-05:00</updated>
+  <updated>2012-09-19T16:32:49-05:00</updated>
   <id>http://gnarmis.github.com/</id>
   <author>
     <name><![CDATA[Gursimran Singh]]></name>
@@ -18,7 +18,7 @@
     <link href="http://gnarmis.github.com/blog/2012/09/19/piping-arguments-through-multiple-functions-in-ruby/"/>
     <updated>2012-09-19T16:25:00-05:00</updated>
     <id>http://gnarmis.github.com/blog/2012/09/19/piping-arguments-through-multiple-functions-in-ruby</id>
-    <content type="html"><![CDATA[<p>After asking <code>#ruby</code> what the equivalent of Clojure's <a href="http://clojuredocs.org/clojure_core/clojure.core/-%3E">-> macro</a> could look like, I compiled the collection solution into a gist. You might find this useful somewhere, especially when you have multiple transformation functions operating on the same basic data structures.</p>
+    <content type="html"><![CDATA[<p>After asking <code>#ruby</code> what the equivalent of Clojure's <a href="http://clojuredocs.org/clojure_core/clojure.core/-%3E">-> macro</a> could look like, I compiled the collective solution into a gist. You might find this useful somewhere, especially when you have multiple transformation functions operating on the same basic data structures.</p>
 
 <p><div><script src='https://gist.github.com/3752271.js?file=piping_example.rb'></script>
 <noscript><pre><code># piping example in Ruby
