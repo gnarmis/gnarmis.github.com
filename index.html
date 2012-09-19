@@ -9,7 +9,7 @@
   <meta name="author" content="Gursimran Singh">
 
   
-  <meta name="description" content="Ever since Posterous was acquired by Twitter, I&#8217;d been meaning to ditch the service for something better. While it was convenient to post by &hellip;">
+  <meta name="description" content="After asking #ruby what the equivalent of Clojure&#8217;s -> macro could look like, I compiled the collection solution into a gist. You might find &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -76,6 +76,64 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/09/19/piping-arguments-through-multiple-functions-in-ruby/">Piping Arguments Through Multiple Functions in Ruby</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-09-19T16:25:00-05:00" pubdate data-updated="true">Sep 19<span>th</span>, 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>After asking <code>#ruby</code> what the equivalent of Clojure&#8217;s <a href="http://clojuredocs.org/clojure_core/clojure.core/-%3E">-> macro</a> could look like, I compiled the collection solution into a gist. You might find this useful somewhere, especially when you have multiple transformation functions operating on the same basic data structures.</p>
+
+<div><script src='https://gist.github.com/3752271.js?file=piping_example.rb'></script>
+<noscript><pre><code># piping example in Ruby
+
+def foo(data)
+  data[:a] += 1
+  data
+end
+
+def bar(data)
+  data[:b] += 10
+  data
+end
+
+def pipe args, *methods
+ methods.reduce(args) { |a, m| send(m, a) }
+end
+
+hash = {:a =&gt; 0, :b =&gt; 0}
+pipe hash, :foo, :bar
+#=&gt; {:a=&gt;1, :b=&gt;10}</code></pre></noscript></div>
+
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -632,59 +690,6 @@ and emailed to everyone who&#8217;s signed up to our mailing list!</p>
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2012/04/12/model-checking/">Model Checking</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-04-12T20:20:00-05:00" pubdate data-updated="true">Apr 12<span>th</span>, 2012</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><blockquote><p>I had a scheme, which I still use today when somebody is explaining something
-that I&#8217;m trying to understand: I keep making up examples. For instance, the
-mathematicians would come in with a terrific theorem, and they&#8217;re all excited.
-As they&#8217;re telling me the conditions of the theorem, I construct something
-which fits all the conditions. You know, you have a set (one ball) - disjoint
-(two halls). Then the balls turn colors, grow hairs, or whatever, in my head
-as they put more conditions on. Finally they state the theorem, which is some
-dumb thing about the ball which isn&#8217;t true for my hairy green ball thing, so
-I say, &#8220;False!&#8221;</p>
-
-<p> If it&#8217;s true, they get all excited, and I let them go on for a while. Then
-I point out my counterexample.</p>
-
-<p>&#8220;Oh. We forgot to tell you that it&#8217;s Class 2 Hausdorff homomorphic.&#8221;</p>
-
-<p>&#8220;Well, then,&#8221; I say, &#8220;It&#8217;s trivial! It&#8217;s trivial!&#8221;</p>
-
-<p>&#8211; Richard Feynman</p></blockquote>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/2/">&larr; Older</a>
@@ -700,6 +705,10 @@ I point out my counterexample.</p>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2012/09/19/piping-arguments-through-multiple-functions-in-ruby/">Piping Arguments Through Multiple Functions in Ruby</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2012/09/14/moving-from-posterous-to-github-pages/">Moving From Posterous to Github Pages</a>
       </li>
     
@@ -713,10 +722,6 @@ I point out my counterexample.</p>
     
       <li class="post">
         <a href="/blog/2012/07/03/experimenting-with-persistence-using-korma-an/">Experimenting with persistence using Korma and Lobos</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2012/07/02/i-made-a-clojure-and-fp-themed-wallpaper-for/">I made a Clojure and FP themed wallpaper for myself</a>
       </li>
     
   </ul>

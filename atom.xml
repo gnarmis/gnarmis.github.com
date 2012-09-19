@@ -4,7 +4,7 @@
   <title><![CDATA[Kilotau]]></title>
   <link href="http://gnarmis.github.com/atom.xml" rel="self"/>
   <link href="http://gnarmis.github.com/"/>
-  <updated>2012-09-15T21:36:59-05:00</updated>
+  <updated>2012-09-19T16:31:48-05:00</updated>
   <id>http://gnarmis.github.com/</id>
   <author>
     <name><![CDATA[Gursimran Singh]]></name>
@@ -12,6 +12,37 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Piping Arguments Through Multiple Functions in Ruby]]></title>
+    <link href="http://gnarmis.github.com/blog/2012/09/19/piping-arguments-through-multiple-functions-in-ruby/"/>
+    <updated>2012-09-19T16:25:00-05:00</updated>
+    <id>http://gnarmis.github.com/blog/2012/09/19/piping-arguments-through-multiple-functions-in-ruby</id>
+    <content type="html"><![CDATA[<p>After asking <code>#ruby</code> what the equivalent of Clojure&#8217;s <a href="http://clojuredocs.org/clojure_core/clojure.core/-%3E">-> macro</a> could look like, I compiled the collection solution into a gist. You might find this useful somewhere, especially when you have multiple transformation functions operating on the same basic data structures.</p>
+
+<div><script src='https://gist.github.com/3752271.js?file=piping_example.rb'></script>
+<noscript><pre><code># piping example in Ruby
+
+def foo(data)
+  data[:a] += 1
+  data
+end
+
+def bar(data)
+  data[:b] += 10
+  data
+end
+
+def pipe args, *methods
+ methods.reduce(args) { |a, m| send(m, a) }
+end
+
+hash = {:a =&gt; 0, :b =&gt; 0}
+pipe hash, :foo, :bar
+#=&gt; {:a=&gt;1, :b=&gt;10}</code></pre></noscript></div>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Moving From Posterous to Github Pages]]></title>
@@ -731,41 +762,6 @@ fun.</p>
 <p> </p>
 
 <p> </p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Template for Deploying Static Sites on Heroku]]></title>
-    <link href="http://gnarmis.github.com/blog/2011/06/21/template-for-deploying-static-sites-on-heroku/"/>
-    <updated>2011-06-21T23:20:00-05:00</updated>
-    <id>http://gnarmis.github.com/blog/2011/06/21/template-for-deploying-static-sites-on-heroku</id>
-    <content type="html"><![CDATA[<p>Have you ever looked for a way to quickly build a live prototype as a static
-site that nevertheless had some sensible version control and had potential
-for future extension? Well, I have a template (complete with very minimal HTML5
-boilerplate) for you <a href="https://github.com/gnarmis/staticRack">right here</a>! Read on for details.</p>
-
-<p>After recently experimenting with CoffeeScript (and loving it), I felt the
-need to stage some code quickly somewhere. I already had my computer setup
-for deployment to Heroku so that was the obvious choice, and a quick search
-on the interwebz meant that my static sites could now run on Heroku easily.
-The upside was that I could add a lot of complexity to such a website down
-the road with minimal hassle. Basically, in the future I could build on it
-as a Rack-based app or use one of the many easy Ruby frameworks that are Rack-based
-(like Sinatra). Also, it would mean that I would use Git from the very start
-of the process, adding some much needed version control to the early stages
-of prototypes.</p>
-
-<p>So, I basically extracted the basic code into a template, and even added a
-branch for Sass and Coffeescript enthusiasts to have a base to build on. I
-included some simple commands that free you up from the terminal so you can
-still have the familiar edit/refresh development cycle with the convenience
-of Coffee/Sass.</p>
-
-<p>Here&#8217;s the main branch: https://github.com/gnarmis/staticRack</p>
-
-<p>Here&#8217;s the sassycoffee branch: https://github.com/gnarmis/staticRack/tree/sassycoffee</p>
-
-<p>Clone the branch you want, customize, and push to Heroku. Enjoy!</p>
 ]]></content>
   </entry>
   

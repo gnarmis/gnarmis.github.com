@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: snippets | Kilotau]]></title>
+  <link href="http://gnarmis.github.com/blog/categories/snippets/atom.xml" rel="self"/>
+  <link href="http://gnarmis.github.com/"/>
+  <updated>2012-09-19T16:31:48-05:00</updated>
+  <id>http://gnarmis.github.com/</id>
+  <author>
+    <name><![CDATA[Gursimran Singh]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Piping Arguments Through Multiple Functions in Ruby]]></title>
+    <link href="http://gnarmis.github.com/blog/2012/09/19/piping-arguments-through-multiple-functions-in-ruby/"/>
+    <updated>2012-09-19T16:25:00-05:00</updated>
+    <id>http://gnarmis.github.com/blog/2012/09/19/piping-arguments-through-multiple-functions-in-ruby</id>
+    <content type="html"><![CDATA[<p>After asking <code>#ruby</code> what the equivalent of Clojure's <a href="http://clojuredocs.org/clojure_core/clojure.core/-%3E">-> macro</a> could look like, I compiled the collection solution into a gist. You might find this useful somewhere, especially when you have multiple transformation functions operating on the same basic data structures.</p>
+
+<p><div><script src='https://gist.github.com/3752271.js?file=piping_example.rb'></script>
+<noscript><pre><code># piping example in Ruby
+
+def foo(data)
+  data[:a] += 1
+  data
+end
+
+def bar(data)
+  data[:b] += 10
+  data
+end
+
+def pipe args, *methods
+ methods.reduce(args) { |a, m| send(m, a) }
+end
+
+hash = {:a =&gt; 0, :b =&gt; 0}
+pipe hash, :foo, :bar
+#=&gt; {:a=&gt;1, :b=&gt;10}</code></pre></noscript></div>
+</p>
+]]></content>
+  </entry>
+  
+</feed>
