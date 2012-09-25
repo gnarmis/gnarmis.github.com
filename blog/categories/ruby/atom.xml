@@ -4,7 +4,7 @@
   <title><![CDATA[Category: ruby | Kilotau]]></title>
   <link href="http://gnarmis.github.com/blog/categories/ruby/atom.xml" rel="self"/>
   <link href="http://gnarmis.github.com/"/>
-  <updated>2012-09-19T16:32:49-05:00</updated>
+  <updated>2012-09-25T14:38:23-05:00</updated>
   <id>http://gnarmis.github.com/</id>
   <author>
     <name><![CDATA[Gursimran Singh]]></name>
@@ -12,6 +12,167 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[On Ruby 1.9's Flexible Syntax]]></title>
+    <link href="http://gnarmis.github.com/blog/2012/09/25/on-ruby-1-dot-9-s-flexible-syntax/"/>
+    <updated>2012-09-25T13:57:00-05:00</updated>
+    <id>http://gnarmis.github.com/blog/2012/09/25/on-ruby-1-dot-9-s-flexible-syntax</id>
+    <content type="html"><![CDATA[<p>Over the past day or so, I've been playing around with small bits of Ruby after spending most of the summer in Clojure-land. There's great similarities in both Ruby and Clojure (functional style, dynamic, etc), and both are very practical choices. Clojure gives you amazing access to JVM land while not forcing you to pull your hair out, and Ruby grants you a good selection of libraries and amazing tools for web development.</p>
+
+<p>But here I want to highlight a few experiments I did to try and brighten up my Ruby-writing experience. The things here could be unneccessarily divergent, but what the hell. It made me realize you can bend Ruby in a lot of ways I hadn't thought of before</p>
+
+<h2>define methods on the fly</h2>
+
+<p><code>ruby
+def defn name, &amp;b
+  Object.send :define_method, name, &amp;b
+end
+</code></p>
+
+<p><code>:define_method</code> is an amazing little method that allows you define methods (on any object too, so you could define class/module methods). That's all there is to it. Now you can do this:</p>
+
+<p>```ruby
+defn(:a) {|x, *y| print x; print y}</p>
+
+<h1>and if you want to superficially lispy</h1>
+
+<p>(defn (:a) {|x, *y| print x; print y})</p>
+
+<p>(a 1, 2, 3, 4) #-> 1[2,3,4]</p>
+
+<h1>for multiline methods, this seems easier:</h1>
+
+<p>defn (:sum_of_squares) do |x, y|
+  x<em>x + y</em>y
+end
+```</p>
+
+<p>This also works for associating any name with any kind of lambda.</p>
+
+<p><code>ruby
+(defn (:foo) {23})
+foo == 23 #=&gt; true
+</code></p>
+
+<h2>let / with</h2>
+
+<p>In Lispy languages, there's something like a function called <code>let</code> which lets you define some names in a new lexical scope and operate with them. An example in Clojure:</p>
+
+<p><code>clojure
+(let [x 1] x) ;-&gt; 1
+x ;-&gt; error, x is not defined outside the above form
+</code></p>
+
+<p>In Ruby, we have something kind of like that called <code>#tap</code>, which Zach Hobson covered <a href="http://www.opensourcery.com/blog/zack-hobson/objectlet-ruby-0">here</a>. He suggested a simple way to define <code>#let</code>:</p>
+
+<p>```ruby
+class Object
+  def let</p>
+
+<pre><code>yield self
+</code></pre>
+
+<p>  end
+end</p>
+
+<h1>Now you can do this:</h1>
+
+<p>((2).let {|x| puts x+1}) == 3 #=> true
+```</p>
+
+<p>But I think an even more beautiful way to do it is like this:</p>
+
+<p>```ruby
+def with coll, &amp;b
+ coll.map &amp;b
+end</p>
+
+<p>with [[1,2]] {|x,y| puts x+y} #=> 3
+```</p>
+
+<p>For more on destructuring and everything's that's possible there, check out <a href="http://po-ru.com/diary/destructuring-assignment-in-ruby/">this post</a>.</p>
+
+<h2>map, reduce, filter, pipe, call, body</h2>
+
+<p>There's a lot more craziness to explore. I'll let the code, comments, and examples from my <a href="https://gist.github.com/3760519">gist</a> explain. This is just bits of code here and there, honestly. <a href="http://twitter.com/gnarmis">Tweet at me</a> to discuss! Also, the <a href="https://gist.github.com/3760519">gist</a> will be the most up-to-date version of this.</p>
+
+<p>```ruby</p>
+
+<h1>execute an array of lambdas one after another?</h1>
+
+<p>def body *args
+  args.each {|e| e.call}
+end</p>
+
+<p>(body (lambda {print 1}), (lambda {print 2})) #=> output: 12</p>
+
+<h1>map as a "top-level" function. This maps some lambda to an array,</h1>
+
+<h1>passing each element to the lambda to call.</h1>
+
+<h1>(also, who doesn't like stabby lambdas?)</h1>
+
+<p>def map fun, coll
+  coll.to_a.collect {|i| fun.call(i)}
+end</p>
+
+<p>(map ->(x){x+1}, [1,2,3]) #=> [2, 3, 4]</p>
+
+<h1>reduce as a "top-level" function</h1>
+
+<p>def reduce fun, val=nil, coll
+  return coll.to_a.reduce(fun.to_sym) unless val
+  return coll.to_a.reduce(val) {|sum, i| sum.send fun.to_sym, i} if val
+end</p>
+
+<p>(reduce :+, [1,2,3]) #=> 6
+(reduce :+, 3, [1,2,3]) #=> 9</p>
+
+<h1>piping a single input through a bunch of functions</h1>
+
+<h1>(yay, composable functions!)</h1>
+
+<p>def pipe args, *methods
+ methods.reduce(args) { |a, m| send(m, a) }
+end</p>
+
+<p>def foo(data)
+  data[:a] += 1
+  data
+end</p>
+
+<p>def bar(data)
+  data[:b] += 10
+  data
+end</p>
+
+<p>hash = {:a => 0, :b => 0}
+(pipe hash, :foo, :bar) #=> {:a=>1, :b=>10}</p>
+
+<h1>good old filter is also pretty easy to define</h1>
+
+<p>def filter pred, coll
+  coll.to_a.select &amp;pred
+end</p>
+
+<p>(filter ->(x){x.even?}, [1,2,3]) == [2] #=> true</p>
+
+<h1>a function to call a lambda (forcing it to execute)</h1>
+
+<p>def call b; b.call; end</p>
+
+<p>saved = lambda {puts "did I get called?"}</p>
+
+<h1>=> #&lt;Proc:blahblahblah (lambda)></h1>
+
+<p>(call (lambda {puts "I got called!"; reduce :+, [1,2,3]}))</p>
+
+<h1>=> output: I got called!\n => 6</h1>
+
+<p>```</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Piping Arguments Through Multiple Functions in Ruby]]></title>

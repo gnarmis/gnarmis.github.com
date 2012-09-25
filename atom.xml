@@ -4,7 +4,7 @@
   <title><![CDATA[Kilotau]]></title>
   <link href="http://gnarmis.github.com/atom.xml" rel="self"/>
   <link href="http://gnarmis.github.com/"/>
-  <updated>2012-09-19T16:32:49-05:00</updated>
+  <updated>2012-09-25T14:38:23-05:00</updated>
   <id>http://gnarmis.github.com/</id>
   <author>
     <name><![CDATA[Gursimran Singh]]></name>
@@ -12,6 +12,254 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[On Ruby 1.9's Flexible Syntax]]></title>
+    <link href="http://gnarmis.github.com/blog/2012/09/25/on-ruby-1-dot-9-s-flexible-syntax/"/>
+    <updated>2012-09-25T13:57:00-05:00</updated>
+    <id>http://gnarmis.github.com/blog/2012/09/25/on-ruby-1-dot-9-s-flexible-syntax</id>
+    <content type="html"><![CDATA[<p>Over the past day or so, I&#8217;ve been playing around with small bits of Ruby after spending most of the summer in Clojure-land. There&#8217;s great similarities in both Ruby and Clojure (functional style, dynamic, etc), and both are very practical choices. Clojure gives you amazing access to JVM land while not forcing you to pull your hair out, and Ruby grants you a good selection of libraries and amazing tools for web development.</p>
+
+<p>But here I want to highlight a few experiments I did to try and brighten up my Ruby-writing experience. The things here could be unneccessarily divergent, but what the hell. It made me realize you can bend Ruby in a lot of ways I hadn&#8217;t thought of before</p>
+
+<h2>define methods on the fly</h2>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">defn</span> <span class="nb">name</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">b</span>
+</span><span class='line'>  <span class="no">Object</span><span class="o">.</span><span class="n">send</span> <span class="ss">:define_method</span><span class="p">,</span> <span class="nb">name</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">b</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><code>:define_method</code> is an amazing little method that allows you define methods (on any object too, so you could define class/module methods). That&#8217;s all there is to it. Now you can do this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">defn</span><span class="p">(</span><span class="ss">:a</span><span class="p">)</span> <span class="p">{</span><span class="o">|</span><span class="n">x</span><span class="p">,</span> <span class="o">*</span><span class="n">y</span><span class="o">|</span> <span class="nb">print</span> <span class="n">x</span><span class="p">;</span> <span class="nb">print</span> <span class="n">y</span><span class="p">}</span>
+</span><span class='line'><span class="c1"># and if you want to superficially lispy</span>
+</span><span class='line'><span class="p">(</span><span class="n">defn</span> <span class="p">(</span><span class="ss">:a</span><span class="p">)</span> <span class="p">{</span><span class="o">|</span><span class="n">x</span><span class="p">,</span> <span class="o">*</span><span class="n">y</span><span class="o">|</span> <span class="nb">print</span> <span class="n">x</span><span class="p">;</span> <span class="nb">print</span> <span class="n">y</span><span class="p">})</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">(</span><span class="n">a</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span> <span class="c1">#-&gt; 1[2,3,4]</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># for multiline methods, this seems easier:</span>
+</span><span class='line'><span class="n">defn</span> <span class="p">(</span><span class="ss">:sum_of_squares</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="o">|</span>
+</span><span class='line'>  <span class="n">x</span><span class="o">*</span><span class="n">x</span> <span class="o">+</span> <span class="n">y</span><span class="o">*</span><span class="n">y</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This also works for associating any name with any kind of lambda.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="p">(</span><span class="n">defn</span> <span class="p">(</span><span class="ss">:foo</span><span class="p">)</span> <span class="p">{</span><span class="mi">23</span><span class="p">})</span>
+</span><span class='line'><span class="n">foo</span> <span class="o">==</span> <span class="mi">23</span> <span class="c1">#=&gt; true</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>let / with</h2>
+
+<p>In Lispy languages, there&#8217;s something like a function called <code>let</code> which lets you define some names in a new lexical scope and operate with them. An example in Clojure:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='clojure'><span class='line'><span class="p">(</span><span class="k">let </span><span class="p">[</span><span class="nv">x</span> <span class="mi">1</span><span class="p">]</span> <span class="nv">x</span><span class="p">)</span> <span class="c1">;-&gt; 1</span>
+</span><span class='line'><span class="nv">x</span> <span class="c1">;-&gt; error, x is not defined outside the above form</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>In Ruby, we have something kind of like that called <code>#tap</code>, which Zach Hobson covered <a href="http://www.opensourcery.com/blog/zack-hobson/objectlet-ruby-0">here</a>. He suggested a simple way to define <code>#let</code>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Object</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">let</span>
+</span><span class='line'>    <span class="k">yield</span> <span class="nb">self</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># Now you can do this:</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">((</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">let</span> <span class="p">{</span><span class="o">|</span><span class="n">x</span><span class="o">|</span> <span class="nb">puts</span> <span class="n">x</span><span class="o">+</span><span class="mi">1</span><span class="p">})</span> <span class="o">==</span> <span class="mi">3</span> <span class="c1">#=&gt; true</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>But I think an even more beautiful way to do it is like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">with</span> <span class="n">coll</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">b</span>
+</span><span class='line'> <span class="n">coll</span><span class="o">.</span><span class="n">map</span> <span class="o">&amp;</span><span class="n">b</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">with</span> <span class="o">[[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="o">]]</span> <span class="p">{</span><span class="o">|</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="o">|</span> <span class="nb">puts</span> <span class="n">x</span><span class="o">+</span><span class="n">y</span><span class="p">}</span> <span class="c1">#=&gt; 3</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>For more on destructuring and everything&#8217;s that&#8217;s possible there, check out <a href="http://po-ru.com/diary/destructuring-assignment-in-ruby/">this post</a>.</p>
+
+<h2>map, reduce, filter, pipe, call, body</h2>
+
+<p>There&#8217;s a lot more craziness to explore. I&#8217;ll let the code, comments, and examples from my <a href="https://gist.github.com/3760519">gist</a> explain. This is just bits of code here and there, honestly. <a href="http://twitter.com/gnarmis">Tweet at me</a> to discuss! Also, the <a href="https://gist.github.com/3760519">gist</a> will be the most up-to-date version of this.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># execute an array of lambdas one after another?</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">def</span> <span class="nf">body</span> <span class="o">*</span><span class="n">args</span>
+</span><span class='line'>  <span class="n">args</span><span class="o">.</span><span class="n">each</span> <span class="p">{</span><span class="o">|</span><span class="n">e</span><span class="o">|</span> <span class="n">e</span><span class="o">.</span><span class="n">call</span><span class="p">}</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">(</span><span class="n">body</span> <span class="p">(</span><span class="nb">lambda</span> <span class="p">{</span><span class="nb">print</span> <span class="mi">1</span><span class="p">}),</span> <span class="p">(</span><span class="nb">lambda</span> <span class="p">{</span><span class="nb">print</span> <span class="mi">2</span><span class="p">}))</span> <span class="c1">#=&gt; output: 12</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># map as a &quot;top-level&quot; function. This maps some lambda to an array, </span>
+</span><span class='line'><span class="c1"># passing each element to the lambda to call.</span>
+</span><span class='line'><span class="c1"># (also, who doesn&#39;t like stabby lambdas?)</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">def</span> <span class="nf">map</span> <span class="n">fun</span><span class="p">,</span> <span class="n">coll</span>
+</span><span class='line'>  <span class="n">coll</span><span class="o">.</span><span class="n">to_a</span><span class="o">.</span><span class="n">collect</span> <span class="p">{</span><span class="o">|</span><span class="n">i</span><span class="o">|</span> <span class="n">fun</span><span class="o">.</span><span class="n">call</span><span class="p">(</span><span class="n">i</span><span class="p">)}</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">(</span><span class="n">map</span> <span class="o">-&gt;</span><span class="p">(</span><span class="n">x</span><span class="p">){</span><span class="n">x</span><span class="o">+</span><span class="mi">1</span><span class="p">},</span> <span class="o">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="o">]</span><span class="p">)</span> <span class="c1">#=&gt; [2, 3, 4]</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># reduce as a &quot;top-level&quot; function</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">def</span> <span class="nf">reduce</span> <span class="n">fun</span><span class="p">,</span> <span class="n">val</span><span class="o">=</span><span class="kp">nil</span><span class="p">,</span> <span class="n">coll</span>
+</span><span class='line'>  <span class="k">return</span> <span class="n">coll</span><span class="o">.</span><span class="n">to_a</span><span class="o">.</span><span class="n">reduce</span><span class="p">(</span><span class="n">fun</span><span class="o">.</span><span class="n">to_sym</span><span class="p">)</span> <span class="k">unless</span> <span class="n">val</span>
+</span><span class='line'>  <span class="k">return</span> <span class="n">coll</span><span class="o">.</span><span class="n">to_a</span><span class="o">.</span><span class="n">reduce</span><span class="p">(</span><span class="n">val</span><span class="p">)</span> <span class="p">{</span><span class="o">|</span><span class="n">sum</span><span class="p">,</span> <span class="n">i</span><span class="o">|</span> <span class="n">sum</span><span class="o">.</span><span class="n">send</span> <span class="n">fun</span><span class="o">.</span><span class="n">to_sym</span><span class="p">,</span> <span class="n">i</span><span class="p">}</span> <span class="k">if</span> <span class="n">val</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">(</span><span class="n">reduce</span> <span class="ss">:+</span><span class="p">,</span> <span class="o">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="o">]</span><span class="p">)</span> <span class="c1">#=&gt; 6</span>
+</span><span class='line'><span class="p">(</span><span class="n">reduce</span> <span class="ss">:+</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="o">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="o">]</span><span class="p">)</span> <span class="c1">#=&gt; 9</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># piping a single input through a bunch of functions</span>
+</span><span class='line'><span class="c1"># (yay, composable functions!)</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">def</span> <span class="nf">pipe</span> <span class="n">args</span><span class="p">,</span> <span class="o">*</span><span class="nb">methods</span>
+</span><span class='line'> <span class="nb">methods</span><span class="o">.</span><span class="n">reduce</span><span class="p">(</span><span class="n">args</span><span class="p">)</span> <span class="p">{</span> <span class="o">|</span><span class="n">a</span><span class="p">,</span> <span class="n">m</span><span class="o">|</span> <span class="nb">send</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">a</span><span class="p">)</span> <span class="p">}</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">def</span> <span class="nf">foo</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">data</span><span class="o">[</span><span class="ss">:a</span><span class="o">]</span> <span class="o">+=</span> <span class="mi">1</span>
+</span><span class='line'>  <span class="n">data</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">def</span> <span class="nf">bar</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">data</span><span class="o">[</span><span class="ss">:b</span><span class="o">]</span> <span class="o">+=</span> <span class="mi">10</span>
+</span><span class='line'>  <span class="n">data</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="nb">hash</span> <span class="o">=</span> <span class="p">{</span><span class="ss">:a</span> <span class="o">=&gt;</span> <span class="mi">0</span><span class="p">,</span> <span class="ss">:b</span> <span class="o">=&gt;</span> <span class="mi">0</span><span class="p">}</span>
+</span><span class='line'><span class="p">(</span><span class="n">pipe</span> <span class="nb">hash</span><span class="p">,</span> <span class="ss">:foo</span><span class="p">,</span> <span class="ss">:bar</span><span class="p">)</span> <span class="c1">#=&gt; {:a=&gt;1, :b=&gt;10}</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># good old filter is also pretty easy to define</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">def</span> <span class="nf">filter</span> <span class="n">pred</span><span class="p">,</span> <span class="n">coll</span>
+</span><span class='line'>  <span class="n">coll</span><span class="o">.</span><span class="n">to_a</span><span class="o">.</span><span class="n">select</span> <span class="o">&amp;</span><span class="n">pred</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">(</span><span class="n">filter</span> <span class="o">-&gt;</span><span class="p">(</span><span class="n">x</span><span class="p">){</span><span class="n">x</span><span class="o">.</span><span class="n">even?</span><span class="p">},</span> <span class="o">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="o">]</span><span class="p">)</span> <span class="o">==</span> <span class="o">[</span><span class="mi">2</span><span class="o">]</span> <span class="c1">#=&gt; true</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># a function to call a lambda (forcing it to execute)</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">def</span> <span class="nf">call</span> <span class="n">b</span><span class="p">;</span> <span class="n">b</span><span class="o">.</span><span class="n">call</span><span class="p">;</span> <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">saved</span> <span class="o">=</span> <span class="nb">lambda</span> <span class="p">{</span><span class="nb">puts</span> <span class="s2">&quot;did I get called?&quot;</span><span class="p">}</span>
+</span><span class='line'><span class="c1">#=&gt; #&lt;Proc:blahblahblah (lambda)&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">(</span><span class="n">call</span> <span class="p">(</span><span class="nb">lambda</span> <span class="p">{</span><span class="nb">puts</span> <span class="s2">&quot;I got called!&quot;</span><span class="p">;</span> <span class="n">reduce</span> <span class="ss">:+</span><span class="p">,</span> <span class="o">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="o">]</span><span class="p">}))</span>
+</span><span class='line'><span class="c1">#=&gt; output: I got called!\n =&gt; 6</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Piping Arguments Through Multiple Functions in Ruby]]></title>
@@ -703,65 +951,6 @@ I&#8217;m absolutely loving Sinatra&#8217;s simplicity and will have some follow
 the specifics of Cozy.</p>
 
 <p>Cheers!</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Primes and Sieves]]></title>
-    <link href="http://gnarmis.github.com/blog/2011/06/28/primes-and-sieves/"/>
-    <updated>2011-06-28T00:39:00-05:00</updated>
-    <id>http://gnarmis.github.com/blog/2011/06/28/primes-and-sieves</id>
-    <content type="html"><![CDATA[<p><a href="http://projecteuler.net/">Project Euler</a> is one of the best things I have discovered in a while.
-It&#8217;s simply a huge open list of problems in numeric order that you can solve
-using any math or code you want, provided that any code you write runs under
-one minute.</p>
-
-<p>The problems get interesting from the very start and are actually entertaining!
-After reading <a href="https://www.facebook.com/l.php?u=http%3A%2F%2Fwww.maa.org%2Fdevlin%2FLockhartsLament.pdf&amp;h=dba0d">Lokhart&#8217;s Lament</a>, I&#8217;d say these problems would definitely
-fit the category of challenging and yet stimulating. Math truly is an art,
-and code is a cool way to access a subset of it.</p>
-
-<p> </p>
-
-<p>Anyway, primes! Here&#8217;s the problem itself:</p>
-
-<p>The prime factors of 13195 are 5, 7, 13 and 29.</p>
-
-<p>What is the largest prime factor of the number 600851475143 ?</p>
-
-<p>And here&#8217;s my solution (skip if you want to try this yourself!):</p>
-
-<p>The code should be pretty much clear, at least except for that initial part
-where I restrict the range. It was hard getting my super-easy-to-write-yet-inefficient
-prime numbered array generator to solve for 600851475143 quickly. I was too
-lazy to try to implement Sieve of Atkin so I just decided to try limiting the
-range as much as I could. Apparently, if you take the root of the number of
-digits in the given composite number, and then raise the upper limit of your
-range to the inverse of that number, you get a much more limited range that
-still gives you the right highest prime factor of the original number. I tried
-this out down to two-digit composites and it seems to work.</p>
-
-<p>Also, if I tried using a quick prime test on each element and deleting non-primes
-that way (instead of a sieve), the performance was actually worse somehow.
-And while trying to do this exact thing, I discovered a freaking <a href="http://www.noulakaz.net/weblog/2007/03/18/a-regular-expression-to-check-for-prime-numbers/">regular expression
-that detects primes</a>! Yeah.</p>
-
-<p>I literally spent close to three hours just researching a number of tangential
-topics, such as <a href="http://en.wikipedia.org/wiki/Sieve_of_Eratosthenes">Sieve of Eratothenes</a>, <a href="http://en.wikipedia.org/wiki/Sieve_of_Atkin">Sieve of Atkin</a>, <a href="http://en.wikipedia.org/wiki/Sieve_theory">Sieve theory</a>,
-<a href="http://en.wikipedia.org/wiki/GNFS">GNFS</a>, and <a href="http://en.wikipedia.org/wiki/RSA">RSA</a>. While the problem itself wasn&#8217;t too challenging (I
-ended up learning much more about Ruby, though), the whole experience was amazing.
-And of course, there&#8217;s a lot of room for gains in efficiency too.</p>
-
-<p>I highly recommend you sign up for an account on <a href="http://projecteuler.net/">Project Euler</a> and work
-your way through some of those problems! It&#8217;s a great way to try out new languages,
-learn more efficient techniques, or just have some fun. No, really, it&#8217;s actually
-fun.</p>
-
-<p> </p>
-
-<p> </p>
-
-<p> </p>
 ]]></content>
   </entry>
   

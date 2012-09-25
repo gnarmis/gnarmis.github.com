@@ -5,7 +5,7 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Kilotau</title>
+  <title>On Ruby 1.9's Flexible Syntax - Kilotau</title>
   <meta name="author" content="Gursimran Singh">
 
   
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://gnarmis.github.com/">
+  <link rel="canonical" href="http://gnarmis.github.com/blog/2012/09/25/on-ruby-1-dot-9-s-flexible-syntax/">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <script src="/javascripts/modernizr-2.0.js"></script>
@@ -74,15 +74,12 @@
 </nav>
   <div id="main">
     <div id="content">
-      <div class="blog-index">
+      <div>
+<article class="hentry" role="article">
   
-  
-  
-    <article>
-      
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2012/09/25/on-ruby-1-dot-9-s-flexible-syntax/">On Ruby 1.9&#8217;s Flexible Syntax</a></h1>
+      <h1 class="entry-title">On Ruby 1.9's Flexible Syntax</h1>
     
     
       <p class="meta">
@@ -105,7 +102,7 @@
   </header>
 
 
-  <div class="entry-content"><p>Over the past day or so, I&#8217;ve been playing around with small bits of Ruby after spending most of the summer in Clojure-land. There&#8217;s great similarities in both Ruby and Clojure (functional style, dynamic, etc), and both are very practical choices. Clojure gives you amazing access to JVM land while not forcing you to pull your hair out, and Ruby grants you a good selection of libraries and amazing tools for web development.</p>
+<div class="entry-content"><p>Over the past day or so, I&#8217;ve been playing around with small bits of Ruby after spending most of the summer in Clojure-land. There&#8217;s great similarities in both Ruby and Clojure (functional style, dynamic, etc), and both are very practical choices. Clojure gives you amazing access to JVM land while not forcing you to pull your hair out, and Ruby grants you a good selection of libraries and amazing tools for web development.</p>
 
 <p>But here I want to highlight a few experiments I did to try and brighten up my Ruby-writing experience. The things here could be unneccessarily divergent, but what the hell. It made me realize you can bend Ruby in a lot of ways I hadn&#8217;t thought of before</p>
 
@@ -346,80 +343,16 @@
 
 
 </div>
-  
-  
 
 
-    </article>
-  
-  
-    <article>
+  <footer>
+    <p class="meta">
       
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2012/09/19/piping-arguments-through-multiple-functions-in-ruby/">Piping Arguments Through Multiple Functions in Ruby</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
   
 
+<span class="byline author vcard">Posted by <span class="fn">Gursimran Singh</span></span>
 
-<time datetime="2012-09-19T16:25:00-05:00" pubdate data-updated="true">Sep 19<span>th</span>, 2012</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>After asking <code>#ruby</code> what the equivalent of Clojure&#8217;s <a href="http://clojuredocs.org/clojure_core/clojure.core/-%3E">-> macro</a> could look like, I compiled the collective solution into a gist. You might find this useful somewhere, especially when you have multiple transformation functions operating on the same basic data structures.</p>
-
-<div><script src='https://gist.github.com/3752271.js?file=piping_example.rb'></script>
-<noscript><pre><code># piping example in Ruby
-
-def foo(data)
-  data[:a] += 1
-  data
-end
-
-def bar(data)
-  data[:b] += 10
-  data
-end
-
-def pipe args, *methods
- methods.reduce(args) { |a, m| send(m, a) }
-end
-
-hash = {:a =&gt; 0, :b =&gt; 0}
-pipe hash, :foo, :bar
-#=&gt; {:a=&gt;1, :b=&gt;10}</code></pre></noscript></div>
-
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
       
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2012/09/14/moving-from-posterous-to-github-pages/">Moving From Posterous to Github Pages</a></h1>
-    
-    
-      <p class="meta">
-        
 
 
 
@@ -431,483 +364,44 @@ pipe hash, :foo, :bar
   
 
 
-<time datetime="2012-09-14T02:27:00-05:00" pubdate data-updated="true">Sep 14<span>th</span>, 2012</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>Ever since Posterous was acquired by Twitter, I&#8217;d been meaning to ditch the service for something better. While it was convenient to post by email and enjoyable to forget about hosting, I missed controlling the structure of my raw posts and the site&#8217;s design.</p>
-
-<p>So when I discovered <a href="http://octopress.org">Octopress</a>, I was quickly won over. Finally, a hacker&#8217;s workflow: compose post in Markdown, generate static content, push content to Github Pages. And since all posts are in Markdown, you truly have portable, human-readable content!</p>
-
-<p>Once I had a repository on Github setup with my Octopress-powered blog, I needed to import posts from Posterous. Unfortunately, it wasn&#8217;t a straightforward process, but I decided to automate away the drudgery and share some code with you in the process.</p>
-
-<p>After consulting <a href="http://posterous.com/api">Posterous&#8217;s API</a>, I realized I only really needed my &#8220;site_id&#8221; to pull all my posts in a single JSON request. The following URLs were helpful for this:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># http://posterous.com/api/2/users/me =&gt; authenticated user&#39;s info, including ID</span>
-</span><span class='line'><span class="c1"># http://posterous.com/api/2/sites?id=1021298 =&gt; sites of user; figure out site_id</span>
-</span><span class='line'><span class="c1"># http://posterous.com/api/2/sites/2464344/posts =&gt; all of kilotau&#39;s posts in JSON; using site_id</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>After I had my posts downloaded in <code>posts.json</code>, I transformed each post to Markdown and manually formatted them for Octopress. I used the simple <a href="https://github.com/singpolyma/HTML2Markdown">HTML2Markdown</a> script and the following code:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># this uses ruby-1.9.3</span>
-</span><span class='line'><span class="nb">require</span> <span class="s1">&#39;json&#39;</span>
-</span><span class='line'><span class="nb">require</span> <span class="s1">&#39;fileutils&#39;</span>
-</span><span class='line'><span class="nb">require</span> <span class="s1">&#39;./html2markdown.rb&#39;</span>
-</span><span class='line'><span class="nb">require</span> <span class="s1">&#39;date&#39;</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">json</span> <span class="o">=</span> <span class="no">JSON</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="no">File</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="s1">&#39;./posts.json&#39;</span><span class="p">))</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">json</span><span class="o">.</span><span class="n">map</span> <span class="k">do</span> <span class="o">|</span><span class="n">j</span><span class="o">|</span>
-</span><span class='line'>  <span class="n">d</span> <span class="o">=</span> <span class="no">DateTime</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">j</span><span class="o">[</span><span class="s1">&#39;display_date&#39;</span><span class="o">]</span><span class="p">)</span>
-</span><span class='line'>  <span class="n">filename</span> <span class="o">=</span> <span class="s2">&quot;./md/&quot;</span> <span class="o">+</span> <span class="n">d</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">&#39;%Y-%m-%d&#39;</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;-&quot;</span> <span class="o">+</span> <span class="n">j</span><span class="o">[</span><span class="s1">&#39;slug&#39;</span><span class="o">]</span> <span class="o">+</span> <span class="s2">&quot;.markdown&quot;</span>
-</span><span class='line'>  <span class="n">file</span> <span class="o">=</span> <span class="no">File</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span>
-</span><span class='line'>  <span class="n">file</span><span class="o">.</span><span class="n">write</span> <span class="s2">&quot;---</span><span class="se">\n</span><span class="s2">&quot;</span>
-</span><span class='line'>  <span class="n">file</span><span class="o">.</span><span class="n">write</span> <span class="s2">&quot;layout: post</span><span class="se">\n</span><span class="s2">&quot;</span>
-</span><span class='line'>  <span class="n">file</span><span class="o">.</span><span class="n">write</span> <span class="s2">&quot;title: &quot;</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\&quot;</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="n">j</span><span class="o">[</span><span class="s1">&#39;title&#39;</span><span class="o">]</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\&quot;</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span>
-</span><span class='line'>  <span class="n">file</span><span class="o">.</span><span class="n">write</span> <span class="s2">&quot;date: &quot;</span> <span class="o">+</span> <span class="n">j</span><span class="o">[</span><span class="s1">&#39;display_date&#39;</span><span class="o">]</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span>
-</span><span class='line'>  <span class="n">file</span><span class="o">.</span><span class="n">write</span> <span class="s2">&quot;comments: false</span><span class="se">\n</span><span class="s2">&quot;</span>
-</span><span class='line'>  <span class="n">file</span><span class="o">.</span><span class="n">write</span> <span class="s2">&quot;external-url:</span><span class="se">\n</span><span class="s2">&quot;</span>
-</span><span class='line'>  <span class="n">file</span><span class="o">.</span><span class="n">write</span> <span class="s2">&quot;categories:</span><span class="se">\n</span><span class="s2">&quot;</span>
-</span><span class='line'>  <span class="n">file</span><span class="o">.</span><span class="n">write</span> <span class="s2">&quot;---</span><span class="se">\n</span><span class="s2">&quot;</span>
-</span><span class='line'>  <span class="n">file</span><span class="o">.</span><span class="n">write</span> <span class="no">HTML2Markdown</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">j</span><span class="o">[</span><span class="s1">&#39;body_cleaned&#39;</span><span class="o">]</span><span class="p">)</span>
-</span><span class='line'>  <span class="n">file</span><span class="o">.</span><span class="n">close</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>In a moment, I had all my posts converted.</p>
-
-<p>Now that I have my past posts, it&#8217;s time to play with the design!</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
+<time datetime="2012-09-25T13:57:00-05:00" pubdate data-updated="true">Sep 25<span>th</span>, 2012</time>
       
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2012/07/06/creating-a-simple-sentiment-analyzer-using-cl/">Creating a Simple Sentiment Analyzer Using Clojure</a></h1>
-    
-    
-      <p class="meta">
-        
 
-
-
-
-
-
-
-
+<span class="categories">
   
+    <a class='category' href='/blog/categories/ruby/'>ruby</a>
+  
+</span>
 
 
-<time datetime="2012-07-06T19:49:00-05:00" pubdate data-updated="true">Jul 6<span>th</span>, 2012</time>
-        
-      </p>
+    </p>
     
-  </header>
-
-
-  <div class="entry-content"><p>TL;DR <a href="https://github.com/gnarmis/sentimental">https://github.com/gnarmis/sentimental</a></p>
-
-<p>Sentiment analysis is the hot thing to do these days. One example is ViralHeat,
-a social media monitoring platform that uses sentiment analysis to provide
-a picture about how the conversation is trending about certain keywords (or
-combinations of keywords, which they call profiles). There&#8217;s a lot of such
-products, and for developers there&#8217;s a lot of high-quality and extensive libraries
-and toolkits that provide for this among other solutions, such Java&#8217;s WEKA
-or OpenNLP, or Python&#8217;s NLTK. There&#8217;s even many third-party solutions that
-provide an API you can use to get sentiment analysis, such as AlchemyAPI.</p>
-
-<p>After deciding to create my very own sentiment analysis tool using Clojure,
-I began researching libraries in both Java and Clojure (because Clojure&#8217;s interop
-means that I can easily use Java libraries). There&#8217;s a lot of powerful tools
-out there, but my goal was to find something simple that could allow me to
-make a good enough sentiment analyzer without breaking the technical bank,
-so to speak.</p>
-
-<p>At first, I was looking for facilities to stem words, for which someone had
-already provided a Clojure-wrapper around the Java library Snowball. <a href="http://kilotau.com/a-brief-foray-into-deploying-clojure-librarie">I forked
-this and deployed it to Clojars</a>. This, and a simple list of stop words
-to ignore, would allow me to reduce redundancies and get a &#8220;bag of words&#8221; representation
-of the target document.</p>
-
-<p>Next, I wanted a nice and simple NLP library. <a href="https://github.com/dakrone/clojure-opennlp">Clojure-OpenNLP</a> fit the
-bill perfectly. It even had a document categorizer I could train!</p>
-
-<p>Now, I should briefly explain the overall process. At the heart of the sentiment
-analyzer is a naive-Bayesian classifier. This classifier is provided with a
-labelled list as training material (&#8220;sad&#8221; is &#8220;negative&#8221;, &#8220;happy&#8221; is &#8220;positive&#8221;).
-The various categories are the sentiments, such as &#8220;positive&#8221;, &#8220;negative&#8221;,
-&#8220;neutral&#8221; (I used 6 categories, for strong/weak sentiment). The classifier
-then learns to associate categories with words, based on training information
-that is supplied to it. Given a new sentence, the classifier then calculates
-the probabilities of each word belonging to each category, and the category
-with the best probability of covering the sentence is returned. Learn more
-about how to build naive-Bayes classifiers <a href="http://bionicspirit.com/blog/2012/02/09/howto-build-naive-bayes-classifier.html">here</a>.</p>
-
-<p>So, the next step was to get the actual training data. I found the <a href="http://www.cs.pitt.edu/mpqa/">subjectivity
-lexicon</a> to fit my needs perfectly. After parsing the document into a vector
-of hash-maps, I was able to create a <a href="https://github.com/gnarmis/sentimental/blob/master/src/models/sentiment.train">training document</a> for my very own
-opennlp model, which was to be the classifier. The other step was to create
-a function that would remove stop words and also stem each word. This was pretty
-easy to do using the <a href="https://github.com/gnarmis/snowball-stemmer">snowball-stemmer</a> library and a few lines of Clojure.</p>
-
-<p>Granted, I didn&#8217;t build my own naive-Bayes classifier, but that&#8217;s a project
-for another time :)</p>
-
-<p>And here&#8217;s the project: https://github.com/gnarmis/sentimental</p>
-
-<p>You do need to install Leiningen and have JDK 1.6 on your machine. After these
-two steps, simply <code>cd</code> into the project and type <code>lein repl</code>, following the
-example in the readme.</p>
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://gnarmis.github.com/blog/2012/09/25/on-ruby-1-dot-9-s-flexible-syntax/" data-via="gnarmis" data-counturl="http://gnarmis.github.com/blog/2012/09/25/on-ruby-1-dot-9-s-flexible-syntax/" >Tweet</a>
+  
+  
+  
 </div>
-  
-  
 
-
-    </article>
-  
-  
-    <article>
+    
+    <p class="meta">
       
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2012/07/05/a-brief-foray-into-deploying-clojure-librarie/">A Brief Foray Into Deploying Clojure Libraries</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-07-05T15:50:00-05:00" pubdate data-updated="true">Jul 5<span>th</span>, 2012</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>Having found an <a href="https://github.com/weavejester/snowball-stemmer">awesome little wrapper</a> for <a href="http://snowball.tartarus.org/">Snowball</a> (which allows
-for stemming of words, like &#8220;going&#8221; -> &#8220;go&#8221;), I decided that it was the perfect
-opportunity to try creating my very own &#8220;Clojar&#8221; and deploying it. It didn&#8217;t
-take long to fork the repo, make an account on clojars.org, make some minimal
-changes, and deploy this library. The nice thing is that everyone now has an
-easy way to try this out. I&#8217;m honestly surprised it was this easy and quick
-to deploy the thing!</p>
-
-<p>Check out my fork: (<a href="https://github.com/gnarmis/snowball-stemmer)">https://github.com/gnarmis/snowball-stemmer)</a></p>
-
-<p>And the clojar itself is here: (<a href="https://clojars.org/org.clojars.gnarmis/snowball-stemmer)">https://clojars.org/org.clojars.gnarmis/snowball-stemmer)</a></p>
-
-<p>Cheers!</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
+        <a class="basic-alignment left" href="/blog/2012/09/19/piping-arguments-through-multiple-functions-in-ruby/" title="Previous Post: Piping Arguments Through Multiple Functions in Ruby">&laquo; Piping Arguments Through Multiple Functions in Ruby</a>
       
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2012/07/03/experimenting-with-persistence-using-korma-an/">Experimenting With Persistence Using Korma and Lobos</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-07-03T22:47:00-05:00" pubdate data-updated="true">Jul 3<span>rd</span>, 2012</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p><a href="http://webnoir.org">Noir</a> is an excellent, Sinatra-like framework in Clojure, and <a href="http://sqlkorma.com">Korma</a>
-is a great companion. But in a lot of database-backed services, you often need
-migrations to make sane changes to the database and have the abilitiy to roll
-back your various schema changes. Lobos is a little library (among a few) that
-tries to do this, but seeing only a few examples <a href="http://www.vijaykiran.com/2012/01/17/web-application-development-with-clojure-part-2/">here</a> and <a href="http://pupeno.com/2011/08/20/how-to-use-lobos-with-heroku/">there</a>,
-I decided to make my own little template that explores this.</p>
-
-<p>So, here&#8217;s the repo: https://github.com/gnarmis/korma-lobos-tpl</p>
-
-<p>I did run into an issue trying to find out how to do the classic &#8220;alter&#8221; SQL
-command to add a column using Lobos. Turns out, just try <code>(doc alter)</code> after
-first typing in that first long <code>(use ...)</code> command in the repo&#8217;s readme. But
-I just documented the bug for now.</p>
-
-<p>Also, there is a very simple entity definition to demonstrate Korma, and I&#8217;ve
-tested the setup and confirmed that the migration executed, and the entity
-got added.</p>
-
-<p>I&#8217;ll maybe explore Drift in the future, although there&#8217;s already <a href="https://github.com/pjlegato/korma-drift-template">this excellent
-template</a> I could build on.</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
       
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2012/07/02/i-made-a-clojure-and-fp-themed-wallpaper-for/">I Made a Clojure and FP Themed Wallpaper for Myself</a></h1>
-    
-    
-      <p class="meta">
-        
+    </p>
+  </footer>
+</article>
 
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-07-02T17:14:00-05:00" pubdate data-updated="true">Jul 2<span>nd</span>, 2012</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>There&#8217;s few things as iconic as the Y-Combinator in functional programming.
-I must mention http://www.fatvat.co.uk/2009/04/understanding-y-combinator.html
-as providing the actual snippet. To learn more, check out <a href="http://en.wikipedia.org/wiki/Fixed-point_combinator#Y_combinator">the wiki</a>.</p>
-
-<p>Update: http://imgur.com/Tgg54. Yep, it&#8217;s 2880x1800.</p>
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
 </div>
-  
-  
+  </section>
 
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2012/07/02/rich-hickeys-awesome-talk-simple-made-easy/">Rich Hickey&#8217;s Awesome Talk: Simple Made Easy</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-07-02T12:41:00-05:00" pubdate data-updated="true">Jul 2<span>nd</span>, 2012</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p><a href="http://www.infoq.com/presentations/Simple-Made-Easy">http://www.infoq.com/presentations/Simple-Made-Easy</a></p>
 </div>
-  
-  
 
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2012/07/01/some-steps-into-clojure-land/">Some Steps Into Clojure Land</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-07-01T01:32:00-05:00" pubdate data-updated="true">Jul 1<span>st</span>, 2012</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>I&#8217;m really digging this wonderful little language called Clojure. It&#8217;s a modern
-Lisp, meaning it has all the functional goodness I have been craving after
-using Racket. It&#8217;s awesome being able to build things like interpreters and
-type checkers, which I didn&#8217;t think I&#8217;d be able to approach so easily (this
-was part of an awesome programming languages class taught by Robbie Findler).
-But Clojure is also a JVM language and can be compiled ahead of time, so it&#8217;s
-exceedingly practical and efficient. You can use any Java library and interop
-with other JVM languages pretty well.</p>
-
-<p>Clojure is a young language, but has a very energetic community. It&#8217;s also
-seeing use both in industry and startups. Check out <a href="http://www.infoq.com/presentations/Clojure-powered-Startups">this talk</a> for more
-on that.</p>
-
-<p>There&#8217;s a lot of resources out there too. I&#8217;ve gone through parts of <a href="http://www.clojurebook.com/">Clojure
-Programming</a>, done some challenges on <a href="http://www.4clojure.com/">4Clojure</a>, played around with <a href="http://www.chris-granger.com/2012/06/24/its-playtime/">Light
-Table Playground</a>, and keep finding more things to explore. One book I definitely
-want to explore is <a href="http://joyofclojure.com/">The Joy of Clojure</a>. Also, I&#8217;ve decided to go through
-SICP using clojure, and ran across <a href="http://sicpinclojure.com/">this gem</a>.</p>
-
-<p>As for tools, I&#8217;ve tried <a href="http://code.google.com/p/counterclockwise/">CounterClockwise</a> and <a href="http://devnet.jetbrains.net/community/idea/clojure">La Clojure</a>, but for
-now I&#8217;ve settled for my usual lightweight editor: Sublime Text 2, with SublimeREPL.
-Having a syntax-highlighted REPL that behaves like my editor is pretty nice. <a href="https://github.com/technomancy/leiningen/">Leiningen</a> has
-been brilliant as a dependency-management tool, which also supports a host
-of other things like building, testing, running, or launching a REPL with your
-project. Honestly, Leiningen is the best dependency manager I&#8217;ve ever used.
-I wish there was something this good in Ruby-land.</p>
-
-<p>A great place to find links to all sorts of tools for Clojure development is <a href="http://www.clojure-toolbox.com/">Clojure
-Toolbox</a>. It shows how practical Clojure is today.</p>
-
-<p>I have to mention <a href="http://webnoir.org/">Noir</a> and <a href="http://sqlkorma.com/">Korma</a>. If you&#8217;re into web dev, you might
-find yourself loving the simplicity of Noir and the interesting functional
-approach to persistence in Korma. I find it awesome that <a href="http://chris-granger.com/">Chris Granger</a>,
-the guy behind Light Table, wrote both of them.</p>
-
-<p>Btw, #clojure on irc.freenode.net is friendly!</p>
-
-<p> </p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2012/04/29/its-alive/">It&#8217;s Alive!</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-04-29T17:15:37-05:00" pubdate data-updated="true">Apr 29<span>th</span>, 2012</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p><a href="http://getsoundboard.com">http://getsoundboard.com</a></p>
-
-<p>Me and Jon are finally at the stage where we can start showing off our <br/>
-idea called SoundBoard, which was conceived and well received at a <br/>
-hackathon last weekend. After talking about it with several great <br/>
-people at TEDxUChicago, we feel the need to learn as much as possible <br/>
-about how people use it. We have also put up a link on the site to <br/>
-allow easy feedback, so be sure to check it out and tell us what you <br/>
-think!</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  <div class="pagination">
-    
-      <a class="prev" href="/blog/page/2/">&larr; Older</a>
-    
-    <a href="/blog/archives">Blog Archives</a>
-    
-  </div>
-</div>
 <aside class="sidebar">
   
     <section>
@@ -915,7 +409,7 @@ think!</p>
   <ul id="recent_posts">
     
       <li class="post">
-        <a href="/blog/2012/09/25/on-ruby-1-dot-9-s-flexible-syntax/">On Ruby 1.9&#8217;s Flexible Syntax</a>
+        <a href="/blog/2012/09/25/on-ruby-1-dot-9-s-flexible-syntax/">On Ruby 1.9's Flexible Syntax</a>
       </li>
     
       <li class="post">
@@ -940,7 +434,7 @@ think!</p>
 <section>
   <h1>GitHub Repos</h1>
   <ul id="gh_repos">
-    <li class="loading">Status updating&#8230;</li>
+    <li class="loading">Status updating...</li>
   </ul>
   
   <a href="https://github.com/gnarmis">@gnarmis</a> on GitHub
@@ -970,7 +464,7 @@ think!</p>
 <section>
   <h1>Latest Tweets</h1>
   <ul id="tweets">
-    <li class="loading">Status updating&#8230;</li>
+    <li class="loading">Status updating...</li>
   </ul>
   <script type="text/javascript">
     $.domReady(function(){
@@ -990,6 +484,7 @@ think!</p>
   
 </aside>
 
+
     </div>
   </div>
   <footer role="contentinfo"><p>
@@ -1004,7 +499,10 @@ think!</p>
       var disqus_shortname = 'kilotau';
       
         
-        var disqus_script = 'count.js';
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://gnarmis.github.com/blog/2012/09/25/on-ruby-1-dot-9-s-flexible-syntax/';
+        var disqus_url = 'http://gnarmis.github.com/blog/2012/09/25/on-ruby-1-dot-9-s-flexible-syntax/';
+        var disqus_script = 'embed.js';
       
     (function () {
       var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
