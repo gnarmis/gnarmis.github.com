@@ -4,7 +4,7 @@
   <title><![CDATA[Category: ruby | Kilotau]]></title>
   <link href="http://gnarmis.github.com/blog/categories/ruby/atom.xml" rel="self"/>
   <link href="http://gnarmis.github.com/"/>
-  <updated>2012-09-25T14:38:23-05:00</updated>
+  <updated>2012-09-26T12:10:51-05:00</updated>
   <id>http://gnarmis.github.com/</id>
   <author>
     <name><![CDATA[Gursimran Singh]]></name>
@@ -12,6 +12,51 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Ruby's `method_missing` is cool / hashes as functions of their keys]]></title>
+    <link href="http://gnarmis.github.com/blog/2012/09/26/rubys-method-missing-is-kinda-nice/"/>
+    <updated>2012-09-26T11:59:00-05:00</updated>
+    <id>http://gnarmis.github.com/blog/2012/09/26/rubys-method-missing-is-kinda-nice</id>
+    <content type="html"><![CDATA[<p>I had an idea to try and bring a tiny bit of Clojure's ideas of hash-maps to Ruby's hashes. I came up with a simple monkey-patch that allows you to truly use hashes as functions of their keys. In the process, I've come to really dig <code>method_missing</code>, although debugging it can be a chore. Word of advice: always implement <code>respond_to?</code> with your <code>method_missing</code>. Principle of Least Surprise, people.</p>
+
+<p><div><script src='https://gist.github.com/3789174.js?file=functional_hash.rb'></script>
+<noscript><pre><code># In Clojure, hash-maps are truly functions of keys to values.
+# So you can do `(:a {:a 1})` and get `1` as the result
+# Why not put this in Ruby?
+
+# access keys of a hash like a function
+
+class Object
+  def respond_to?(method)
+    if (method.to_s =~ /^_.*/) == 0
+      true
+    else
+      super
+    end
+  end
+  def method_missing(name, *args, &amp;b)
+    if (args.count==1) &amp;&amp; b.nil? &amp;&amp; name[0]==&quot;_&quot; &amp;&amp;
+       args[0].has_key?(name[1..-1].to_sym)
+      args[0][name[1..-1].to_sym]
+    else
+      super
+    end
+  end
+end
+
+
+hash = {:a =&gt; 1}
+(_a hash) == 1 #=&gt; true
+(_a hash) == (hash [:a]) #=&gt; true
+
+# the underscore serves to prevent naming conflicts to a degree
+
+
+</code></pre></noscript></div>
+</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[On Ruby 1.9's Flexible Syntax]]></title>

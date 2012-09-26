@@ -5,12 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Finally Found a Good Notebook App - Kilotau</title>
+  <title>Ruby's `method_missing` is cool / hashes as functions of their keys - Kilotau</title>
   <meta name="author" content="Gursimran Singh">
 
   
-  <meta name="description" content="Windows users have long enjoyed OneNote, a truly great solution that has sensible
-note-taking and note-management. However, those of us on macs, even &hellip;">
+  <meta name="description" content="I had an idea to try and bring a tiny bit of Clojure&#8217;s ideas of hash-maps to Ruby&#8217;s hashes. I came up with a simple monkey-patch that &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -19,7 +18,7 @@ note-taking and note-management. However, those of us on macs, even &hellip;">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://gnarmis.github.com/blog/2011/06/17/finally-found-a-good-notebook-app/">
+  <link rel="canonical" href="http://gnarmis.github.com/blog/2012/09/26/rubys-method-missing-is-kinda-nice/">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <script src="/javascripts/modernizr-2.0.js"></script>
@@ -80,7 +79,7 @@ note-taking and note-management. However, those of us on macs, even &hellip;">
   
   <header>
     
-      <h1 class="entry-title">Finally Found a Good Notebook App</h1>
+      <h1 class="entry-title">Ruby's `method_missing` Is Cool / Hashes as Functions of Their Keys</h1>
     
     
       <p class="meta">
@@ -96,50 +95,50 @@ note-taking and note-management. However, those of us on macs, even &hellip;">
   
 
 
-<time datetime="2011-06-17T21:00:00-05:00" pubdate data-updated="true">Jun 17<span>th</span>, 2011</time>
+<time datetime="2012-09-26T11:59:00-05:00" pubdate data-updated="true">Sep 26<span>th</span>, 2012</time>
         
       </p>
     
   </header>
 
 
-<div class="entry-content"><p>Windows users have long enjoyed OneNote, a truly great solution that has sensible
-note-taking and note-management. However, those of us on macs, even after buying
-Office for Mac, don&#8217;t quite have something that really solves that issue. Well,
-I&#8217;ve finally found a solution that more than measures up to the challenge:
-Circus Ponies&#8217; <a href="http://www.circusponies.com/">NoteBook</a>.</p>
+<div class="entry-content"><p>I had an idea to try and bring a tiny bit of Clojure&#8217;s ideas of hash-maps to Ruby&#8217;s hashes. I came up with a simple monkey-patch that allows you to truly use hashes as functions of their keys. In the process, I&#8217;ve come to really dig <code>method_missing</code>, although debugging it can be a chore. Word of advice: always implement <code>respond_to?</code> with your <code>method_missing</code>. Principle of Least Surprise, people.</p>
 
-<p>NoteBook looks, feels, and performs like you would expect it to - that&#8217;s reason
-enough to use it for me. The past few weeks, I&#8217;ve been managing everything
-I do, to some degree, with this app. And I&#8217;ve only just started discovering
-the <a href="http://www.circusponies.com/technical-specifications">rich featureset</a>. From managing a complicated project that involves
-a lot of research to everyday idea-management, I&#8217;ve just naturally been drawn
-to using NoteBook exclusively.</p>
+<div><script src='https://gist.github.com/3789174.js?file=functional_hash.rb'></script>
+<noscript><pre><code># In Clojure, hash-maps are truly functions of keys to values.
+# So you can do `(:a {:a 1})` and get `1` as the result
+# Why not put this in Ruby?
 
-<p>One of the best things I found in NoteBook is that the core task that you do
-(take notes) is extremely elegant and easy. Bullets are easily shuffled, contracted,
-and deleted with simple shortcuts and external media attachment works perfectly.</p>
+# access keys of a hash like a function
 
-<p>Sketching out concepts with shapes and diagrams is also quite easy, and the
-export functionality is also phenomenal. This app can spit out an entire website,
-with the same slick tabs and expandable bullets as the app itself. Imagine
-using this for quickly writing up the entire project outline for a new web
-project, with research, issues, and wireframes, and then putting it up easily
-on a local network (or behind some generic auth) for colleagues to share. It&#8217;s
-really quite a flexible tool.</p>
+class Object
+  def respond_to?(method)
+    if (method.to_s =~ /^_.*/) == 0
+      true
+    else
+      super
+    end
+  end
+  def method_missing(name, *args, &amp;b)
+    if (args.count==1) &amp;&amp; b.nil? &amp;&amp; name[0]==&quot;_&quot; &amp;&amp;
+       args[0].has_key?(name[1..-1].to_sym)
+      args[0][name[1..-1].to_sym]
+    else
+      super
+    end
+  end
+end
 
-<p>There are obviously other alternatives too. I&#8217;ve tried Evernote and while the
-platform support is excellent, it didn&#8217;t result in me significantly changing
-the way I take notes and organize them. Most importantly, I felt a lack of
-the kind of support for mash-up notes that OneNote and NoteBook allow you to
-make, which means including links, images, text, and anything else that is
-relevant to a note in an elegant way. Also, every note-taking app should be
-completely and easily accessible from the keyboard, which was another pain
-point with Evernote for me. Of course, Evernote is available on many more platforms,
-so it might still be a better option for some.</p>
 
-<p>All I know is that OneNote will no longer be missed on my machine. And even
-if it was ever offered on macs, I don&#8217;t think I&#8217;ll be switching anytime soon.</p>
+hash = {:a =&gt; 1}
+(_a hash) == 1 #=&gt; true
+(_a hash) == (hash [:a]) #=&gt; true
+
+# the underscore serves to prevent naming conflicts to a degree
+
+
+</code></pre></noscript></div>
+
 </div>
 
 
@@ -162,15 +161,21 @@ if it was ever offered on macs, I don&#8217;t think I&#8217;ll be switching anyt
   
 
 
-<time datetime="2011-06-17T21:00:00-05:00" pubdate data-updated="true">Jun 17<span>th</span>, 2011</time>
+<time datetime="2012-09-26T11:59:00-05:00" pubdate data-updated="true">Sep 26<span>th</span>, 2012</time>
       
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/ruby/'>ruby</a>
+  
+</span>
 
 
     </p>
     
       <div class="sharing">
   
-  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://gnarmis.github.com/blog/2011/06/17/finally-found-a-good-notebook-app/" data-via="gnarmis" data-counturl="http://gnarmis.github.com/blog/2011/06/17/finally-found-a-good-notebook-app/" >Tweet</a>
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://gnarmis.github.com/blog/2012/09/26/rubys-method-missing-is-kinda-nice/" data-via="gnarmis" data-counturl="http://gnarmis.github.com/blog/2012/09/26/rubys-method-missing-is-kinda-nice/" >Tweet</a>
   
   
   
@@ -179,12 +184,18 @@ if it was ever offered on macs, I don&#8217;t think I&#8217;ll be switching anyt
     
     <p class="meta">
       
+        <a class="basic-alignment left" href="/blog/2012/09/25/on-ruby-1-dot-9-s-flexible-syntax/" title="Previous Post: On Ruby 1.9's Flexible Syntax">&laquo; On Ruby 1.9's Flexible Syntax</a>
       
-        <a class="basic-alignment right" href="/blog/2011/06/21/template-for-deploying-static-sites-on-heroku/" title="Next Post: Template for Deploying Static Sites on Heroku">Template for Deploying Static Sites on Heroku &raquo;</a>
       
     </p>
   </footer>
 </article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
 
 </div>
 
@@ -280,6 +291,22 @@ if it was ever offered on macs, I don&#8217;t think I&#8217;ll be switching anyt
 
 </footer>
   
+
+<script type="text/javascript">
+      var disqus_shortname = 'kilotau';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://gnarmis.github.com/blog/2012/09/26/rubys-method-missing-is-kinda-nice/';
+        var disqus_url = 'http://gnarmis.github.com/blog/2012/09/26/rubys-method-missing-is-kinda-nice/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
 
 
 

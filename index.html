@@ -9,7 +9,7 @@
   <meta name="author" content="Gursimran Singh">
 
   
-  <meta name="description" content="Over the past day or so, I&#8217;ve been playing around with small bits of Ruby after spending most of the summer in Clojure-land. There&#8217;s &hellip;">
+  <meta name="description" content="I had an idea to try and bring a tiny bit of Clojure&#8217;s ideas of hash-maps to Ruby&#8217;s hashes. I came up with a simple monkey-patch that &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -76,6 +76,78 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/09/26/rubys-method-missing-is-kinda-nice/">Ruby&#8217;s `method_missing` Is Cool / Hashes as Functions of Their Keys</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-09-26T11:59:00-05:00" pubdate data-updated="true">Sep 26<span>th</span>, 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>I had an idea to try and bring a tiny bit of Clojure&#8217;s ideas of hash-maps to Ruby&#8217;s hashes. I came up with a simple monkey-patch that allows you to truly use hashes as functions of their keys. In the process, I&#8217;ve come to really dig <code>method_missing</code>, although debugging it can be a chore. Word of advice: always implement <code>respond_to?</code> with your <code>method_missing</code>. Principle of Least Surprise, people.</p>
+
+<div><script src='https://gist.github.com/3789174.js?file=functional_hash.rb'></script>
+<noscript><pre><code># In Clojure, hash-maps are truly functions of keys to values.
+# So you can do `(:a {:a 1})` and get `1` as the result
+# Why not put this in Ruby?
+
+# access keys of a hash like a function
+
+class Object
+  def respond_to?(method)
+    if (method.to_s =~ /^_.*/) == 0
+      true
+    else
+      super
+    end
+  end
+  def method_missing(name, *args, &amp;b)
+    if (args.count==1) &amp;&amp; b.nil? &amp;&amp; name[0]==&quot;_&quot; &amp;&amp;
+       args[0].has_key?(name[1..-1].to_sym)
+      args[0][name[1..-1].to_sym]
+    else
+      super
+    end
+  end
+end
+
+
+hash = {:a =&gt; 1}
+(_a hash) == 1 #=&gt; true
+(_a hash) == (hash [:a]) #=&gt; true
+
+# the underscore serves to prevent naming conflicts to a degree
+
+
+</code></pre></noscript></div>
+
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -856,50 +928,6 @@ the guy behind Light Table, wrote both of them.</p>
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2012/04/29/its-alive/">It&#8217;s Alive!</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-04-29T17:15:37-05:00" pubdate data-updated="true">Apr 29<span>th</span>, 2012</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p><a href="http://getsoundboard.com">http://getsoundboard.com</a></p>
-
-<p>Me and Jon are finally at the stage where we can start showing off our <br/>
-idea called SoundBoard, which was conceived and well received at a <br/>
-hackathon last weekend. After talking about it with several great <br/>
-people at TEDxUChicago, we feel the need to learn as much as possible <br/>
-about how people use it. We have also put up a link on the site to <br/>
-allow easy feedback, so be sure to check it out and tell us what you <br/>
-think!</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/2/">&larr; Older</a>
@@ -915,6 +943,10 @@ think!</p>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2012/09/26/rubys-method-missing-is-kinda-nice/">Ruby&#8217;s `method_missing` is cool / hashes as functions of their keys</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2012/09/25/on-ruby-1-dot-9-s-flexible-syntax/">On Ruby 1.9&#8217;s Flexible Syntax</a>
       </li>
     
@@ -928,10 +960,6 @@ think!</p>
     
       <li class="post">
         <a href="/blog/2012/07/06/creating-a-simple-sentiment-analyzer-using-cl/">Creating a simple sentiment analyzer using Clojure</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2012/07/05/a-brief-foray-into-deploying-clojure-librarie/">A brief foray into deploying Clojure libraries</a>
       </li>
     
   </ul>
