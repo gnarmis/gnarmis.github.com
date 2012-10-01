@@ -2,7 +2,7 @@
 layout: post
 title: "Some Steps Into Clojure Land"
 date: 2012/06/30 23:32:00 -0700
-comments: false
+comments: true
 external-url:
 categories:
 ---

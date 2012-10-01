@@ -2,7 +2,7 @@
 layout: post
 title: "Experimenting with persistence using Korma and Lobos"
 date: 2012/07/03 20:47:00 -0700
-comments: false
+comments: true
 external-url:
 categories:
 ---

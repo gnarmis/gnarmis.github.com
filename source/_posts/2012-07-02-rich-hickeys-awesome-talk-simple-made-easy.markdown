@@ -2,7 +2,7 @@
 layout: post
 title: "Rich Hickey's awesome talk: Simple Made Easy"
 date: 2012/07/02 10:41:00 -0700
-comments: false
+comments: true
 external-url:
 categories:
 ---

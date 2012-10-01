@@ -2,7 +2,7 @@
 layout: post
 title: "A brief foray into deploying Clojure libraries"
 date: 2012/07/05 13:50:00 -0700
-comments: false
+comments: true
 external-url:
 categories:
 ---

@@ -2,7 +2,7 @@
 layout: post
 title: "Creating a simple sentiment analyzer using Clojure"
 date: 2012/07/06 17:49:00 -0700
-comments: false
+comments: true
 external-url:
 categories:
 ---

@@ -2,7 +2,7 @@
 layout: post
 title: "Moving From Posterous to Github Pages"
 date: 2012-09-14 02:27
-comments: false
+comments: true
 categories: 
 ---
 
