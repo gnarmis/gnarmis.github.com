@@ -2,8 +2,8 @@
 {% include head.html %}
 <body {% if page.body_id %} id="{{ page.body_id }}" {% endif %} {% if page.sidebar == false %} class="no-sidebar" {% endif %} {% if page.sidebar == 'collapse' or site.sidebar == 'collapse' %} class="collapse-sidebar sidebar-footer" {% endif %}>
   <!-- <header role="banner">{% comment %}{% include header.html %}{% endcomment %}</header> -->
-  <nav role="navigation" style="position:fixed;top:0;width:90%;z-index:9;">{% include navigation.html %}</nav>
-  <div id="main" style="margin-top:40px;">
+  <nav role="navigation">{% include navigation.html %}</nav>
+  <div id="main">
     <div id="content">
       {{ content | expand_urls: root_url }}
     </div>
