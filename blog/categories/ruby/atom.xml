@@ -4,7 +4,7 @@
   <title><![CDATA[Category: ruby | Kilotau]]></title>
   <link href="http://gnarmis.github.com/blog/categories/ruby/atom.xml" rel="self"/>
   <link href="http://gnarmis.github.com/"/>
-  <updated>2012-12-18T17:02:54-06:00</updated>
+  <updated>2012-12-18T17:07:37-06:00</updated>
   <id>http://gnarmis.github.com/</id>
   <author>
     <name><![CDATA[Gursimran Singh]]></name>
@@ -18,12 +18,14 @@
     <link href="http://gnarmis.github.com/blog/2012/12/18/repoman-track-your-local-git-repositories/"/>
     <updated>2012-12-18T16:09:00-06:00</updated>
     <id>http://gnarmis.github.com/blog/2012/12/18/repoman-track-your-local-git-repositories</id>
-    <content type="html"><![CDATA[<p>There are hundreds of git repositories stored at various folder depths all over
+    <content type="html"><![CDATA[<p>Github link: <a href="http://gnarmis.github.com/repoman">RepoMan</a></p>
+
+<p>There are hundreds of git repositories stored at various folder depths all over
 my computer. Organizing them, remembering where they are or determining whether
 I still have a working copy cloned from a remote repository is a chore.</p>
 
 <p>So, why not have a map of where all my repositories are? Should be simple
-enough to keep a YAML file around with a map from paths to repository names.</p>
+enough to keep a YAML file with a map from paths to repository names.</p>
 
 <p>After some hacking on a flight (after having finished finals and an interview),
 I made a little Ruby CLI program and found it to be useful enough to expand into
@@ -31,7 +33,7 @@ a tiny little gem. It's still very basic, and specs aren't where they should be,
 but the essentials are there.</p>
 
 <p>It's called RepoMan, and you can find it here:
-http://gnarmis.github.com/repoman.</p>
+<a href="http://gnarmis.github.com/repoman">http://gnarmis.github.com/repoman</a>.</p>
 
 <p>You can also install it by typing <code>gem install repoman</code>.</p>
 
