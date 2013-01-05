@@ -447,25 +447,7 @@ and code is a cool way to access a subset of it.</p>
 
 <p>And here&#8217;s my solution (skip if you want to try this yourself!):</p>
 
-<div><script src='https://gist.github.com/1050563.js?file='></script>
-<noscript><pre><code>def maxPrimeFactor(n) #=&gt; maxPrimeFactor(600851475143) =&gt; 6857 in 2007.562 ms
-  # limit the ridiculous range safely
-  range = n**(1/Math.sqrt(n.to_s.length).floor.to_f)
-  ary = (1..range).to_a
-  # Sieve of Eratosthenes (replace with Sieve of Atkin?)
-  for i in ary
-    for j in ary
-      if i != j
-        if (j % i == 0)
-          ary.delete(j)
-        end
-      end
-    end
-  end
-  #remove non-factor primes
-  ary.delete_if{|k| ( n % k != 0)}
-  ary.max
-end</code></pre></noscript></div>
+<script src="https://gist.github.com/1050563.js"></script>
 
 
 <p>The code should be pretty much clear, at least except for that initial part
