@@ -117,6 +117,27 @@ and code is a cool way to access a subset of it.</p>
 
 <p>And here&#8217;s my solution (skip if you want to try this yourself!):</p>
 
+<div><script src='https://gist.github.com/1050563.js?file='></script>
+<noscript><pre><code>def maxPrimeFactor(n) #=&gt; maxPrimeFactor(600851475143) =&gt; 6857 in 2007.562 ms
+  # limit the ridiculous range safely
+  range = n**(1/Math.sqrt(n.to_s.length).floor.to_f)
+  ary = (1..range).to_a
+  # Sieve of Eratosthenes (replace with Sieve of Atkin?)
+  for i in ary
+    for j in ary
+      if i != j
+        if (j % i == 0)
+          ary.delete(j)
+        end
+      end
+    end
+  end
+  #remove non-factor primes
+  ary.delete_if{|k| ( n % k != 0)}
+  ary.max
+end</code></pre></noscript></div>
+
+
 <p>The code should be pretty much clear, at least except for that initial part
 where I restrict the range. It was hard getting my super-easy-to-write-yet-inefficient
 prime numbered array generator to solve for 600851475143 quickly. I was too
@@ -173,6 +194,12 @@ fun.</p>
 <time datetime="2011-06-28T00:39:00-05:00" pubdate data-updated="true">Jun 28<span>th</span>, 2011</time>
       
 
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/euler-/'>euler,</a>, <a class='category' href='/blog/categories/ruby/'>ruby</a>
+  
+</span>
+
 
     </p>
     
@@ -211,6 +238,10 @@ fun.</p>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2013/01/05/project-euler-problem-3-using-clojure-1-dot-5-and-a-lazy-technique/">Project Euler Problem 3 using Clojure 1.5 and a lazy technique</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2012/12/18/repomap-track-your-local-git-repositories/">RepoMap: track your local git repositories</a>
       </li>
     
@@ -224,10 +255,6 @@ fun.</p>
     
       <li class="post">
         <a href="/blog/2012/09/25/on-ruby-1-dot-9-s-flexible-syntax/">On Ruby 1.9's Flexible Syntax</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2012/09/19/piping-arguments-through-multiple-functions-in-ruby/">Piping Arguments Through Multiple Functions in Ruby</a>
       </li>
     
   </ul>
@@ -258,7 +285,7 @@ fun.</p>
     </div>
   </div>
   <footer role="contentinfo" style="margin-bottom:0;"><p>
-  Copyright &copy; 2012 - Gursimran Singh -
+  Copyright &copy; 2013 - Gursimran Singh -
   <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
 </p>
 

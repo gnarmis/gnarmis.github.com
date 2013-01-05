@@ -9,8 +9,8 @@
   <meta name="author" content="Gursimran Singh">
 
   
-  <meta name="description" content="Do you use Sass and CoffeeScript? Tired of remembering and typing out the compile
-and watch commands on both of those command-line utilities? I used &hellip;">
+  <meta name="description" content="When developing locally, I find it useful to have the full development server
+logs available. Luckily, Rails 3.1 does this for you in the file ./log/ &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -71,6 +71,63 @@ and watch commands on both of those command-line utilities? I used &hellip;">
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2011/11/11/running-processes-in-background-and-redirecti/">Running Processes in Background and Redirecting to File</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-11-11T14:15:00-06:00" pubdate data-updated="true">Nov 11<span>th</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>When developing locally, I find it useful to have the full development server
+logs available. Luckily, Rails 3.1 does this for you in the file ./log/development.log.
+However, if you want something similar for other frameworks/commands that run
+continuously and post any errors, etc, directly to the terminal, something
+like this is useful:</p>
+
+<p>[code]rails s >> console.out 2>&amp;1 &amp;[/code]</p>
+
+<p>(Replace <code>rails s</code> with any similar command)</p>
+
+<p>Also, you can easily send signals (like ctrl-c) to background processes with
+<code>kill</code>.</p>
+
+<p>List of signals:</p>
+
+<p>[code]kill -l[/code]</p>
+
+<p>Closing a background process with id 1:</p>
+
+<p>[code]kill -s SIGKILL %1[/code]</p>
+
+<p> </p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -390,6 +447,27 @@ and code is a cool way to access a subset of it.</p>
 
 <p>And here&#8217;s my solution (skip if you want to try this yourself!):</p>
 
+<div><script src='https://gist.github.com/1050563.js?file='></script>
+<noscript><pre><code>def maxPrimeFactor(n) #=&gt; maxPrimeFactor(600851475143) =&gt; 6857 in 2007.562 ms
+  # limit the ridiculous range safely
+  range = n**(1/Math.sqrt(n.to_s.length).floor.to_f)
+  ary = (1..range).to_a
+  # Sieve of Eratosthenes (replace with Sieve of Atkin?)
+  for i in ary
+    for j in ary
+      if i != j
+        if (j % i == 0)
+          ary.delete(j)
+        end
+      end
+    end
+  end
+  #remove non-factor primes
+  ary.delete_if{|k| ( n % k != 0)}
+  ary.max
+end</code></pre></noscript></div>
+
+
 <p>The code should be pretty much clear, at least except for that initial part
 where I restrict the range. It was hard getting my super-easy-to-write-yet-inefficient
 prime numbered array generator to solve for 600851475143 quickly. I was too
@@ -583,6 +661,10 @@ if it was ever offered on macs, I don&#8217;t think I&#8217;ll be switching anyt
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2013/01/05/project-euler-problem-3-using-clojure-1-dot-5-and-a-lazy-technique/">Project Euler Problem 3 using Clojure 1.5 and a lazy technique</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2012/12/18/repomap-track-your-local-git-repositories/">RepoMap: track your local git repositories</a>
       </li>
     
@@ -596,10 +678,6 @@ if it was ever offered on macs, I don&#8217;t think I&#8217;ll be switching anyt
     
       <li class="post">
         <a href="/blog/2012/09/25/on-ruby-1-dot-9-s-flexible-syntax/">On Ruby 1.9&#8217;s Flexible Syntax</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2012/09/19/piping-arguments-through-multiple-functions-in-ruby/">Piping Arguments Through Multiple Functions in Ruby</a>
       </li>
     
   </ul>
@@ -629,7 +707,7 @@ if it was ever offered on macs, I don&#8217;t think I&#8217;ll be switching anyt
     </div>
   </div>
   <footer role="contentinfo" style="margin-bottom:0;"><p>
-  Copyright &copy; 2012 - Gursimran Singh -
+  Copyright &copy; 2013 - Gursimran Singh -
   <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
 </p>
 

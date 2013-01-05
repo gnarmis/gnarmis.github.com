@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: euler, | Kilotau]]></title>
+  <link href="http://gnarmis.github.com/blog/categories/euler-/atom.xml" rel="self"/>
+  <link href="http://gnarmis.github.com/"/>
+  <updated>2013-01-05T12:48:13-06:00</updated>
+  <id>http://gnarmis.github.com/</id>
+  <author>
+    <name><![CDATA[Gursimran Singh]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Primes and Sieves]]></title>
+    <link href="http://gnarmis.github.com/blog/2011/06/28/primes-and-sieves/"/>
+    <updated>2011-06-28T00:39:00-05:00</updated>
+    <id>http://gnarmis.github.com/blog/2011/06/28/primes-and-sieves</id>
+    <content type="html"><![CDATA[<p><a href="http://projecteuler.net/">Project Euler</a> is one of the best things I have discovered in a while.
+It's simply a huge open list of problems in numeric order that you can solve
+using any math or code you want, provided that any code you write runs under
+one minute.</p>
+
+<p>The problems get interesting from the very start and are actually entertaining!
+After reading <a href="https://www.facebook.com/l.php?u=http%3A%2F%2Fwww.maa.org%2Fdevlin%2FLockhartsLament.pdf&amp;h=dba0d">Lokhart's Lament</a>, I'd say these problems would definitely
+fit the category of challenging and yet stimulating. Math truly is an art,
+and code is a cool way to access a subset of it.</p>
+
+<p> </p>
+
+<p>Anyway, primes! Here's the problem itself:</p>
+
+<p>The prime factors of 13195 are 5, 7, 13 and 29.</p>
+
+<p>What is the largest prime factor of the number 600851475143 ?</p>
+
+<p>And here's my solution (skip if you want to try this yourself!):</p>
+
+<p><div><script src='https://gist.github.com/1050563.js?file='></script>
+<noscript><pre><code>def maxPrimeFactor(n) #=&gt; maxPrimeFactor(600851475143) =&gt; 6857 in 2007.562 ms
+  # limit the ridiculous range safely
+  range = n**(1/Math.sqrt(n.to_s.length).floor.to_f)
+  ary = (1..range).to_a
+  # Sieve of Eratosthenes (replace with Sieve of Atkin?)
+  for i in ary
+    for j in ary
+      if i != j
+        if (j % i == 0)
+          ary.delete(j)
+        end
+      end
+    end
+  end
+  #remove non-factor primes
+  ary.delete_if{|k| ( n % k != 0)}
+  ary.max
+end</code></pre></noscript></div>
+</p>
+
+<p>The code should be pretty much clear, at least except for that initial part
+where I restrict the range. It was hard getting my super-easy-to-write-yet-inefficient
+prime numbered array generator to solve for 600851475143 quickly. I was too
+lazy to try to implement Sieve of Atkin so I just decided to try limiting the
+range as much as I could. Apparently, if you take the root of the number of
+digits in the given composite number, and then raise the upper limit of your
+range to the inverse of that number, you get a much more limited range that
+still gives you the right highest prime factor of the original number. I tried
+this out down to two-digit composites and it seems to work.</p>
+
+<p>Also, if I tried using a quick prime test on each element and deleting non-primes
+that way (instead of a sieve), the performance was actually worse somehow.
+And while trying to do this exact thing, I discovered a freaking <a href="http://www.noulakaz.net/weblog/2007/03/18/a-regular-expression-to-check-for-prime-numbers/">regular expression
+that detects primes</a>! Yeah.</p>
+
+<p>I literally spent close to three hours just researching a number of tangential
+topics, such as <a href="http://en.wikipedia.org/wiki/Sieve_of_Eratosthenes">Sieve of Eratothenes</a>, <a href="http://en.wikipedia.org/wiki/Sieve_of_Atkin">Sieve of Atkin</a>, <a href="http://en.wikipedia.org/wiki/Sieve_theory">Sieve theory</a>,
+<a href="http://en.wikipedia.org/wiki/GNFS">GNFS</a>, and <a href="http://en.wikipedia.org/wiki/RSA">RSA</a>. While the problem itself wasn't too challenging (I
+ended up learning much more about Ruby, though), the whole experience was amazing.
+And of course, there's a lot of room for gains in efficiency too.</p>
+
+<p>I highly recommend you sign up for an account on <a href="http://projecteuler.net/">Project Euler</a> and work
+your way through some of those problems! It's a great way to try out new languages,
+learn more efficient techniques, or just have some fun. No, really, it's actually
+fun.</p>
+
+<p> </p>
+
+<p> </p>
+
+<p> </p>
+]]></content>
+  </entry>
+  
+</feed>

@@ -9,8 +9,7 @@
   <meta name="author" content="Gursimran Singh">
 
   
-  <meta name="description" content="Github link: RepoMap There are hundreds of git repositories stored at various folder depths all over
-my computer. Organizing them, remembering where &hellip;">
+  <meta name="description" content="The problem: find the largest prime factor of 600851475143. I used the Sieve of Eratosthenes and Ruby to solve it last time. This time, I tried a &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -71,6 +70,95 @@ my computer. Organizing them, remembering where &hellip;">
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/01/05/project-euler-problem-3-using-clojure-1-dot-5-and-a-lazy-technique/">Project Euler Problem 3 Using Clojure 1.5 and a Lazy Technique</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-01-05T12:36:00-06:00" pubdate data-updated="true">Jan 5<span>th</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>The problem: find the largest prime factor of 600851475143.</p>
+
+<p>I used the Sieve of Eratosthenes and Ruby to solve it last time.</p>
+
+<p>This time, I tried a lazy, functional approach. The result was an efficient,
+straightfoward solution that involved no sieve or any static/full-realized
+data structure at all! I make a recipe for the kind of numbers I want and
+then take just as many as I need in order to finally output the answer.</p>
+
+<p>Here&#8217;s my lazy, functional implementation using Clojure 1.5 RC1 (mostly because
+I wanted to play with the new reducers library). It&#8217;s pretty efficient: less
+than a quarter of a second on my 2011 13&#8221; base MBP!</p>
+
+<div><script src='https://gist.github.com/4463032.js?file='></script>
+<noscript><pre><code>(ns euler.three
+ (require [clojure.core.reducers :as r]))
+
+(declare largest-prime-factor-for)
+(declare factors-of)
+(declare source-factors)
+(declare source-naturals)
+(declare factor?)
+(declare prime?)
+(declare certainty)
+
+(defn answer []
+  (time (largest-prime-factor-for 600851475143)))
+
+(defn largest-prime-factor-for [n]
+  (let [prime-factors (r/filter prime?
+                                (factors-of n))]
+    (last (into [] prime-factors))))
+
+(defn factors-of [n]
+  (r/filter #(factor? n %)
+            (source-factors n)))
+
+(defn source-factors [n]
+  (r/take-while #(&lt; % (int (Math/sqrt n)))
+                (source-naturals)))
+
+(defn source-naturals []
+  (r/map #(+ % 2) (range)))
+
+(defn factor? [n possib]
+  (zero? (mod n possib)))
+
+(defn prime? [n]
+  (.isProbablePrime (BigInteger/valueOf n) certainty))
+
+(def certainty 10)</code></pre></noscript></div>
+
+
+
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -876,46 +964,6 @@ template</a> I could build on.</p>
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2012/07/02/i-made-a-clojure-and-fp-themed-wallpaper-for/">I Made a Clojure and FP Themed Wallpaper for Myself</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-07-02T17:14:00-05:00" pubdate data-updated="true">Jul 2<span>nd</span>, 2012</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>There&#8217;s few things as iconic as the Y-Combinator in functional programming.
-I must mention http://www.fatvat.co.uk/2009/04/understanding-y-combinator.html
-as providing the actual snippet. To learn more, check out <a href="http://en.wikipedia.org/wiki/Fixed-point_combinator#Y_combinator">the wiki</a>.</p>
-
-<p>Update: http://imgur.com/Tgg54. Yep, it&#8217;s 2880x1800.</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/2/">&larr; Older</a>
@@ -937,6 +985,10 @@ as providing the actual snippet. To learn more, check out <a href="http://en.wik
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2013/01/05/project-euler-problem-3-using-clojure-1-dot-5-and-a-lazy-technique/">Project Euler Problem 3 using Clojure 1.5 and a lazy technique</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2012/12/18/repomap-track-your-local-git-repositories/">RepoMap: track your local git repositories</a>
       </li>
     
@@ -950,10 +1002,6 @@ as providing the actual snippet. To learn more, check out <a href="http://en.wik
     
       <li class="post">
         <a href="/blog/2012/09/25/on-ruby-1-dot-9-s-flexible-syntax/">On Ruby 1.9&#8217;s Flexible Syntax</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2012/09/19/piping-arguments-through-multiple-functions-in-ruby/">Piping Arguments Through Multiple Functions in Ruby</a>
       </li>
     
   </ul>
@@ -983,7 +1031,7 @@ as providing the actual snippet. To learn more, check out <a href="http://en.wik
     </div>
   </div>
   <footer role="contentinfo" style="margin-bottom:0;"><p>
-  Copyright &copy; 2012 - Gursimran Singh -
+  Copyright &copy; 2013 - Gursimran Singh -
   <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
 </p>
 

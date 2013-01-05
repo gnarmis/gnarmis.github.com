@@ -12,7 +12,7 @@
     </url>
     <url>
         <loc>http://gnarmis.github.com/blog/2011/06/28/primes-and-sieves/</loc>
-        <lastmod>2012-10-01T15:25:04-05:00</lastmod>
+        <lastmod>2013-01-05T12:47:55-06:00</lastmod>
     </url>
     <url>
         <loc>http://gnarmis.github.com/blog/2011/07/06/cozy-a-database-less-restful-layer/</loc>
@@ -133,11 +133,17 @@
         <lastmod>2012-12-18T17:15:45-06:00</lastmod>
     </url>
     <url>
+        <loc>
+            http://gnarmis.github.com/blog/2013/01/05/project-euler-problem-3-using-clojure-1-dot-5-and-a-lazy-technique/
+        </loc>
+        <lastmod>2013-01-05T12:47:51-06:00</lastmod>
+    </url>
+    <url>
         <loc>http://gnarmis.github.com/blog/archives/</loc>
-        <lastmod>2012-12-18T17:15:45-06:00</lastmod>
+        <lastmod>2013-01-05T12:47:55-06:00</lastmod>
     </url>
     <url>
         <loc>http://gnarmis.github.com/</loc>
-        <lastmod>2012-12-18T17:15:45-06:00</lastmod>
+        <lastmod>2013-01-05T12:47:55-06:00</lastmod>
     </url>
 </urlset>

@@ -5,12 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>My first (extremely simple) Chrome extension! - Kilotau</title>
+  <title>Project Euler Problem 3 using Clojure 1.5 and a lazy technique - Kilotau</title>
   <meta name="author" content="Gursimran Singh">
 
   
-  <meta name="description" content="&#8230;and it was really quite simple to do! Sherlock is pretty stupid: all
-you can do is click on him to specifically google the current tab&#8217;s &hellip;">
+  <meta name="description" content="The problem: find the largest prime factor of 600851475143. I used the Sieve of Eratosthenes and Ruby to solve it last time. This time, I tried a &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -19,7 +18,7 @@ you can do is click on him to specifically google the current tab&#8217;s &helli
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://gnarmis.github.com/blog/2011/12/16/my-first-extremely-simple-chrome-extension/">
+  <link rel="canonical" href="http://gnarmis.github.com/blog/2013/01/05/project-euler-problem-3-using-clojure-1-dot-5-and-a-lazy-technique/">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <script src="/javascripts/modernizr-2.0.js"></script>
@@ -74,7 +73,7 @@ you can do is click on him to specifically google the current tab&#8217;s &helli
   
   <header>
     
-      <h1 class="entry-title">My First (Extremely Simple) Chrome Extension!</h1>
+      <h1 class="entry-title">Project Euler Problem 3 Using Clojure 1.5 and a Lazy Technique</h1>
     
     
       <p class="meta">
@@ -90,26 +89,67 @@ you can do is click on him to specifically google the current tab&#8217;s &helli
   
 
 
-<time datetime="2011-12-16T02:17:00-06:00" pubdate data-updated="true">Dec 16<span>th</span>, 2011</time>
+<time datetime="2013-01-05T12:36:00-06:00" pubdate data-updated="true">Jan 5<span>th</span>, 2013</time>
         
       </p>
     
   </header>
 
 
-<div class="entry-content"><p>&#8230;and it was really quite simple to do! <strong>Sherlock</strong> is pretty stupid: all
-you can do is click on him to specifically google the current tab&#8217;s website.
-So, if you find yourself adding &#8220;site:example.com&#8221; to your Google searches
-often, this should be a nice shortcut.</p>
+<div class="entry-content"><p>The problem: find the largest prime factor of 600851475143.</p>
 
-<p>Here&#8217;s the MIT-licensed code: <a href="https://github.com/gnarmis/sherlock">https://github.com/gnarmis/sherlock</a>. Download
-the install package <a href="https://github.com/downloads/gnarmis/sherlock/sherlock-0.1.1.crx">here</a>; double-click to install. I&#8217;ve even put this
-puny release on the Chrome Web Store, but it&#8217;s not showing up yet.</p>
+<p>I used the Sieve of Eratosthenes and Ruby to solve it last time.</p>
 
-<p><strong>EDIT: <a href="https://chrome.google.com/webstore/detail/ddkcfeidojaepdblgejjcggpgobiepnj">this link</a> should work!</strong></p>
+<p>This time, I tried a lazy, functional approach. The result was an efficient,
+straightfoward solution that involved no sieve or any static/full-realized
+data structure at all! I make a recipe for the kind of numbers I want and
+then take just as many as I need in order to finally output the answer.</p>
 
-<p>I&#8217;d love some comments/feedback! I&#8217;d rather not spend my precious winter break
-on a doomed hobbyist project&#8230;</p>
+<p>Here&#8217;s my lazy, functional implementation using Clojure 1.5 RC1 (mostly because
+I wanted to play with the new reducers library). It&#8217;s pretty efficient: less
+than a quarter of a second on my 2011 13&#8221; base MBP!</p>
+
+<div><script src='https://gist.github.com/4463032.js?file='></script>
+<noscript><pre><code>(ns euler.three
+ (require [clojure.core.reducers :as r]))
+
+(declare largest-prime-factor-for)
+(declare factors-of)
+(declare source-factors)
+(declare source-naturals)
+(declare factor?)
+(declare prime?)
+(declare certainty)
+
+(defn answer []
+  (time (largest-prime-factor-for 600851475143)))
+
+(defn largest-prime-factor-for [n]
+  (let [prime-factors (r/filter prime?
+                                (factors-of n))]
+    (last (into [] prime-factors))))
+
+(defn factors-of [n]
+  (r/filter #(factor? n %)
+            (source-factors n)))
+
+(defn source-factors [n]
+  (r/take-while #(&lt; % (int (Math/sqrt n)))
+                (source-naturals)))
+
+(defn source-naturals []
+  (r/map #(+ % 2) (range)))
+
+(defn factor? [n possib]
+  (zero? (mod n possib)))
+
+(defn prime? [n]
+  (.isProbablePrime (BigInteger/valueOf n) certainty))
+
+(def certainty 10)</code></pre></noscript></div>
+
+
+
 </div>
 
 
@@ -132,15 +172,21 @@ on a doomed hobbyist project&#8230;</p>
   
 
 
-<time datetime="2011-12-16T02:17:00-06:00" pubdate data-updated="true">Dec 16<span>th</span>, 2011</time>
+<time datetime="2013-01-05T12:36:00-06:00" pubdate data-updated="true">Jan 5<span>th</span>, 2013</time>
       
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/clojure-/'>clojure,</a>, <a class='category' href='/blog/categories/euler/'>euler</a>
+  
+</span>
 
 
     </p>
     
       <div class="sharing">
   
-  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://gnarmis.github.com/blog/2011/12/16/my-first-extremely-simple-chrome-extension/" data-via="gnarmis" data-counturl="http://gnarmis.github.com/blog/2011/12/16/my-first-extremely-simple-chrome-extension/" >Tweet</a>
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://gnarmis.github.com/blog/2013/01/05/project-euler-problem-3-using-clojure-1-dot-5-and-a-lazy-technique/" data-via="gnarmis" data-counturl="http://gnarmis.github.com/blog/2013/01/05/project-euler-problem-3-using-clojure-1-dot-5-and-a-lazy-technique/" >Tweet</a>
   
   
   
@@ -149,14 +195,18 @@ on a doomed hobbyist project&#8230;</p>
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/2011/11/11/running-processes-in-background-and-redirecti/" title="Previous Post: Running processes in background and redirecting to file">&laquo; Running processes in background and redirecting to file</a>
+        <a class="basic-alignment left" href="/blog/2012/12/18/repomap-track-your-local-git-repositories/" title="Previous Post: RepoMap: track your local git repositories">&laquo; RepoMap: track your local git repositories</a>
       
-      
-        <a class="basic-alignment right" href="/blog/2012/02/28/my-cats-mini-course-about-web-dev/" title="Next Post: My CATS mini-course about web dev">My CATS mini-course about web dev &raquo;</a>
       
     </p>
   </footer>
 </article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
 
 </div>
 
@@ -226,6 +276,22 @@ on a doomed hobbyist project&#8230;</p>
 
 </footer>
   
+
+<script type="text/javascript">
+      var disqus_shortname = 'kilotau';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://gnarmis.github.com/blog/2013/01/05/project-euler-problem-3-using-clojure-1-dot-5-and-a-lazy-technique/';
+        var disqus_url = 'http://gnarmis.github.com/blog/2013/01/05/project-euler-problem-3-using-clojure-1-dot-5-and-a-lazy-technique/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
 
 
 
