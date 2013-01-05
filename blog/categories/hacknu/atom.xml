@@ -4,7 +4,7 @@
   <title><![CDATA[Category: hacknu | Kilotau]]></title>
   <link href="http://gnarmis.github.com/blog/categories/hacknu/atom.xml" rel="self"/>
   <link href="http://gnarmis.github.com/"/>
-  <updated>2013-01-05T12:55:36-06:00</updated>
+  <updated>2013-01-05T13:06:00-06:00</updated>
   <id>http://gnarmis.github.com/</id>
   <author>
     <name><![CDATA[Gursimran Singh]]></name>
@@ -27,6 +27,44 @@
 <p>University is more than just a trade school, and Hack Northwestern hopes to prove that.</p>
 
 <p>If this is the first you've heard of us, check out our <a href="http://hacknorthwestern.com">home</a>!</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[my hackathon experience last weekend]]></title>
+    <link href="http://gnarmis.github.com/blog/2012/04/27/my-hackathon-experience-last-weekend/"/>
+    <updated>2012-04-27T01:23:00-05:00</updated>
+    <id>http://gnarmis.github.com/blog/2012/04/27/my-hackathon-experience-last-weekend</id>
+    <content type="html"><![CDATA[<p>Me and Jonathan Chan (@jonishungry) had quite the adventure last weekend. Managing
+a two hour El ride; being completely lost on the UChicago campus; sleeping
+in a tiny student government office since the venue wasn't 24/7 (graciously
+provided by @hackuc); discovering that Fermi worked in Ryerson Hall (where
+we hacked), and that Carl Sagan used to go to the observation tower there.
+Oh, and winning second place (by 1 vote)!</p>
+
+<p>The app we built was <a href="http://soundingboard.heroku.com">SoundingBoard</a>: a crowd-driven music player. Let's
+say you have a venue and you want to play some music while also allowing people
+to suggest artists they love (with minimal effort on your part). You sign in
+with an Rdio account, give us the place name in a hashtag-friendly manner,
+give us the place's address, and we setup a page for you that plays songs.
+Now, put this up on a screen and people can tweet their favorite artists (with
+the appropriate hashtag) in order to add them to the artist pool. The player
+then randomly selects from the artist pool, which ranks artists based on the
+number of mentions in tweets/retweets. Needless to say, it was an API-wrangling
+bonanza, with lots of hard decisions about which features we had to cut and
+which were absolutely essential to the experience. It was also probably our
+most productive 30 hour sprint ever.</p>
+
+<p>We successfully demoed our app, adding tweets live which were parsed for artist
+names, updating the pool and affecting the next song's choice. And we almost
+won the whole thing! But it's ok; we still got VIP tickets to TEDxUChicago,
+which promises to be amazing. Enova, the company backing the hackathon, and
+the hack@uchicago team (@hackuc) should be lauded for supporting such an amazing
+event.</p>
+
+<p>We were definitely thrilled to see some validation of our idea and want to
+explore it further. Any updates will be up on our launch-rock page at <a href="http://soundingboard.heroku.com">http://soundingboard.heroku.com</a>,
+and emailed to everyone who's signed up to our mailing list!</p>
 ]]></content>
   </entry>
   

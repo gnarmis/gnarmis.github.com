@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: updates | Kilotau]]></title>
+  <link href="http://gnarmis.github.com/blog/categories/updates/atom.xml" rel="self"/>
+  <link href="http://gnarmis.github.com/"/>
+  <updated>2013-01-05T13:06:00-06:00</updated>
+  <id>http://gnarmis.github.com/</id>
+  <author>
+    <name><![CDATA[Gursimran Singh]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Moving From Posterous to Github Pages]]></title>
+    <link href="http://gnarmis.github.com/blog/2012/09/14/moving-from-posterous-to-github-pages/"/>
+    <updated>2012-09-14T02:27:00-05:00</updated>
+    <id>http://gnarmis.github.com/blog/2012/09/14/moving-from-posterous-to-github-pages</id>
+    <content type="html"><![CDATA[<p>Ever since Posterous was acquired by Twitter, I'd been meaning to ditch the service for something better. While it was convenient to post by email and enjoyable to forget about hosting, I missed controlling the structure of my raw posts and the site's design.</p>
+
+<p>So when I discovered <a href="http://octopress.org">Octopress</a>, I was quickly won over. Finally, a hacker's workflow: compose post in Markdown, generate static content, push content to Github Pages. And since all posts are in Markdown, you truly have portable, human-readable content!</p>
+
+<p>Once I had a repository on Github setup with my Octopress-powered blog, I needed to import posts from Posterous. Unfortunately, it wasn't a straightforward process, but I decided to automate away the drudgery and share some code with you in the process.</p>
+
+<p>After consulting <a href="http://posterous.com/api">Posterous's API</a>, I realized I only really needed my "site_id" to pull all my posts in a single JSON request. The following URLs were helpful for this:</p>
+
+<p>```ruby</p>
+
+<h1>http://posterous.com/api/2/users/me => authenticated user's info, including ID</h1>
+
+<h1>http://posterous.com/api/2/sites?id=1021298 => sites of user; figure out site_id</h1>
+
+<h1>http://posterous.com/api/2/sites/2464344/posts => all of kilotau's posts in JSON; using site_id</h1>
+
+<p>```</p>
+
+<p>After I had my posts downloaded in <code>posts.json</code>, I transformed each post to Markdown and manually formatted them for Octopress. I used the simple <a href="https://github.com/singpolyma/HTML2Markdown">HTML2Markdown</a> script and the following code:</p>
+
+<p>```ruby</p>
+
+<h1>this uses ruby-1.9.3</h1>
+
+<p>require 'json'
+require 'fileutils'
+require './html2markdown.rb'
+require 'date'</p>
+
+<p>json = JSON.parse(File.read('./posts.json'))</p>
+
+<p>json.map do |j|
+  d = DateTime.parse(j['display_date'])
+  filename = "./md/" + d.strftime('%Y-%m-%d') + "-" + j['slug'] + ".markdown"
+  file = File.new(filename, "w")
+  file.write "---\n"
+  file.write "layout: post\n"
+  file.write "title: " + "\"" + j['title'] + "\"" + "\n"
+  file.write "date: " + j['display_date'] + "\n"
+  file.write "comments: false\n"
+  file.write "external-url:\n"
+  file.write "categories:\n"
+  file.write "---\n"
+  file.write HTML2Markdown.new(j['body_cleaned'])
+  file.close
+end
+```</p>
+
+<p>In a moment, I had all my posts converted.</p>
+
+<p>Now that I have my past posts, it's time to play with the design!</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[It's Alive!]]></title>
+    <link href="http://gnarmis.github.com/blog/2012/04/29/its-alive/"/>
+    <updated>2012-04-29T17:15:37-05:00</updated>
+    <id>http://gnarmis.github.com/blog/2012/04/29/its-alive</id>
+    <content type="html"><![CDATA[<p><a href="http://getsoundboard.com">http://getsoundboard.com</a></p>
+
+<p>Me and Jon are finally at the stage where we can start showing off our <br/>
+idea called SoundBoard, which was conceived and well received at a <br/>
+hackathon last weekend. After talking about it with several great <br/>
+people at TEDxUChicago, we feel the need to learn as much as possible <br/>
+about how people use it. We have also put up a link on the site to <br/>
+allow easy feedback, so be sure to check it out and tell us what you <br/>
+think!</p>
+]]></content>
+  </entry>
+  
+</feed>

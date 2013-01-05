@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: projects | Kilotau]]></title>
+  <link href="http://gnarmis.github.com/blog/categories/projects/atom.xml" rel="self"/>
+  <link href="http://gnarmis.github.com/"/>
+  <updated>2013-01-05T13:06:00-06:00</updated>
+  <id>http://gnarmis.github.com/</id>
+  <author>
+    <name><![CDATA[Gursimran Singh]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[RepoMap: track your local git repositories]]></title>
+    <link href="http://gnarmis.github.com/blog/2012/12/18/repomap-track-your-local-git-repositories/"/>
+    <updated>2012-12-18T16:09:00-06:00</updated>
+    <id>http://gnarmis.github.com/blog/2012/12/18/repomap-track-your-local-git-repositories</id>
+    <content type="html"><![CDATA[<p>Github link: <a href="http://github.com/gnarmis/repomap">RepoMap</a></p>
+
+<p>There are hundreds of git repositories stored at various folder depths all over
+my computer. Organizing them, remembering where they are or determining whether
+I still have a working copy cloned from a remote repository is a chore.</p>
+
+<p>So, why not have a map of where all my repositories are? Should be simple
+enough to keep a YAML file with a map from paths to repository names.</p>
+
+<p>After some hacking on a flight (after having finished finals and an interview),
+I made a little Ruby CLI program and found it to be useful enough to expand into
+a tiny little gem. It's still very basic, and specs aren't where they should be,
+but the essentials are there.</p>
+
+<p>It's called RepoMap, and you can find it here:
+<a href="http://github.com/gnarmis/repomap">http://github.com/gnarmis/repomap</a>.</p>
+
+<p>You can also install it by typing <code>gem install repomap</code>.</p>
+
+<p>Check out the above link for details about how it works. Pull requests are
+welcome! I'm thinking there's a number of cool additions possible, such as
+mining all that useful meta data about git repositories, and making use of the
+map in interesting ways.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Creating a simple sentiment analyzer using Clojure]]></title>
+    <link href="http://gnarmis.github.com/blog/2012/07/06/creating-a-simple-sentiment-analyzer-using-cl/"/>
+    <updated>2012-07-06T19:49:00-05:00</updated>
+    <id>http://gnarmis.github.com/blog/2012/07/06/creating-a-simple-sentiment-analyzer-using-cl</id>
+    <content type="html"><![CDATA[<p>TL;DR <a href="https://github.com/gnarmis/sentimental">https://github.com/gnarmis/sentimental</a></p>
+
+<p>Sentiment analysis is the hot thing to do these days. One example is ViralHeat,
+a social media monitoring platform that uses sentiment analysis to provide
+a picture about how the conversation is trending about certain keywords (or
+combinations of keywords, which they call profiles). There's a lot of such
+products, and for developers there's a lot of high-quality and extensive libraries
+and toolkits that provide for this among other solutions, such Java's WEKA
+or OpenNLP, or Python's NLTK. There's even many third-party solutions that
+provide an API you can use to get sentiment analysis, such as AlchemyAPI.</p>
+
+<p>After deciding to create my very own sentiment analysis tool using Clojure,
+I began researching libraries in both Java and Clojure (because Clojure's interop
+means that I can easily use Java libraries). There's a lot of powerful tools
+out there, but my goal was to find something simple that could allow me to
+make a good enough sentiment analyzer without breaking the technical bank,
+so to speak.</p>
+
+<p>At first, I was looking for facilities to stem words, for which someone had
+already provided a Clojure-wrapper around the Java library Snowball. <a href="http://kilotau.com/a-brief-foray-into-deploying-clojure-librarie">I forked
+this and deployed it to Clojars</a>. This, and a simple list of stop words
+to ignore, would allow me to reduce redundancies and get a "bag of words" representation
+of the target document.</p>
+
+<p>Next, I wanted a nice and simple NLP library. <a href="https://github.com/dakrone/clojure-opennlp">Clojure-OpenNLP</a> fit the
+bill perfectly. It even had a document categorizer I could train!</p>
+
+<p>Now, I should briefly explain the overall process. At the heart of the sentiment
+analyzer is a naive-Bayesian classifier. This classifier is provided with a
+labelled list as training material ("sad" is "negative", "happy" is "positive").
+The various categories are the sentiments, such as "positive", "negative",
+"neutral" (I used 6 categories, for strong/weak sentiment). The classifier
+then learns to associate categories with words, based on training information
+that is supplied to it. Given a new sentence, the classifier then calculates
+the probabilities of each word belonging to each category, and the category
+with the best probability of covering the sentence is returned. Learn more
+about how to build naive-Bayes classifiers <a href="http://bionicspirit.com/blog/2012/02/09/howto-build-naive-bayes-classifier.html">here</a>.</p>
+
+<p>So, the next step was to get the actual training data. I found the <a href="http://www.cs.pitt.edu/mpqa/">subjectivity
+lexicon</a> to fit my needs perfectly. After parsing the document into a vector
+of hash-maps, I was able to create a <a href="https://github.com/gnarmis/sentimental/blob/master/src/models/sentiment.train">training document</a> for my very own
+opennlp model, which was to be the classifier. The other step was to create
+a function that would remove stop words and also stem each word. This was pretty
+easy to do using the <a href="https://github.com/gnarmis/snowball-stemmer">snowball-stemmer</a> library and a few lines of Clojure.</p>
+
+<p>Granted, I didn't build my own naive-Bayes classifier, but that's a project
+for another time :)</p>
+
+<p>And here's the project: https://github.com/gnarmis/sentimental</p>
+
+<p>You do need to install Leiningen and have JDK 1.6 on your machine. After these
+two steps, simply <code>cd</code> into the project and type <code>lein repl</code>, following the
+example in the readme.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[A brief foray into deploying Clojure libraries]]></title>
+    <link href="http://gnarmis.github.com/blog/2012/07/05/a-brief-foray-into-deploying-clojure-librarie/"/>
+    <updated>2012-07-05T15:50:00-05:00</updated>
+    <id>http://gnarmis.github.com/blog/2012/07/05/a-brief-foray-into-deploying-clojure-librarie</id>
+    <content type="html"><![CDATA[<p>Having found an <a href="https://github.com/weavejester/snowball-stemmer">awesome little wrapper</a> for <a href="http://snowball.tartarus.org/">Snowball</a> (which allows
+for stemming of words, like "going" -> "go"), I decided that it was the perfect
+opportunity to try creating my very own "Clojar" and deploying it. It didn't
+take long to fork the repo, make an account on clojars.org, make some minimal
+changes, and deploy this library. The nice thing is that everyone now has an
+easy way to try this out. I'm honestly surprised it was this easy and quick
+to deploy the thing!</p>
+
+<p>Check out my fork: (<a href="https://github.com/gnarmis/snowball-stemmer)">https://github.com/gnarmis/snowball-stemmer)</a></p>
+
+<p>And the clojar itself is here: (<a href="https://clojars.org/org.clojars.gnarmis/snowball-stemmer)">https://clojars.org/org.clojars.gnarmis/snowball-stemmer)</a></p>
+
+<p>Cheers!</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Experimenting with persistence using Korma and Lobos]]></title>
+    <link href="http://gnarmis.github.com/blog/2012/07/03/experimenting-with-persistence-using-korma-an/"/>
+    <updated>2012-07-03T22:47:00-05:00</updated>
+    <id>http://gnarmis.github.com/blog/2012/07/03/experimenting-with-persistence-using-korma-an</id>
+    <content type="html"><![CDATA[<p><a href="http://webnoir.org">Noir</a> is an excellent, Sinatra-like framework in Clojure, and <a href="http://sqlkorma.com">Korma</a>
+is a great companion. But in a lot of database-backed services, you often need
+migrations to make sane changes to the database and have the abilitiy to roll
+back your various schema changes. Lobos is a little library (among a few) that
+tries to do this, but seeing only a few examples <a href="http://www.vijaykiran.com/2012/01/17/web-application-development-with-clojure-part-2/">here</a> and <a href="http://pupeno.com/2011/08/20/how-to-use-lobos-with-heroku/">there</a>,
+I decided to make my own little template that explores this.</p>
+
+<p>So, here's the repo: https://github.com/gnarmis/korma-lobos-tpl</p>
+
+<p>I did run into an issue trying to find out how to do the classic "alter" SQL
+command to add a column using Lobos. Turns out, just try <code>(doc alter)</code> after
+first typing in that first long <code>(use ...)</code> command in the repo's readme. But
+I just documented the bug for now.</p>
+
+<p>Also, there is a very simple entity definition to demonstrate Korma, and I've
+tested the setup and confirmed that the migration executed, and the entity
+got added.</p>
+
+<p>I'll maybe explore Drift in the future, although there's already <a href="https://github.com/pjlegato/korma-drift-template">this excellent
+template</a> I could build on.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Rocketship]]></title>
+    <link href="http://gnarmis.github.com/blog/2012/03/10/rocketship/"/>
+    <updated>2012-03-10T20:07:00-06:00</updated>
+    <id>http://gnarmis.github.com/blog/2012/03/10/rocketship</id>
+    <content type="html"><![CDATA[<p>Introducing Rocketship: a Rack based template that integrates multiple micro-frameworks.</p>
+
+<p><a href="https://github.com/gnarmis/rocketship"><strong>github.com/gnarmis/rocketship</strong></a></p>
+
+<p> </p>
+
+<p>I recently came across some useful Sinatra templates and ended up having to
+integrate several things together in a service I'm currently working on. So,
+I extracted the basic stuff out and it's turned out to be useful for spinning
+up a quick web service. Best thing is that it doesn't impose a strict structure
+and you can follow best-practices of your micro-framework of choice.</p>
+
+<p>Currently, Rocketship integrates Grape and Sinatra, along with a bevy of testing
+facilities.</p>
+
+<p>Comments/improvements welcome!</p>
+
+<p> </p>
+]]></content>
+  </entry>
+  
+</feed>

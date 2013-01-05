@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: clojure | Kilotau]]></title>
+  <link href="http://gnarmis.github.com/blog/categories/clojure/atom.xml" rel="self"/>
+  <link href="http://gnarmis.github.com/"/>
+  <updated>2013-01-05T13:06:00-06:00</updated>
+  <id>http://gnarmis.github.com/</id>
+  <author>
+    <name><![CDATA[Gursimran Singh]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Project Euler Problem 3 using Clojure 1.5 and a lazy technique]]></title>
+    <link href="http://gnarmis.github.com/blog/2013/01/05/project-euler-problem-3-using-clojure-1-dot-5-and-a-lazy-technique/"/>
+    <updated>2013-01-05T12:36:00-06:00</updated>
+    <id>http://gnarmis.github.com/blog/2013/01/05/project-euler-problem-3-using-clojure-1-dot-5-and-a-lazy-technique</id>
+    <content type="html"><![CDATA[<p>The problem: find the largest prime factor of 600851475143.</p>
+
+<p>I used the Sieve of Eratosthenes and Ruby to solve it <a href="http://kilotau.com/blog/2011/06/28/primes-and-sieves/">last time</a>.</p>
+
+<p>This time, I tried a lazy, functional approach. The result was an efficient,
+straightfoward solution that involved no sieve or any static/full-realized
+data structure at all! I make a recipe for the kind of numbers I want and
+then take just as many as I need in order to finally output the answer.</p>
+
+<p>Here's my lazy, functional implementation using Clojure 1.5 RC1 (mostly because
+I wanted to play with the new reducers library). It's pretty efficient: less
+than a quarter of a second on my 2011 13" base MBP!</p>
+
+<p>```clojure
+(ns euler.three
+ (require [clojure.core.reducers :as r]))</p>
+
+<p>(declare largest-prime-factor-for)
+(declare factors-of)
+(declare source-factors)
+(declare source-naturals)
+(declare factor?)
+(declare prime?)
+(declare certainty)</p>
+
+<p>(defn answer []
+  (time (largest-prime-factor-for 600851475143)))</p>
+
+<p>(defn largest-prime-factor-for [n]
+  (let [prime-factors (r/filter prime?</p>
+
+<pre><code>                            (factors-of n))]
+(last (into [] prime-factors))))
+</code></pre>
+
+<p>(defn factors-of [n]
+  (r/filter #(factor? n %)</p>
+
+<pre><code>        (source-factors n)))
+</code></pre>
+
+<p>(defn source-factors [n]
+  (r/take-while #(&lt; % (int (Math/sqrt n)))</p>
+
+<pre><code>            (source-naturals)))
+</code></pre>
+
+<p>(defn source-naturals []
+  (r/map #(+ % 2) (range)))</p>
+
+<p>(defn factor? [n possib]
+  (zero? (mod n possib)))</p>
+
+<p>(defn prime? [n]
+  (.isProbablePrime (BigInteger/valueOf n) certainty))</p>
+
+<p>(def certainty 10)
+```</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Creating a simple sentiment analyzer using Clojure]]></title>
+    <link href="http://gnarmis.github.com/blog/2012/07/06/creating-a-simple-sentiment-analyzer-using-cl/"/>
+    <updated>2012-07-06T19:49:00-05:00</updated>
+    <id>http://gnarmis.github.com/blog/2012/07/06/creating-a-simple-sentiment-analyzer-using-cl</id>
+    <content type="html"><![CDATA[<p>TL;DR <a href="https://github.com/gnarmis/sentimental">https://github.com/gnarmis/sentimental</a></p>
+
+<p>Sentiment analysis is the hot thing to do these days. One example is ViralHeat,
+a social media monitoring platform that uses sentiment analysis to provide
+a picture about how the conversation is trending about certain keywords (or
+combinations of keywords, which they call profiles). There's a lot of such
+products, and for developers there's a lot of high-quality and extensive libraries
+and toolkits that provide for this among other solutions, such Java's WEKA
+or OpenNLP, or Python's NLTK. There's even many third-party solutions that
+provide an API you can use to get sentiment analysis, such as AlchemyAPI.</p>
+
+<p>After deciding to create my very own sentiment analysis tool using Clojure,
+I began researching libraries in both Java and Clojure (because Clojure's interop
+means that I can easily use Java libraries). There's a lot of powerful tools
+out there, but my goal was to find something simple that could allow me to
+make a good enough sentiment analyzer without breaking the technical bank,
+so to speak.</p>
+
+<p>At first, I was looking for facilities to stem words, for which someone had
+already provided a Clojure-wrapper around the Java library Snowball. <a href="http://kilotau.com/a-brief-foray-into-deploying-clojure-librarie">I forked
+this and deployed it to Clojars</a>. This, and a simple list of stop words
+to ignore, would allow me to reduce redundancies and get a "bag of words" representation
+of the target document.</p>
+
+<p>Next, I wanted a nice and simple NLP library. <a href="https://github.com/dakrone/clojure-opennlp">Clojure-OpenNLP</a> fit the
+bill perfectly. It even had a document categorizer I could train!</p>
+
+<p>Now, I should briefly explain the overall process. At the heart of the sentiment
+analyzer is a naive-Bayesian classifier. This classifier is provided with a
+labelled list as training material ("sad" is "negative", "happy" is "positive").
+The various categories are the sentiments, such as "positive", "negative",
+"neutral" (I used 6 categories, for strong/weak sentiment). The classifier
+then learns to associate categories with words, based on training information
+that is supplied to it. Given a new sentence, the classifier then calculates
+the probabilities of each word belonging to each category, and the category
+with the best probability of covering the sentence is returned. Learn more
+about how to build naive-Bayes classifiers <a href="http://bionicspirit.com/blog/2012/02/09/howto-build-naive-bayes-classifier.html">here</a>.</p>
+
+<p>So, the next step was to get the actual training data. I found the <a href="http://www.cs.pitt.edu/mpqa/">subjectivity
+lexicon</a> to fit my needs perfectly. After parsing the document into a vector
+of hash-maps, I was able to create a <a href="https://github.com/gnarmis/sentimental/blob/master/src/models/sentiment.train">training document</a> for my very own
+opennlp model, which was to be the classifier. The other step was to create
+a function that would remove stop words and also stem each word. This was pretty
+easy to do using the <a href="https://github.com/gnarmis/snowball-stemmer">snowball-stemmer</a> library and a few lines of Clojure.</p>
+
+<p>Granted, I didn't build my own naive-Bayes classifier, but that's a project
+for another time :)</p>
+
+<p>And here's the project: https://github.com/gnarmis/sentimental</p>
+
+<p>You do need to install Leiningen and have JDK 1.6 on your machine. After these
+two steps, simply <code>cd</code> into the project and type <code>lein repl</code>, following the
+example in the readme.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[A brief foray into deploying Clojure libraries]]></title>
+    <link href="http://gnarmis.github.com/blog/2012/07/05/a-brief-foray-into-deploying-clojure-librarie/"/>
+    <updated>2012-07-05T15:50:00-05:00</updated>
+    <id>http://gnarmis.github.com/blog/2012/07/05/a-brief-foray-into-deploying-clojure-librarie</id>
+    <content type="html"><![CDATA[<p>Having found an <a href="https://github.com/weavejester/snowball-stemmer">awesome little wrapper</a> for <a href="http://snowball.tartarus.org/">Snowball</a> (which allows
+for stemming of words, like "going" -> "go"), I decided that it was the perfect
+opportunity to try creating my very own "Clojar" and deploying it. It didn't
+take long to fork the repo, make an account on clojars.org, make some minimal
+changes, and deploy this library. The nice thing is that everyone now has an
+easy way to try this out. I'm honestly surprised it was this easy and quick
+to deploy the thing!</p>
+
+<p>Check out my fork: (<a href="https://github.com/gnarmis/snowball-stemmer)">https://github.com/gnarmis/snowball-stemmer)</a></p>
+
+<p>And the clojar itself is here: (<a href="https://clojars.org/org.clojars.gnarmis/snowball-stemmer)">https://clojars.org/org.clojars.gnarmis/snowball-stemmer)</a></p>
+
+<p>Cheers!</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Experimenting with persistence using Korma and Lobos]]></title>
+    <link href="http://gnarmis.github.com/blog/2012/07/03/experimenting-with-persistence-using-korma-an/"/>
+    <updated>2012-07-03T22:47:00-05:00</updated>
+    <id>http://gnarmis.github.com/blog/2012/07/03/experimenting-with-persistence-using-korma-an</id>
+    <content type="html"><![CDATA[<p><a href="http://webnoir.org">Noir</a> is an excellent, Sinatra-like framework in Clojure, and <a href="http://sqlkorma.com">Korma</a>
+is a great companion. But in a lot of database-backed services, you often need
+migrations to make sane changes to the database and have the abilitiy to roll
+back your various schema changes. Lobos is a little library (among a few) that
+tries to do this, but seeing only a few examples <a href="http://www.vijaykiran.com/2012/01/17/web-application-development-with-clojure-part-2/">here</a> and <a href="http://pupeno.com/2011/08/20/how-to-use-lobos-with-heroku/">there</a>,
+I decided to make my own little template that explores this.</p>
+
+<p>So, here's the repo: https://github.com/gnarmis/korma-lobos-tpl</p>
+
+<p>I did run into an issue trying to find out how to do the classic "alter" SQL
+command to add a column using Lobos. Turns out, just try <code>(doc alter)</code> after
+first typing in that first long <code>(use ...)</code> command in the repo's readme. But
+I just documented the bug for now.</p>
+
+<p>Also, there is a very simple entity definition to demonstrate Korma, and I've
+tested the setup and confirmed that the migration executed, and the entity
+got added.</p>
+
+<p>I'll maybe explore Drift in the future, although there's already <a href="https://github.com/pjlegato/korma-drift-template">this excellent
+template</a> I could build on.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[I made a Clojure and FP themed wallpaper for myself]]></title>
+    <link href="http://gnarmis.github.com/blog/2012/07/02/i-made-a-clojure-and-fp-themed-wallpaper-for/"/>
+    <updated>2012-07-02T17:14:00-05:00</updated>
+    <id>http://gnarmis.github.com/blog/2012/07/02/i-made-a-clojure-and-fp-themed-wallpaper-for</id>
+    <content type="html"><![CDATA[<p>There's few things as iconic as the Y-Combinator in functional programming.
+I must mention http://www.fatvat.co.uk/2009/04/understanding-y-combinator.html
+as providing the actual snippet. To learn more, check out <a href="http://en.wikipedia.org/wiki/Fixed-point_combinator#Y_combinator">the wiki</a>.</p>
+
+<p>Update: http://imgur.com/Tgg54. Yep, it's 2880x1800.</p>
+]]></content>
+  </entry>
+  
+</feed>
