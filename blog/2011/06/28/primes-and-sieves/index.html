@@ -117,7 +117,43 @@ and code is a cool way to access a subset of it.</p>
 
 <p>And here&#8217;s my solution (skip if you want to try this yourself!):</p>
 
-<script src="https://gist.github.com/1050563.js"></script>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">maxPrimeFactor</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="c1">#=&gt; maxPrimeFactor(600851475143) =&gt; 6857 in 2007.562 ms</span>
+</span><span class='line'>  <span class="c1"># limit the ridiculous range safely</span>
+</span><span class='line'>  <span class="n">range</span> <span class="o">=</span> <span class="n">n</span><span class="o">**</span><span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="no">Math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">n</span><span class="o">.</span><span class="n">to_s</span><span class="o">.</span><span class="n">length</span><span class="p">)</span><span class="o">.</span><span class="n">floor</span><span class="o">.</span><span class="n">to_f</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">ary</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="o">.</span><span class="n">.range</span><span class="p">)</span><span class="o">.</span><span class="n">to_a</span>
+</span><span class='line'>  <span class="c1"># Sieve of Eratosthenes (replace with Sieve of Atkin?)</span>
+</span><span class='line'>  <span class="k">for</span> <span class="n">i</span> <span class="k">in</span> <span class="n">ary</span>
+</span><span class='line'>    <span class="k">for</span> <span class="n">j</span> <span class="k">in</span> <span class="n">ary</span>
+</span><span class='line'>      <span class="k">if</span> <span class="n">i</span> <span class="o">!=</span> <span class="n">j</span>
+</span><span class='line'>        <span class="k">if</span> <span class="p">(</span><span class="n">j</span> <span class="o">%</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
+</span><span class='line'>          <span class="n">ary</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="n">j</span><span class="p">)</span>
+</span><span class='line'>        <span class="k">end</span>
+</span><span class='line'>      <span class="k">end</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>  <span class="c1">#remove non-factor primes</span>
+</span><span class='line'>  <span class="n">ary</span><span class="o">.</span><span class="n">delete_if</span><span class="p">{</span><span class="o">|</span><span class="n">k</span><span class="o">|</span> <span class="p">(</span> <span class="n">n</span> <span class="o">%</span> <span class="n">k</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">)}</span>
+</span><span class='line'>  <span class="n">ary</span><span class="o">.</span><span class="n">max</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <p>The code should be pretty much clear, at least except for that initial part

@@ -4,7 +4,7 @@
   <title><![CDATA[Kilotau]]></title>
   <link href="http://gnarmis.github.com/atom.xml" rel="self"/>
   <link href="http://gnarmis.github.com/"/>
-  <updated>2013-01-05T12:52:19-06:00</updated>
+  <updated>2013-01-05T12:55:36-06:00</updated>
   <id>http://gnarmis.github.com/</id>
   <author>
     <name><![CDATA[Gursimran Singh]]></name>
@@ -31,7 +31,81 @@ then take just as many as I need in order to finally output the answer.</p>
 I wanted to play with the new reducers library). It&#8217;s pretty efficient: less
 than a quarter of a second on my 2011 13&#8221; base MBP!</p>
 
-<script src="https://gist.github.com/4463032.js"></script>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+</pre></td><td class='code'><pre><code class='clojure'><span class='line'><span class="p">(</span><span class="kd">ns </span><span class="nv">euler.three</span>
+</span><span class='line'> <span class="p">(</span><span class="nf">require</span> <span class="p">[</span><span class="nv">clojure.core.reducers</span> <span class="ss">:as</span> <span class="nv">r</span><span class="p">]))</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">(</span><span class="kd">declare </span><span class="nv">largest-prime-factor-for</span><span class="p">)</span>
+</span><span class='line'><span class="p">(</span><span class="kd">declare </span><span class="nv">factors-of</span><span class="p">)</span>
+</span><span class='line'><span class="p">(</span><span class="kd">declare </span><span class="nv">source-factors</span><span class="p">)</span>
+</span><span class='line'><span class="p">(</span><span class="kd">declare </span><span class="nv">source-naturals</span><span class="p">)</span>
+</span><span class='line'><span class="p">(</span><span class="kd">declare </span><span class="nv">factor?</span><span class="p">)</span>
+</span><span class='line'><span class="p">(</span><span class="kd">declare </span><span class="nv">prime?</span><span class="p">)</span>
+</span><span class='line'><span class="p">(</span><span class="kd">declare </span><span class="nv">certainty</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">(</span><span class="kd">defn </span><span class="nv">answer</span> <span class="p">[]</span>
+</span><span class='line'>  <span class="p">(</span><span class="nb">time </span><span class="p">(</span><span class="nf">largest-prime-factor-for</span> <span class="mi">600851475143</span><span class="p">)))</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">(</span><span class="kd">defn </span><span class="nv">largest-prime-factor-for</span> <span class="p">[</span><span class="nv">n</span><span class="p">]</span>
+</span><span class='line'>  <span class="p">(</span><span class="k">let </span><span class="p">[</span><span class="nv">prime-factors</span> <span class="p">(</span><span class="nf">r/filter</span> <span class="nv">prime?</span>
+</span><span class='line'>                                <span class="p">(</span><span class="nf">factors-of</span> <span class="nv">n</span><span class="p">))]</span>
+</span><span class='line'>    <span class="p">(</span><span class="nb">last </span><span class="p">(</span><span class="nb">into </span><span class="p">[]</span> <span class="nv">prime-factors</span><span class="p">))))</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">(</span><span class="kd">defn </span><span class="nv">factors-of</span> <span class="p">[</span><span class="nv">n</span><span class="p">]</span>
+</span><span class='line'>  <span class="p">(</span><span class="nf">r/filter</span> <span class="o">#</span><span class="p">(</span><span class="nf">factor?</span> <span class="nv">n</span> <span class="nv">%</span><span class="p">)</span>
+</span><span class='line'>            <span class="p">(</span><span class="nf">source-factors</span> <span class="nv">n</span><span class="p">)))</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">(</span><span class="kd">defn </span><span class="nv">source-factors</span> <span class="p">[</span><span class="nv">n</span><span class="p">]</span>
+</span><span class='line'>  <span class="p">(</span><span class="nf">r/take-while</span> <span class="o">#</span><span class="p">(</span><span class="nb">&lt; </span><span class="nv">%</span> <span class="p">(</span><span class="nb">int </span><span class="p">(</span><span class="nf">Math/sqrt</span> <span class="nv">n</span><span class="p">)))</span>
+</span><span class='line'>                <span class="p">(</span><span class="nf">source-naturals</span><span class="p">)))</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">(</span><span class="kd">defn </span><span class="nv">source-naturals</span> <span class="p">[]</span>
+</span><span class='line'>  <span class="p">(</span><span class="nf">r/map</span> <span class="o">#</span><span class="p">(</span><span class="nb">+ </span><span class="nv">%</span> <span class="mi">2</span><span class="p">)</span> <span class="p">(</span><span class="nf">range</span><span class="p">)))</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">(</span><span class="kd">defn </span><span class="nv">factor?</span> <span class="p">[</span><span class="nv">n</span> <span class="nv">possib</span><span class="p">]</span>
+</span><span class='line'>  <span class="p">(</span><span class="nb">zero? </span><span class="p">(</span><span class="nf">mod</span> <span class="nv">n</span> <span class="nv">possib</span><span class="p">)))</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">(</span><span class="kd">defn </span><span class="nv">prime?</span> <span class="p">[</span><span class="nv">n</span><span class="p">]</span>
+</span><span class='line'>  <span class="p">(</span><span class="nf">.isProbablePrime</span> <span class="p">(</span><span class="nf">BigInteger/valueOf</span> <span class="nv">n</span><span class="p">)</span> <span class="nv">certainty</span><span class="p">))</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">(</span><span class="k">def </span><span class="nv">certainty</span> <span class="mi">10</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
 
 ]]></content>
   </entry>

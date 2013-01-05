@@ -4,7 +4,7 @@
   <title><![CDATA[Category: ruby | Kilotau]]></title>
   <link href="http://gnarmis.github.com/blog/categories/ruby/atom.xml" rel="self"/>
   <link href="http://gnarmis.github.com/"/>
-  <updated>2013-01-05T12:52:19-06:00</updated>
+  <updated>2013-01-05T12:55:36-06:00</updated>
   <id>http://gnarmis.github.com/</id>
   <author>
     <name><![CDATA[Gursimran Singh]]></name>
@@ -306,8 +306,29 @@ and code is a cool way to access a subset of it.</p>
 
 <p>And here's my solution (skip if you want to try this yourself!):</p>
 
-<script src="https://gist.github.com/1050563.js"></script>
+<p>``` ruby
+def maxPrimeFactor(n) #=> maxPrimeFactor(600851475143) => 6857 in 2007.562 ms
+  # limit the ridiculous range safely
+  range = n**(1/Math.sqrt(n.to_s.length).floor.to_f)
+  ary = (1..range).to_a
+  # Sieve of Eratosthenes (replace with Sieve of Atkin?)
+  for i in ary</p>
 
+<pre><code>for j in ary
+  if i != j
+    if (j % i == 0)
+      ary.delete(j)
+    end
+  end
+end
+</code></pre>
+
+<p>  end
+  #remove non-factor primes
+  ary.delete_if{|k| ( n % k != 0)}
+  ary.max
+end
+```</p>
 
 <p>The code should be pretty much clear, at least except for that initial part
 where I restrict the range. It was hard getting my super-easy-to-write-yet-inefficient
