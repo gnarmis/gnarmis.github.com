@@ -4,7 +4,7 @@
   <title><![CDATA[Category: clojure | Kilotau]]></title>
   <link href="http://gnarmis.github.com/blog/categories/clojure/atom.xml" rel="self"/>
   <link href="http://gnarmis.github.com/"/>
-  <updated>2013-01-05T13:51:15-06:00</updated>
+  <updated>2013-01-08T09:18:23-06:00</updated>
   <id>http://gnarmis.github.com/</id>
   <author>
     <name><![CDATA[Gursimran Singh]]></name>
@@ -141,10 +141,10 @@ example in the readme.</p>
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[A brief foray into deploying Clojure libraries]]></title>
-    <link href="http://gnarmis.github.com/blog/2012/07/05/a-brief-foray-into-deploying-clojure-librarie/"/>
+    <title type="html"><![CDATA[Snowball Stemmer: Deploying a Simple Clojure Wrapper]]></title>
+    <link href="http://gnarmis.github.com/blog/2012/07/05/snowball-stemmer-deploying-a-simple-clojure-wrapper/"/>
     <updated>2012-07-05T15:50:00-05:00</updated>
-    <id>http://gnarmis.github.com/blog/2012/07/05/a-brief-foray-into-deploying-clojure-librarie</id>
+    <id>http://gnarmis.github.com/blog/2012/07/05/snowball-stemmer-deploying-a-simple-clojure-wrapper</id>
     <content type="html"><![CDATA[<p>Having found an <a href="https://github.com/weavejester/snowball-stemmer">awesome little wrapper</a> for <a href="http://snowball.tartarus.org/">Snowball</a> (which allows
 for stemming of words, like "going" -> "go"), I decided that it was the perfect
 opportunity to try creating my very own "Clojar" and deploying it. It didn't
