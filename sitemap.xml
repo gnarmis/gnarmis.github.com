@@ -54,7 +54,7 @@
     </url>
     <url>
         <loc>http://gnarmis.github.com/blog/2012/03/10/rocketship/</loc>
-        <lastmod>2013-01-05T13:03:14-06:00</lastmod>
+        <lastmod>2013-01-08T13:34:10-06:00</lastmod>
     </url>
     <url>
         <loc>http://gnarmis.github.com/blog/2012/04/12/model-checking/</loc>
@@ -88,7 +88,7 @@
         <loc>
             http://gnarmis.github.com/blog/2012/07/03/experimenting-with-persistence-using-korma-an/
         </loc>
-        <lastmod>2013-01-05T13:04:44-06:00</lastmod>
+        <lastmod>2013-01-08T13:35:35-06:00</lastmod>
     </url>
     <url>
         <loc>
@@ -100,7 +100,7 @@
         <loc>
             http://gnarmis.github.com/blog/2012/07/06/creating-a-simple-sentiment-analyzer-using-cl/
         </loc>
-        <lastmod>2013-01-05T13:05:08-06:00</lastmod>
+        <lastmod>2013-01-08T13:36:39-06:00</lastmod>
     </url>
     <url>
         <loc>
@@ -140,7 +140,7 @@
     </url>
     <url>
         <loc>http://gnarmis.github.com/blog/archives/</loc>
-        <lastmod>2013-01-08T09:31:06-06:00</lastmod>
+        <lastmod>2013-01-08T13:36:39-06:00</lastmod>
     </url>
     <url>
         <loc>http://gnarmis.github.com/blog/archives/projects/</loc>
@@ -152,6 +152,6 @@
     </url>
     <url>
         <loc>http://gnarmis.github.com/</loc>
-        <lastmod>2013-01-08T09:31:06-06:00</lastmod>
+        <lastmod>2013-01-08T13:36:39-06:00</lastmod>
     </url>
 </urlset>

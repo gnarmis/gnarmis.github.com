@@ -4,7 +4,7 @@
   <title><![CDATA[Category: webdev | Kilotau]]></title>
   <link href="http://gnarmis.github.com/blog/categories/webdev/atom.xml" rel="self"/>
   <link href="http://gnarmis.github.com/"/>
-  <updated>2013-01-08T10:38:41-06:00</updated>
+  <updated>2013-01-08T13:36:45-06:00</updated>
   <id>http://gnarmis.github.com/</id>
   <author>
     <name><![CDATA[Gursimran Singh]]></name>
@@ -14,15 +14,13 @@
 
   
   <entry>
-    <title type="html"><![CDATA[Rocketship]]></title>
+    <title type="html"><![CDATA[Rocketship: A Multi-App Sinatra Template]]></title>
     <link href="http://gnarmis.github.com/blog/2012/03/10/rocketship/"/>
     <updated>2012-03-10T20:07:00-06:00</updated>
     <id>http://gnarmis.github.com/blog/2012/03/10/rocketship</id>
     <content type="html"><![CDATA[<p>Introducing Rocketship: a Rack based template that integrates multiple micro-frameworks.</p>
 
 <p><a href="https://github.com/gnarmis/rocketship"><strong>github.com/gnarmis/rocketship</strong></a></p>
-
-<p> </p>
 
 <p>I recently came across some useful Sinatra templates and ended up having to
 integrate several things together in a service I'm currently working on. So,
@@ -35,7 +33,8 @@ facilities.</p>
 
 <p>Comments/improvements welcome!</p>
 
-<p> </p>
+<p>Update: Some significant changes, including one that makes apps able to handle
+more requests concurrently.</p>
 ]]></content>
   </entry>
   

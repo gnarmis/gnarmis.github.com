@@ -4,7 +4,7 @@
   <title><![CDATA[Category: clojure | Kilotau]]></title>
   <link href="http://gnarmis.github.com/blog/categories/clojure/atom.xml" rel="self"/>
   <link href="http://gnarmis.github.com/"/>
-  <updated>2013-01-08T10:38:41-06:00</updated>
+  <updated>2013-01-08T13:36:45-06:00</updated>
   <id>http://gnarmis.github.com/</id>
   <author>
     <name><![CDATA[Gursimran Singh]]></name>
@@ -80,7 +80,7 @@ than a quarter of a second on my 2011 13" base MBP!</p>
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[Creating a simple sentiment analyzer using Clojure]]></title>
+    <title type="html"><![CDATA[Sentimental: A Simple Sentiment Analyzer in Clojure]]></title>
     <link href="http://gnarmis.github.com/blog/2012/07/06/creating-a-simple-sentiment-analyzer-using-cl/"/>
     <updated>2012-07-06T19:49:00-05:00</updated>
     <id>http://gnarmis.github.com/blog/2012/07/06/creating-a-simple-sentiment-analyzer-using-cl</id>
@@ -162,7 +162,7 @@ to deploy the thing!</p>
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[Experimenting with persistence using Korma and Lobos]]></title>
+    <title type="html"><![CDATA[Korma-Lobos-Tpl: Experimenting with persistence using Korma and Lobos]]></title>
     <link href="http://gnarmis.github.com/blog/2012/07/03/experimenting-with-persistence-using-korma-an/"/>
     <updated>2012-07-03T22:47:00-05:00</updated>
     <id>http://gnarmis.github.com/blog/2012/07/03/experimenting-with-persistence-using-korma-an</id>
@@ -173,7 +173,7 @@ back your various schema changes. Lobos is a little library (among a few) that
 tries to do this, but seeing only a few examples <a href="http://www.vijaykiran.com/2012/01/17/web-application-development-with-clojure-part-2/">here</a> and <a href="http://pupeno.com/2011/08/20/how-to-use-lobos-with-heroku/">there</a>,
 I decided to make my own little template that explores this.</p>
 
-<p>So, here's the repo: https://github.com/gnarmis/korma-lobos-tpl</p>
+<p>So, here's the repo: <a href="http://github.com/gnarmis/korma-lobos-tpl">http://github.com/gnarmis/korma-lobos-tpl</a>.</p>
 
 <p>I did run into an issue trying to find out how to do the classic "alter" SQL
 command to add a column using Lobos. Turns out, just try <code>(doc alter)</code> after
