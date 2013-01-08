@@ -4,7 +4,7 @@
   <title><![CDATA[Kilotau]]></title>
   <link href="http://gnarmis.github.com/atom.xml" rel="self"/>
   <link href="http://gnarmis.github.com/"/>
-  <updated>2013-01-08T09:24:18-06:00</updated>
+  <updated>2013-01-08T10:38:41-06:00</updated>
   <id>http://gnarmis.github.com/</id>
   <author>
     <name><![CDATA[Gursimran Singh]]></name>
@@ -905,7 +905,7 @@ topics to choose from.</p>
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[My first (extremely simple) Chrome extension!]]></title>
+    <title type="html"><![CDATA[Sherlock: A Chrome extension to Search Inconvenient Websites]]></title>
     <link href="http://gnarmis.github.com/blog/2011/12/16/my-first-extremely-simple-chrome-extension/"/>
     <updated>2011-12-16T02:17:00-06:00</updated>
     <id>http://gnarmis.github.com/blog/2011/12/16/my-first-extremely-simple-chrome-extension</id>
