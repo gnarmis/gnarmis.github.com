@@ -1,6 +1,12 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <urlset xmlns='http://www.sitemaps.org/schemas/sitemap/0.9'>
     <url>
+        <loc>
+            http://gnarmis.github.com/blog/2011/05/21/massivestart-helping-filmmakers-understand-their-audience/
+        </loc>
+        <lastmod>2013-01-08T19:41:35-06:00</lastmod>
+    </url>
+    <url>
         <loc>http://gnarmis.github.com/blog/2011/06/17/finally-found-a-good-notebook-app/</loc>
         <lastmod>2013-01-05T12:59:27-06:00</lastmod>
     </url>
@@ -152,7 +158,7 @@
     </url>
     <url>
         <loc>http://gnarmis.github.com/blog/archives/</loc>
-        <lastmod>2013-01-08T19:13:36-06:00</lastmod>
+        <lastmod>2013-01-08T19:41:35-06:00</lastmod>
     </url>
     <url>
         <loc>http://gnarmis.github.com/blog/archives/projects/</loc>
@@ -164,6 +170,6 @@
     </url>
     <url>
         <loc>http://gnarmis.github.com/</loc>
-        <lastmod>2013-01-08T19:13:36-06:00</lastmod>
+        <lastmod>2013-01-08T19:41:35-06:00</lastmod>
     </url>
 </urlset>
