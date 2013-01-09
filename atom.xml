@@ -4,7 +4,7 @@
   <title><![CDATA[Kilotau]]></title>
   <link href="http://gnarmis.github.com/atom.xml" rel="self"/>
   <link href="http://gnarmis.github.com/"/>
-  <updated>2013-01-08T18:45:52-06:00</updated>
+  <updated>2013-01-08T18:56:09-06:00</updated>
   <id>http://gnarmis.github.com/</id>
   <author>
     <name><![CDATA[Gursimran Singh]]></name>
@@ -138,6 +138,22 @@ but the essentials are there.</p>
 welcome! I&#8217;m thinking there&#8217;s a number of cool additions possible, such as
 mining all that useful meta data about git repositories, and making use of the
 map in interesting ways.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Ready Spam Detection in Twitter - Extended Abstract]]></title>
+    <link href="http://gnarmis.github.com/blog/2012/12/08/twitter-spam-machine-learning/"/>
+    <updated>2012-12-08T19:03:00-06:00</updated>
+    <id>http://gnarmis.github.com/blog/2012/12/08/twitter-spam-machine-learning</id>
+    <content type="html"><![CDATA[<p>Marcel Flores, Maciej Swiech and I have been working hard on our machine
+learning project, in which we are asking whether we can detect twitter spammer
+upon account creation, before they&#8217;ve made a single spammy tweet. Our results
+have been promising and I&#8217;m posting here a link to the project website:
+<a href="http://twspam.wordpress.com">Ready Spam Detection in Twitter</a>.</p>
+
+<p>At the above link you&#8217;ll find our project details, approach, results, analysis,
+and an accompanying extended abstract in ACM format.</p>
 ]]></content>
   </entry>
   
@@ -922,27 +938,6 @@ specs defined under spec/.</p>
 
 <p>So, there you have it: a simple template with enough structure to support your
 Sinatra development.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[My CATS mini-course about web dev]]></title>
-    <link href="http://gnarmis.github.com/blog/2012/02/28/my-cats-mini-course-about-web-dev/"/>
-    <updated>2012-02-28T14:34:00-06:00</updated>
-    <id>http://gnarmis.github.com/blog/2012/02/28/my-cats-mini-course-about-web-dev</id>
-    <content type="html"><![CDATA[<p>Northwestern&#8217;s <a href="http://nucats.org">CATS</a> group is an amazing mix of technical and creative
-talent, and I recently had a great opportunity to help people interested in
-web development get their feet wet. I decided to choose Sinatra, which I&#8217;m
-actively using at my <a href="http://nux.northwestern.edu">work</a> and which allows a greatly simplified introduction
-to real web development.</p>
-
-<p>Here&#8217;s a link to the video: http://www.youtube.com/watch?feature=player_embedded&amp;v=oDwZPXfCOYs</p>
-
-<p>Also, here&#8217;s a link to the associated Github repo: https://github.com/gnarmis/meerkat</p>
-
-<p>Based on this experience, I&#8217;m hoping to teach a few more mini-courses in the
-coming quarters. Maybe RESTful services? Mobile dev? There&#8217;s quite a few useful
-topics to choose from.</p>
 ]]></content>
   </entry>
   
