@@ -4,7 +4,7 @@
   <title><![CDATA[Category: webdev | Kilotau]]></title>
   <link href="http://gnarmis.github.com/blog/categories/webdev/atom.xml" rel="self"/>
   <link href="http://gnarmis.github.com/"/>
-  <updated>2013-01-08T18:56:09-06:00</updated>
+  <updated>2013-01-08T19:13:48-06:00</updated>
   <id>http://gnarmis.github.com/</id>
   <author>
     <name><![CDATA[Gursimran Singh]]></name>
@@ -12,6 +12,30 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[SoundBoard: A Crowd-Driven Music Player]]></title>
+    <link href="http://gnarmis.github.com/blog/2012/04/28/soundboard-u-chicago-hackathon/"/>
+    <updated>2012-04-28T21:16:00-05:00</updated>
+    <id>http://gnarmis.github.com/blog/2012/04/28/soundboard-u-chicago-hackathon</id>
+    <content type="html"><![CDATA[<p>Last weekend, me and Jonathan Chan spent a straight thirty hours working on
+<a href="http://getsoundboard.com">SoundBoard</a>, a crowd-driven music player, and had a blast! Our app won
+second place by a single vote, and we won VIP tickets to the TedX - UChicago
+event. It's been a hectic week, but it's satisfying to see a project emerge out
+of a weekend of feverish coding.</p>
+
+<p>Here's how SoundBoard works. You, the host of some kind of party, want good
+music playing but also want crowd participation, but don't have time or money
+to hire a DJ. Head over to SoundBoard, login with an Rdio account on any modern
+browser, choose an appropriate hashtag for your shindig, and let SoundBoard
+start playing songs! People can tweet things like "#sb #bestpartayevah
+radiohead" and then Radiohead gets added to the pool of artists from which
+SoundBoard picks songs. Leave the SoundBoard playing while connected to a TV
+and you have a great, participatory music experience!</p>
+
+<p>Here's the link: <a href="http://getsoundboard.com">SoundBoard</a>. Cheers!</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Rocketship: A Multi-App Sinatra Template]]></title>
@@ -257,41 +281,6 @@ mentions:</p>
 <p>Hope this is helpful for someone out there!</p>
 
 <p> </p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[staticRack: Template for Deploying Static Sites on Heroku]]></title>
-    <link href="http://gnarmis.github.com/blog/2011/06/21/template-for-deploying-static-sites-on-heroku/"/>
-    <updated>2011-06-21T23:20:00-05:00</updated>
-    <id>http://gnarmis.github.com/blog/2011/06/21/template-for-deploying-static-sites-on-heroku</id>
-    <content type="html"><![CDATA[<p>Have you ever looked for a way to quickly build a live prototype as a static
-site that nevertheless had some sensible version control and had potential
-for future extension? Well, I have a template (complete with very minimal HTML5
-boilerplate) for you <a href="https://github.com/gnarmis/staticRack">right here</a>! Read on for details.</p>
-
-<p>After recently experimenting with CoffeeScript (and loving it), I felt the
-need to stage some code quickly somewhere. I already had my computer setup
-for deployment to Heroku so that was the obvious choice, and a quick search
-on the interwebz meant that my static sites could now run on Heroku easily.
-The upside was that I could add a lot of complexity to such a website down
-the road with minimal hassle. Basically, in the future I could build on it
-as a Rack-based app or use one of the many easy Ruby frameworks that are Rack-based
-(like Sinatra). Also, it would mean that I would use Git from the very start
-of the process, adding some much needed version control to the early stages
-of prototypes.</p>
-
-<p>So, I basically extracted the basic code into a template, and even added a
-branch for Sass and Coffeescript enthusiasts to have a base to build on. I
-included some simple commands that free you up from the terminal so you can
-still have the familiar edit/refresh development cycle with the convenience
-of Coffee/Sass.</p>
-
-<p>Here's the main branch: https://github.com/gnarmis/staticRack</p>
-
-<p>Here's the sassycoffee branch: https://github.com/gnarmis/staticRack/tree/sassycoffee</p>
-
-<p>Clone the branch you want, customize, and push to Heroku. Enjoy!</p>
 ]]></content>
   </entry>
   

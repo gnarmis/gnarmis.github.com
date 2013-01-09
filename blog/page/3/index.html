@@ -9,8 +9,8 @@
   <meta name="author" content="Gursimran Singh">
 
   
-  <meta name="description" content="Northwestern&#8217;s CATS group is an amazing mix of technical and creative
-talent, and I recently had a great opportunity to help people interested &hellip;">
+  <meta name="description" content="I recently found a (somewhat old) but great repository: https://github.com/daddz/sinatra-rspec-bundler-template.
+The structure really helps you build &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -73,6 +73,70 @@ talent, and I recently had a great opportunity to help people interested &hellip
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/03/02/a-modular-test-driven-sinatra-template/">A Modular, Test-driven Sinatra Template</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-03-02T19:28:00-06:00" pubdate data-updated="true">Mar 2<span>nd</span>, 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>I recently found a (somewhat old) but great repository: https://github.com/daddz/sinatra-rspec-bundler-template.
+The structure really helps you build modular Sinatra apps and has the basics
+needed for you to jump in and start building.</p>
+
+<p>However, after discovering the joys of the <a href="https://www.ruby-toolbox.com/projects/simplecov">SimpleCov</a> gem, which generates
+code coverage reports in HTML, I wanted to tweak this already-awesome repository.
+Also, I wanted a few more Rake tasks to help with everyday development.</p>
+
+<p>So, <a href="https://github.com/gnarmis/sinatra-rspec-bundler-template">here&#8217;s my fork</a> with some improvements.</p>
+
+<p>To begin, just define your own app like the one defined in lib/foo.rb. You
+can create multiple such apps and route requests to each one separately. To
+do that, just add those mappings to config.ru (foo and bar have been configured
+in this manner).</p>
+
+<p>This template also uses Bundler to manage its dependencies, so if you need
+a new gem just add it to the Gemfile and run <code>bundle install</code>. I also recommend
+using RVM to manage your gems (create a new gemset for each app).</p>
+
+<p>Also, use RSpec to test your app, and run the specs with the defined Rake tasks.
+Run <code>rake</code> or <code>rake help</code> to see available tasks. Run <code>rake spec</code> to run your
+specs defined under spec/.</p>
+
+<p>You can generate code coverage reports by running <code>rake coverage</code>.</p>
+
+<p>You can also run a console with your app&#8217;s environment by running <code>rake console</code>.</p>
+
+<p>So, there you have it: a simple template with enough structure to support your
+Sinatra development.</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -852,7 +916,7 @@ if it was ever offered on macs, I don&#8217;t think I&#8217;ll be switching anyt
 </section>
 <section>
   <h1>Category Cloud</h1>
-  <span id="tag-cloud"><a href='/blog/categories/bash' style='font-size: 105.0%'>bash(1)</a> <a href='/blog/categories/clojure' style='font-size: 135.0%'>clojure(7)</a> <a href='/blog/categories/coffeescript' style='font-size: 105.0%'>coffeescript(1)</a> <a href='/blog/categories/devops' style='font-size: 110.0%'>devops(2)</a> <a href='/blog/categories/euler' style='font-size: 110.0%'>euler(2)</a> <a href='/blog/categories/hacknu' style='font-size: 110.0%'>hacknu(2)</a> <a href='/blog/categories/html5' style='font-size: 105.0%'>html5(1)</a> <a href='/blog/categories/javascript' style='font-size: 105.0%'>javascript(1)</a> <a href='/blog/categories/mobile' style='font-size: 105.0%'>mobile(1)</a> <a href='/blog/categories/productivity' style='font-size: 105.0%'>productivity(1)</a> <a href='/blog/categories/projects' style='font-size: 160.0%'>projects(12)</a> <a href='/blog/categories/quotes' style='font-size: 105.0%'>quotes(1)</a> <a href='/blog/categories/ruby' style='font-size: 145.0%'>ruby(9)</a> <a href='/blog/categories/sass' style='font-size: 105.0%'>sass(1)</a> <a href='/blog/categories/snippets' style='font-size: 110.0%'>snippets(2)</a> <a href='/blog/categories/talks' style='font-size: 105.0%'>talks(1)</a> <a href='/blog/categories/updates' style='font-size: 110.0%'>updates(2)</a> <a href='/blog/categories/webdev' style='font-size: 125.0%'>webdev(5)</a> </span>
+  <span id="tag-cloud"><a href='/blog/categories/bash' style='font-size: 104.61538461538461%'>bash(1)</a> <a href='/blog/categories/clojure' style='font-size: 132.30769230769232%'>clojure(7)</a> <a href='/blog/categories/coffeescript' style='font-size: 104.61538461538461%'>coffeescript(1)</a> <a href='/blog/categories/devops' style='font-size: 109.23076923076923%'>devops(2)</a> <a href='/blog/categories/euler' style='font-size: 109.23076923076923%'>euler(2)</a> <a href='/blog/categories/hackathon' style='font-size: 104.61538461538461%'>hackathon(1)</a> <a href='/blog/categories/hacknu' style='font-size: 109.23076923076923%'>hacknu(2)</a> <a href='/blog/categories/html5' style='font-size: 104.61538461538461%'>html5(1)</a> <a href='/blog/categories/javascript' style='font-size: 104.61538461538461%'>javascript(1)</a> <a href='/blog/categories/mobile' style='font-size: 104.61538461538461%'>mobile(1)</a> <a href='/blog/categories/productivity' style='font-size: 104.61538461538461%'>productivity(1)</a> <a href='/blog/categories/projects' style='font-size: 160.0%'>projects(13)</a> <a href='/blog/categories/quotes' style='font-size: 104.61538461538461%'>quotes(1)</a> <a href='/blog/categories/ruby' style='font-size: 141.53846153846155%'>ruby(9)</a> <a href='/blog/categories/sass' style='font-size: 104.61538461538461%'>sass(1)</a> <a href='/blog/categories/snippets' style='font-size: 109.23076923076923%'>snippets(2)</a> <a href='/blog/categories/talks' style='font-size: 104.61538461538461%'>talks(1)</a> <a href='/blog/categories/updates' style='font-size: 109.23076923076923%'>updates(2)</a> <a href='/blog/categories/webdev' style='font-size: 127.6923076923077%'>webdev(6)</a> </span>
 </section>
 
 <section>

@@ -4,7 +4,7 @@
   <title><![CDATA[Kilotau]]></title>
   <link href="http://gnarmis.github.com/atom.xml" rel="self"/>
   <link href="http://gnarmis.github.com/"/>
-  <updated>2013-01-08T18:56:09-06:00</updated>
+  <updated>2013-01-08T19:13:48-06:00</updated>
   <id>http://gnarmis.github.com/</id>
   <author>
     <name><![CDATA[Gursimran Singh]]></name>
@@ -816,6 +816,30 @@ think!</p>
   </entry>
   
   <entry>
+    <title type="html"><![CDATA[SoundBoard: A Crowd-Driven Music Player]]></title>
+    <link href="http://gnarmis.github.com/blog/2012/04/28/soundboard-u-chicago-hackathon/"/>
+    <updated>2012-04-28T21:16:00-05:00</updated>
+    <id>http://gnarmis.github.com/blog/2012/04/28/soundboard-u-chicago-hackathon</id>
+    <content type="html"><![CDATA[<p>Last weekend, me and Jonathan Chan spent a straight thirty hours working on
+<a href="http://getsoundboard.com">SoundBoard</a>, a crowd-driven music player, and had a blast! Our app won
+second place by a single vote, and we won VIP tickets to the TedX - UChicago
+event. It&#8217;s been a hectic week, but it&#8217;s satisfying to see a project emerge out
+of a weekend of feverish coding.</p>
+
+<p>Here&#8217;s how SoundBoard works. You, the host of some kind of party, want good
+music playing but also want crowd participation, but don&#8217;t have time or money
+to hire a DJ. Head over to SoundBoard, login with an Rdio account on any modern
+browser, choose an appropriate hashtag for your shindig, and let SoundBoard
+start playing songs! People can tweet things like &#8220;#sb #bestpartayevah
+radiohead&#8221; and then Radiohead gets added to the pool of artists from which
+SoundBoard picks songs. Leave the SoundBoard playing while connected to a TV
+and you have a great, participatory music experience!</p>
+
+<p>Here&#8217;s the link: <a href="http://getsoundboard.com">SoundBoard</a>. Cheers!</p>
+]]></content>
+  </entry>
+  
+  <entry>
     <title type="html"><![CDATA[my hackathon experience last weekend]]></title>
     <link href="http://gnarmis.github.com/blog/2012/04/27/my-hackathon-experience-last-weekend/"/>
     <updated>2012-04-27T01:23:00-05:00</updated>
@@ -901,43 +925,6 @@ facilities.</p>
 
 <p>Update: Some significant changes, including one that makes apps able to handle
 more requests concurrently.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[A modular, test-driven Sinatra template]]></title>
-    <link href="http://gnarmis.github.com/blog/2012/03/02/a-modular-test-driven-sinatra-template/"/>
-    <updated>2012-03-02T19:28:00-06:00</updated>
-    <id>http://gnarmis.github.com/blog/2012/03/02/a-modular-test-driven-sinatra-template</id>
-    <content type="html"><![CDATA[<p>I recently found a (somewhat old) but great repository: https://github.com/daddz/sinatra-rspec-bundler-template.
-The structure really helps you build modular Sinatra apps and has the basics
-needed for you to jump in and start building.</p>
-
-<p>However, after discovering the joys of the <a href="https://www.ruby-toolbox.com/projects/simplecov">SimpleCov</a> gem, which generates
-code coverage reports in HTML, I wanted to tweak this already-awesome repository.
-Also, I wanted a few more Rake tasks to help with everyday development.</p>
-
-<p>So, <a href="https://github.com/gnarmis/sinatra-rspec-bundler-template">here&#8217;s my fork</a> with some improvements.</p>
-
-<p>To begin, just define your own app like the one defined in lib/foo.rb. You
-can create multiple such apps and route requests to each one separately. To
-do that, just add those mappings to config.ru (foo and bar have been configured
-in this manner).</p>
-
-<p>This template also uses Bundler to manage its dependencies, so if you need
-a new gem just add it to the Gemfile and run <code>bundle install</code>. I also recommend
-using RVM to manage your gems (create a new gemset for each app).</p>
-
-<p>Also, use RSpec to test your app, and run the specs with the defined Rake tasks.
-Run <code>rake</code> or <code>rake help</code> to see available tasks. Run <code>rake spec</code> to run your
-specs defined under spec/.</p>
-
-<p>You can generate code coverage reports by running <code>rake coverage</code>.</p>
-
-<p>You can also run a console with your app&#8217;s environment by running <code>rake console</code>.</p>
-
-<p>So, there you have it: a simple template with enough structure to support your
-Sinatra development.</p>
 ]]></content>
   </entry>
   
