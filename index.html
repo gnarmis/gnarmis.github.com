@@ -9,7 +9,8 @@
   <meta name="author" content="Gursimran Singh">
 
   
-  <meta name="description" content="The problem: find the largest prime factor of 600851475143. I used the Sieve of Eratosthenes and Ruby to solve it last time. This time, I tried a &hellip;">
+  <meta name="description" content="Today, I cleaned up an earlier project I&#8217;d left hanging around called Colby. It&#8217;s a little
+wrapper around the data structures that the &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -72,6 +73,51 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/01/11/colby-small-wrapper-and-functions-for-persistent/">Colby: Small Wrapper and Functions for Persistent, Immutable Data Structures</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-01-11T17:52:00-06:00" pubdate data-updated="true">Jan 11<span>th</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Today, I cleaned up an earlier project I&#8217;d left hanging around called Colby. It&#8217;s a little
+wrapper around the data structures that the Hamster gem provides, and it adds some functions
+to make working with those data structures a little similar to the Clojure-way.</p>
+
+<p>At this point, Colby is very experimental and is only at a <code>0.0.1</code> release to reflect its
+brittleness. However, all specs pass currently and it&#8217;s useable as-is. I&#8217;ve pushed the initial
+release to RubyGems, so you can start using Colby by just doing <code>gem install colby</code>.</p>
+
+<p>Comments welcome! I realize this may be a bit simple compared to <a href="https://github.com/rouge-lang/rouge">rouge</a>, which is an awesome
+project, but I&#8217;ll keep this around for my own edification.</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -941,54 +987,6 @@ example in the readme.</p>
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2012/07/05/snowball-stemmer-deploying-a-simple-clojure-wrapper/">Snowball Stemmer: Deploying a Simple Clojure Wrapper</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-07-05T15:50:00-05:00" pubdate data-updated="true">Jul 5<span>th</span>, 2012</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>Having found an <a href="https://github.com/weavejester/snowball-stemmer">awesome little wrapper</a> for <a href="http://snowball.tartarus.org/">Snowball</a> (which allows
-for stemming of words, like &#8220;going&#8221; -> &#8220;go&#8221;), I decided that it was the perfect
-opportunity to try creating my very own &#8220;Clojar&#8221; and deploying it. It didn&#8217;t
-take long to fork the repo, make an account on clojars.org, make some minimal
-changes, and deploy this library. The nice thing is that everyone now has an
-easy way to try this out. I&#8217;m honestly surprised it was this easy and quick
-to deploy the thing!</p>
-
-<p>Check out my fork: (<a href="https://github.com/gnarmis/snowball-stemmer)">https://github.com/gnarmis/snowball-stemmer)</a></p>
-
-<p>And the clojar itself is here: (<a href="https://clojars.org/org.clojars.gnarmis/snowball-stemmer)">https://clojars.org/org.clojars.gnarmis/snowball-stemmer)</a></p>
-
-<p>Cheers!</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/2/">&larr; Older</a>
@@ -1010,6 +1008,10 @@ to deploy the thing!</p>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2013/01/11/colby-small-wrapper-and-functions-for-persistent/">Colby: Small Wrapper and Functions for Persistent, Immutable Data Structures</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2013/01/05/project-euler-problem-3-using-clojure-1-dot-5-and-a-lazy-technique/">Project Euler Problem 3 using Clojure 1.5 and a lazy technique</a>
       </li>
     
@@ -1025,15 +1027,11 @@ to deploy the thing!</p>
         <a href="/blog/2012/10/18/hack-northwestern-updates/">Hack Northwestern updates</a>
       </li>
     
-      <li class="post">
-        <a href="/blog/2012/09/26/rubys-method-missing-is-kinda-nice/">Ruby&#8217;s `method_missing` is cool / hashes as functions of their keys</a>
-      </li>
-    
   </ul>
 </section>
 <section>
   <h1>Category Cloud</h1>
-  <span id="tag-cloud"><a href='/blog/categories/bash' style='font-size: 104.28571428571429%'>bash(1)</a> <a href='/blog/categories/clojure' style='font-size: 130.0%'>clojure(7)</a> <a href='/blog/categories/coffeescript' style='font-size: 104.28571428571429%'>coffeescript(1)</a> <a href='/blog/categories/devops' style='font-size: 108.57142857142857%'>devops(2)</a> <a href='/blog/categories/euler' style='font-size: 108.57142857142857%'>euler(2)</a> <a href='/blog/categories/hackathon' style='font-size: 104.28571428571429%'>hackathon(1)</a> <a href='/blog/categories/hacknu' style='font-size: 108.57142857142857%'>hacknu(2)</a> <a href='/blog/categories/html5' style='font-size: 104.28571428571429%'>html5(1)</a> <a href='/blog/categories/javascript' style='font-size: 104.28571428571429%'>javascript(1)</a> <a href='/blog/categories/mobile' style='font-size: 104.28571428571429%'>mobile(1)</a> <a href='/blog/categories/productivity' style='font-size: 104.28571428571429%'>productivity(1)</a> <a href='/blog/categories/projects' style='font-size: 160.0%'>projects(14)</a> <a href='/blog/categories/quotes' style='font-size: 104.28571428571429%'>quotes(1)</a> <a href='/blog/categories/ruby' style='font-size: 138.57142857142856%'>ruby(9)</a> <a href='/blog/categories/sass' style='font-size: 104.28571428571429%'>sass(1)</a> <a href='/blog/categories/snippets' style='font-size: 108.57142857142857%'>snippets(2)</a> <a href='/blog/categories/talks' style='font-size: 104.28571428571429%'>talks(1)</a> <a href='/blog/categories/updates' style='font-size: 108.57142857142857%'>updates(2)</a> <a href='/blog/categories/webdev' style='font-size: 130.0%'>webdev(7)</a> </span>
+  <span id="tag-cloud"><a href='/blog/categories/bash' style='font-size: 104.0%'>bash(1)</a> <a href='/blog/categories/clojure' style='font-size: 128.0%'>clojure(7)</a> <a href='/blog/categories/coffeescript' style='font-size: 104.0%'>coffeescript(1)</a> <a href='/blog/categories/devops' style='font-size: 108.0%'>devops(2)</a> <a href='/blog/categories/euler' style='font-size: 108.0%'>euler(2)</a> <a href='/blog/categories/hackathon' style='font-size: 104.0%'>hackathon(1)</a> <a href='/blog/categories/hacknu' style='font-size: 108.0%'>hacknu(2)</a> <a href='/blog/categories/html5' style='font-size: 104.0%'>html5(1)</a> <a href='/blog/categories/javascript' style='font-size: 104.0%'>javascript(1)</a> <a href='/blog/categories/mobile' style='font-size: 104.0%'>mobile(1)</a> <a href='/blog/categories/productivity' style='font-size: 104.0%'>productivity(1)</a> <a href='/blog/categories/projects' style='font-size: 160.0%'>projects(15)</a> <a href='/blog/categories/quotes' style='font-size: 104.0%'>quotes(1)</a> <a href='/blog/categories/ruby' style='font-size: 140.0%'>ruby(10)</a> <a href='/blog/categories/sass' style='font-size: 104.0%'>sass(1)</a> <a href='/blog/categories/snippets' style='font-size: 108.0%'>snippets(2)</a> <a href='/blog/categories/talks' style='font-size: 104.0%'>talks(1)</a> <a href='/blog/categories/updates' style='font-size: 108.0%'>updates(2)</a> <a href='/blog/categories/webdev' style='font-size: 128.0%'>webdev(7)</a> </span>
 </section>
 
 <section>

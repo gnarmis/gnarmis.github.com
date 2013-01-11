@@ -4,7 +4,7 @@
   <title><![CDATA[Kilotau]]></title>
   <link href="http://gnarmis.github.com/atom.xml" rel="self"/>
   <link href="http://gnarmis.github.com/"/>
-  <updated>2013-01-08T19:41:43-06:00</updated>
+  <updated>2013-01-11T17:58:26-06:00</updated>
   <id>http://gnarmis.github.com/</id>
   <author>
     <name><![CDATA[Gursimran Singh]]></name>
@@ -12,6 +12,24 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Colby: Small Wrapper and Functions for Persistent, Immutable Data Structures]]></title>
+    <link href="http://gnarmis.github.com/blog/2013/01/11/colby-small-wrapper-and-functions-for-persistent/"/>
+    <updated>2013-01-11T17:52:00-06:00</updated>
+    <id>http://gnarmis.github.com/blog/2013/01/11/colby-small-wrapper-and-functions-for-persistent</id>
+    <content type="html"><![CDATA[<p>Today, I cleaned up an earlier project I&#8217;d left hanging around called Colby. It&#8217;s a little
+wrapper around the data structures that the Hamster gem provides, and it adds some functions
+to make working with those data structures a little similar to the Clojure-way.</p>
+
+<p>At this point, Colby is very experimental and is only at a <code>0.0.1</code> release to reflect its
+brittleness. However, all specs pass currently and it&#8217;s useable as-is. I&#8217;ve pushed the initial
+release to RubyGems, so you can start using Colby by just doing <code>gem install colby</code>.</p>
+
+<p>Comments welcome! I realize this may be a bit simple compared to <a href="https://github.com/rouge-lang/rouge">rouge</a>, which is an awesome
+project, but I&#8217;ll keep this around for my own edification.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Project Euler Problem 3 using Clojure 1.5 and a lazy technique]]></title>
@@ -900,31 +918,6 @@ I point out my counterexample.</p>
 <p>&#8220;Well, then,&#8221; I say, &#8220;It&#8217;s trivial! It&#8217;s trivial!&#8221;</p>
 
 <p>&#8211; Richard Feynman</p></blockquote>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Rocketship: A Multi-App Sinatra Template]]></title>
-    <link href="http://gnarmis.github.com/blog/2012/03/10/rocketship/"/>
-    <updated>2012-03-10T20:07:00-06:00</updated>
-    <id>http://gnarmis.github.com/blog/2012/03/10/rocketship</id>
-    <content type="html"><![CDATA[<p>Introducing Rocketship: a Rack based template that integrates multiple micro-frameworks.</p>
-
-<p><a href="https://github.com/gnarmis/rocketship"><strong>github.com/gnarmis/rocketship</strong></a></p>
-
-<p>I recently came across some useful Sinatra templates and ended up having to
-integrate several things together in a service I&#8217;m currently working on. So,
-I extracted the basic stuff out and it&#8217;s turned out to be useful for spinning
-up a quick web service. Best thing is that it doesn&#8217;t impose a strict structure
-and you can follow best-practices of your micro-framework of choice.</p>
-
-<p>Currently, Rocketship integrates Grape and Sinatra, along with a bevy of testing
-facilities.</p>
-
-<p>Comments/improvements welcome!</p>
-
-<p>Update: Some significant changes, including one that makes apps able to handle
-more requests concurrently.</p>
 ]]></content>
   </entry>
   

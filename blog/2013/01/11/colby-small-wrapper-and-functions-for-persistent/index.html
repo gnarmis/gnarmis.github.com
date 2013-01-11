@@ -5,12 +5,12 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>MassiveStart: Helping Film Makers Understand Their Audience - Kilotau</title>
+  <title>Colby: Small Wrapper and Functions for Persistent, Immutable Data Structures - Kilotau</title>
   <meta name="author" content="Gursimran Singh">
 
   
-  <meta name="description" content="At the culminaton of NUvention:Web, a two part course that teaches the fundamentals of
-building a web startup, our team is putting the final touches &hellip;">
+  <meta name="description" content="Today, I cleaned up an earlier project I&#8217;d left hanging around called Colby. It&#8217;s a little
+wrapper around the data structures that the &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -19,7 +19,7 @@ building a web startup, our team is putting the final touches &hellip;">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://gnarmis.github.com/blog/2011/05/21/massivestart-helping-filmmakers-understand-their-audience/">
+  <link rel="canonical" href="http://gnarmis.github.com/blog/2013/01/11/colby-small-wrapper-and-functions-for-persistent/">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <script src="/javascripts/modernizr-2.0.js"></script>
@@ -76,7 +76,7 @@ building a web startup, our team is putting the final touches &hellip;">
   
   <header>
     
-      <h1 class="entry-title">MassiveStart: Helping Film Makers Understand Their Audience</h1>
+      <h1 class="entry-title">Colby: Small Wrapper and Functions for Persistent, Immutable Data Structures</h1>
     
     
       <p class="meta">
@@ -92,31 +92,23 @@ building a web startup, our team is putting the final touches &hellip;">
   
 
 
-<time datetime="2011-05-21T17:16:37-05:00" pubdate data-updated="true">May 21<span>st</span>, 2011</time>
+<time datetime="2013-01-11T17:52:00-06:00" pubdate data-updated="true">Jan 11<span>th</span>, 2013</time>
         
       </p>
     
   </header>
 
 
-<div class="entry-content"><p>At the culminaton of NUvention:Web, a two part course that teaches the fundamentals of
-building a web startup, our team is putting the final touches on our product:
-<a href="http://massivestart.heroku.com">MassiveStart</a>.</p>
+<div class="entry-content"><p>Today, I cleaned up an earlier project I&#8217;d left hanging around called Colby. It&#8217;s a little
+wrapper around the data structures that the Hamster gem provides, and it adds some functions
+to make working with those data structures a little similar to the Clojure-way.</p>
 
-<p>The core problem we try to solve is making iteration of film projects easier by making
-it simple to conduct ad-hoc surveys of films. We do this by giving each film project its
-own page, and allow the film maker to define various features their audience can then rate
-after watching a version of the film. Then, we display some plots about the collected data.</p>
+<p>At this point, Colby is very experimental and is only at a <code>0.0.1</code> release to reflect its
+brittleness. However, all specs pass currently and it&#8217;s useable as-is. I&#8217;ve pushed the initial
+release to RubyGems, so you can start using Colby by just doing <code>gem install colby</code>.</p>
 
-<p>To provide maximum flexibility, we allow embedding of
-video players from major websites such as Vimeo and Youtube, which film makers are using
-already. Also, the generic stuff like comments are also available via Disqus.</p>
-
-<p>The current version prototypes large parts of our vision and shows that while there are many
-features we could add, there definitely is a product that we can pursue here. Creative work
-is hard and messy, and we intend to bring a data-driven approach to improve the process.</p>
-
-<p>Check it out and tell us what you think using the feedback button!</p>
+<p>Comments welcome! I realize this may be a bit simple compared to <a href="https://github.com/rouge-lang/rouge">rouge</a>, which is an awesome
+project, but I&#8217;ll keep this around for my own edification.</p>
 </div>
 
 
@@ -139,12 +131,12 @@ is hard and messy, and we intend to bring a data-driven approach to improve the 
   
 
 
-<time datetime="2011-05-21T17:16:37-05:00" pubdate data-updated="true">May 21<span>st</span>, 2011</time>
+<time datetime="2013-01-11T17:52:00-06:00" pubdate data-updated="true">Jan 11<span>th</span>, 2013</time>
       
 
 <span class="categories">
   
-    <a class='category' href='/blog/categories/projects/'>projects</a>, <a class='category' href='/blog/categories/webdev/'>webdev</a>
+    <a class='category' href='/blog/categories/projects/'>projects</a>, <a class='category' href='/blog/categories/ruby/'>ruby</a>
   
 </span>
 
@@ -153,7 +145,7 @@ is hard and messy, and we intend to bring a data-driven approach to improve the 
     
       <div class="sharing">
   
-  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://gnarmis.github.com/blog/2011/05/21/massivestart-helping-filmmakers-understand-their-audience/" data-via="gnarmis" data-counturl="http://gnarmis.github.com/blog/2011/05/21/massivestart-helping-filmmakers-understand-their-audience/" >Tweet</a>
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://gnarmis.github.com/blog/2013/01/11/colby-small-wrapper-and-functions-for-persistent/" data-via="gnarmis" data-counturl="http://gnarmis.github.com/blog/2013/01/11/colby-small-wrapper-and-functions-for-persistent/" >Tweet</a>
   
   
   
@@ -162,12 +154,18 @@ is hard and messy, and we intend to bring a data-driven approach to improve the 
     
     <p class="meta">
       
+        <a class="basic-alignment left" href="/blog/2013/01/05/project-euler-problem-3-using-clojure-1-dot-5-and-a-lazy-technique/" title="Previous Post: Project Euler Problem 3 using Clojure 1.5 and a lazy technique">&laquo; Project Euler Problem 3 using Clojure 1.5 and a lazy technique</a>
       
-        <a class="basic-alignment right" href="/blog/2011/06/17/finally-found-a-good-notebook-app/" title="Next Post: Finally Found a Good Notebook App">Finally Found a Good Notebook App &raquo;</a>
       
     </p>
   </footer>
 </article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
 
 </div>
 
@@ -246,7 +244,10 @@ is hard and messy, and we intend to bring a data-driven approach to improve the 
       var disqus_shortname = 'kilotau';
       
         
-        var disqus_script = 'count.js';
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://gnarmis.github.com/blog/2013/01/11/colby-small-wrapper-and-functions-for-persistent/';
+        var disqus_url = 'http://gnarmis.github.com/blog/2013/01/11/colby-small-wrapper-and-functions-for-persistent/';
+        var disqus_script = 'embed.js';
       
     (function () {
       var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
