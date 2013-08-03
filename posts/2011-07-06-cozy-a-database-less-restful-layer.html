@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+        <meta name="viewport" content="width=756px">
+        <title>Kilotau - Cozy: a Database-less RESTful Layer</title>
+        <link rel="stylesheet" type="text/css" href="../css/base.css" />
+    </head>
+    <body>
+        <header>
+          <h1>
+            Cozy: a Database-less RESTful Layer
+          </h1>
+        </header>
+        <article>
+            <div class="meta">
+    Posted on July  6, 2011
+    
+</div>
+
+<div id="article-text">
+  <p>After exploring some static site recipes in my <a href="https://github.com/gnarmis/staticRack">staticRack</a> project, I wanted to explore the world of simple, static Content Management Systems. There is a PHP implementation of that sort of idea in <a href="http://pulsecms.com/">Pulse CMS</a>, and Ruby has something a bit different called <a href="http://nestacms.com/">Nesta</a>. The latter, in particular, is a great solution if you love managing static sites with a desktop text editor and want a simple way to customize or build completely new designs. I decided to explore a custom CMS based on Sinatra to learn building apps with Rack and Sinatra.</p>
+<p>The idea was to have a general-purpose layer that can be easily deployed using pretty much any web server and that allows flexible management and development of content. Imagine a RESTful API that abstracts away the messy local filesystem and lets you create objects that are stored as static files. If you’re working on a simple JavaScript client and want local filesystem access, such a layer would be immensely helpful. There is also some separation of concerns between the client and server and the whole thing starts looking like a general mini-framework that can be used to target a wide range of problems. Also, after initial deployment, such a project could allow continued development through a REST client on any browser or even mobile device. And with the possibility of <a href="http://www.modrails.com/documentation/Users%20guide%20Standalone.html">standalone deployment with Passenger</a> and even simpler deployment with <a href="http://www.heroku.com/">Heroku</a>, such a project can actually have widespread, general use.</p>
+<p>I worked out some initial functionality and pushed it <a href="https://github.com/gnarmis/cozy">here</a>. I’m calling it <strong>Cozy</strong>, and hopefully it evolves into a good way to make basic prototypes, to have database-less dynamic web apps, or to manage static websites. For now, Cozy can create, read, update, and delete “nodes,” which can be any kind of file. There is also some authentication to protect the create, update, and delete actions. The code is a little brittle right now, but you get the idea.</p>
+<p>While the true capabilities and drawbacks are not clear yet, this idea of a static REST backend is turning out to be a great educational project. If anything, it can help inform a future attempt to create a light framework. In the meantime, I’m absolutely loving Sinatra’s simplicity and will have some followups exploring the specifics of Cozy.</p>
+<p>Cheers!</p>
+</div>
+
+        </article>
+        <hr>
+        <footer>
+          <nav>
+            <a href="../">Home</a>
+            <a href="../about.html">About</a>
+            <a href="../contact.html">Contact</a>
+            <a href="../archive.html">Archive</a>
+          </nav>
+        </footer>
+    </body>
+</html>

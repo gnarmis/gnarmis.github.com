@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+        <meta name="viewport" content="width=756px">
+        <title>Kilotau - Korma-Lobos-Tpl: Experimenting with persistence using Korma and Lobos</title>
+        <link rel="stylesheet" type="text/css" href="../css/base.css" />
+    </head>
+    <body>
+        <header>
+          <h1>
+            Korma-Lobos-Tpl: Experimenting with persistence using Korma and Lobos
+          </h1>
+        </header>
+        <article>
+            <div class="meta">
+    Posted on July  3, 2012
+    
+</div>
+
+<div id="article-text">
+  <p><a href="http://webnoir.org">Noir</a> is an excellent, Sinatra-like framework in Clojure, and <a href="http://sqlkorma.com">Korma</a> is a great companion. But in a lot of database-backed services, you often need migrations to make sane changes to the database and have the abilitiy to roll back your various schema changes. Lobos is a little library (among a few) that tries to do this, but seeing only a few examples <a href="http://www.vijaykiran.com/2012/01/17/web-application-development-with-clojure-part-2/">here</a> and <a href="http://pupeno.com/2011/08/20/how-to-use-lobos-with-heroku/">there</a>, I decided to make my own little template that explores this.</p>
+<p>So, here’s the repo: <a href="http://github.com/gnarmis/korma-lobos-tpl">http://github.com/gnarmis/korma-lobos-tpl</a>.</p>
+<p>I did run into an issue trying to find out how to do the classic “alter” SQL command to add a column using Lobos. Turns out, just try <code>(doc alter)</code> after first typing in that first long <code>(use ...)</code> command in the repo’s readme. But I just documented the bug for now.</p>
+<p>Also, there is a very simple entity definition to demonstrate Korma, and I’ve tested the setup and confirmed that the migration executed, and the entity got added.</p>
+<p>I’ll maybe explore Drift in the future, although there’s already <a href="https://github.com/pjlegato/korma-drift-template">this excellent template</a> I could build on.</p>
+</div>
+
+        </article>
+        <hr>
+        <footer>
+          <nav>
+            <a href="../">Home</a>
+            <a href="../about.html">About</a>
+            <a href="../contact.html">Contact</a>
+            <a href="../archive.html">Archive</a>
+          </nav>
+        </footer>
+    </body>
+</html>

@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+        <meta name="viewport" content="width=756px">
+        <title>Kilotau - Ruby's `method_missing` is cool / hashes as functions of their keys</title>
+        <link rel="stylesheet" type="text/css" href="../css/base.css" />
+    </head>
+    <body>
+        <header>
+          <h1>
+            Ruby's `method_missing` is cool / hashes as functions of their keys
+          </h1>
+        </header>
+        <article>
+            <div class="meta">
+    Posted on September 26, 2012
+    
+</div>
+
+<div id="article-text">
+  <p>I had an idea to try and bring a tiny bit of Clojure’s ideas of hash-maps to Ruby’s hashes. I came up with a simple monkey-patch that allows you to truly use hashes as functions of their keys. In the process, I’ve come to really dig <code>method_missing</code>, although debugging it can be a chore. Word of advice: always implement <code>respond_to?</code> with your <code>method_missing</code>. Principle of Least Surprise, people.</p>
+<pre class="sourceCode ruby"><code class="sourceCode ruby"><span class="co"># In Clojure, hash-maps are truly functions of keys to values.</span>
+<span class="co"># So you can do `(:a {:a 1})` and get `1` as the result</span>
+<span class="co"># Why not put this in Ruby?</span>
+ 
+<span class="co"># access keys of a hash like a function</span>
+ 
+<span class="kw">class</span> <span class="dt">Object</span>
+  <span class="kw">def</span> respond_to?(method)
+    <span class="kw">if</span> (method.to_s =~ <span class="ot">/^_.*/</span>) == <span class="dv">0</span>
+      <span class="dv">true</span>
+    <span class="kw">else</span>
+      <span class="dv">super</span>
+    <span class="kw">end</span>
+  <span class="kw">end</span>
+  <span class="kw">def</span> method_missing(name, *args, &amp;b)
+    <span class="kw">if</span> (args.count==<span class="dv">1</span>) &amp;&amp; b.nil? &amp;&amp; name[<span class="dv">0</span>]==<span class="st">&quot;_&quot;</span> &amp;&amp;
+       args[<span class="dv">0</span>].has_key?(name[<span class="dv">1</span>..-<span class="dv">1</span>].to_sym)
+      args[<span class="dv">0</span>][name[<span class="dv">1</span>..-<span class="dv">1</span>].to_sym]
+    <span class="kw">else</span>
+      <span class="dv">super</span>
+    <span class="kw">end</span>
+  <span class="kw">end</span>
+<span class="kw">end</span>
+ 
+ 
+hash = {<span class="st">:a</span> =&gt; <span class="dv">1</span>}
+(_a hash) == <span class="dv">1</span> <span class="co">#=&gt; true</span>
+(_a hash) == (hash [<span class="st">:a</span>]) <span class="co">#=&gt; true</span>
+ 
+<span class="co"># the underscore serves to prevent naming conflicts to a degree</span></code></pre>
+</div>
+
+        </article>
+        <hr>
+        <footer>
+          <nav>
+            <a href="../">Home</a>
+            <a href="../about.html">About</a>
+            <a href="../contact.html">Contact</a>
+            <a href="../archive.html">Archive</a>
+          </nav>
+        </footer>
+    </body>
+</html>

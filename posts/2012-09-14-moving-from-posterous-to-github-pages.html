@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+        <meta name="viewport" content="width=756px">
+        <title>Kilotau - Moving From Posterous to Github Pages</title>
+        <link rel="stylesheet" type="text/css" href="../css/base.css" />
+    </head>
+    <body>
+        <header>
+          <h1>
+            Moving From Posterous to Github Pages
+          </h1>
+        </header>
+        <article>
+            <div class="meta">
+    Posted on September 14, 2012
+    
+</div>
+
+<div id="article-text">
+  <p>Ever since Posterous was acquired by Twitter, I’d been meaning to ditch the service for something better. While it was convenient to post by email and enjoyable to forget about hosting, I missed controlling the structure of my raw posts and the site’s design.</p>
+<p>So when I discovered <a href="http://octopress.org">Octopress</a>, I was quickly won over. Finally, a hacker’s workflow: compose post in Markdown, generate static content, push content to Github Pages. And since all posts are in Markdown, you truly have portable, human-readable content!</p>
+<p>Once I had a repository on Github setup with my Octopress-powered blog, I needed to import posts from Posterous. Unfortunately, it wasn’t a straightforward process, but I decided to automate away the drudgery and share some code with you in the process.</p>
+<p>After consulting <a href="http://posterous.com/api">Posterous’s API</a>, I realized I only really needed my “site_id” to pull all my posts in a single JSON request. The following URLs were helpful for this:</p>
+<pre class="sourceCode ruby"><code class="sourceCode ruby"><span class="co"># http://posterous.com/api/2/users/me =&gt; authenticated user's info, including ID</span>
+<span class="co"># http://posterous.com/api/2/sites?id=1021298 =&gt; sites of user; figure out site_id</span>
+<span class="co"># http://posterous.com/api/2/sites/2464344/posts =&gt; all of kilotau's posts in JSON; using site_id</span></code></pre>
+<p>After I had my posts downloaded in <code>posts.json</code>, I transformed each post to Markdown and manually formatted them for Octopress. I used the simple <a href="https://github.com/singpolyma/HTML2Markdown">HTML2Markdown</a> script and the following code:</p>
+<pre class="sourceCode ruby"><code class="sourceCode ruby"><span class="co"># this uses ruby-1.9.3</span>
+require <span class="st">'json'</span>
+require <span class="st">'fileutils'</span>
+require <span class="st">'./html2markdown.rb'</span>
+require <span class="st">'date'</span>
+
+json = <span class="dt">JSON</span>.parse(<span class="dt">File</span>.read(<span class="st">'./posts.json'</span>))
+
+json.map <span class="kw">do</span> |j|
+  d = <span class="dt">DateTime</span>.parse(j[<span class="st">'display_date'</span>])
+  filename = <span class="st">&quot;./md/&quot;</span> + d.strftime(<span class="st">'%Y-%m-%d'</span>) + <span class="st">&quot;-&quot;</span> + j[<span class="st">'slug'</span>] + <span class="st">&quot;.markdown&quot;</span>
+  file = <span class="dt">File</span>.new(filename, <span class="st">&quot;w&quot;</span>)
+  file.write <span class="st">&quot;---\n&quot;</span>
+  file.write <span class="st">&quot;layout: post\n&quot;</span>
+  file.write <span class="st">&quot;title: &quot;</span> + <span class="st">&quot;\&quot;&quot;</span> + j[<span class="st">'title'</span>] + <span class="st">&quot;\&quot;&quot;</span> + <span class="st">&quot;\n&quot;</span>
+  file.write <span class="st">&quot;date: &quot;</span> + j[<span class="st">'display_date'</span>] + <span class="st">&quot;\n&quot;</span>
+  file.write <span class="st">&quot;comments: false\n&quot;</span>
+  file.write <span class="st">&quot;external-url:\n&quot;</span>
+  file.write <span class="st">&quot;categories:\n&quot;</span>
+  file.write <span class="st">&quot;---\n&quot;</span>
+  file.write <span class="dt">HTML2Markdown</span>.new(j[<span class="st">'body_cleaned'</span>])
+  file.close
+<span class="kw">end</span></code></pre>
+<p>In a moment, I had all my posts converted.</p>
+<p>Now that I have my past posts, it’s time to play with the design!</p>
+</div>
+
+        </article>
+        <hr>
+        <footer>
+          <nav>
+            <a href="../">Home</a>
+            <a href="../about.html">About</a>
+            <a href="../contact.html">Contact</a>
+            <a href="../archive.html">Archive</a>
+          </nav>
+        </footer>
+    </body>
+</html>

@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+        <meta name="viewport" content="width=756px">
+        <title>Kilotau - &quot;On Ruby 1.9's Flexible Syntax&quot;</title>
+        <link rel="stylesheet" type="text/css" href="../css/base.css" />
+    </head>
+    <body>
+        <header>
+          <h1>
+            &quot;On Ruby 1.9's Flexible Syntax&quot;
+          </h1>
+        </header>
+        <article>
+            <div class="meta">
+    Posted on September 25, 2012
+    
+</div>
+
+<div id="article-text">
+  <p>Over the past day or so, I’ve been playing around with small bits of Ruby after spending most of the summer in Clojure-land. There’s great similarities in both Ruby and Clojure (functional style, dynamic, etc), and both are very practical choices. Clojure gives you amazing access to JVM land while not forcing you to pull your hair out, and Ruby grants you a good selection of libraries and amazing tools for web development.</p>
+<p>But here I want to highlight a few experiments I did to try and brighten up my Ruby-writing experience. The things here could be unneccessarily divergent, but what the hell. It made me realize you can bend Ruby in a lot of ways I hadn’t thought of before</p>
+<h2 id="define-methods-on-the-fly">define methods on the fly</h2>
+<pre class="sourceCode ruby"><code class="sourceCode ruby"><span class="kw">def</span> defn name, &amp;b
+  <span class="dt">Object</span>.send <span class="st">:define_method</span>, name, &amp;b
+<span class="kw">end</span></code></pre>
+<p><code>:define_method</code> is an amazing little method that allows you define methods (on any object too, so you could define class/module methods). That’s all there is to it. Now you can do this:</p>
+<pre class="sourceCode ruby"><code class="sourceCode ruby">defn(<span class="st">:a</span>) {|x, *y| print x; print y}
+<span class="co"># and if you want to superficially lispy</span>
+(defn (<span class="st">:a</span>) {|x, *y| print x; print y})
+
+(a <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>) <span class="co">#-&gt; 1[2,3,4]</span>
+
+<span class="co"># for multiline methods, this seems easier:</span>
+defn (<span class="st">:sum_of_squares</span>) <span class="kw">do</span> |x, y| 
+  x*x + y*y
+<span class="kw">end</span></code></pre>
+<p>This also works for associating any name with any kind of lambda.</p>
+<pre class="sourceCode ruby"><code class="sourceCode ruby">(defn (<span class="st">:foo</span>) {<span class="dv">23</span>})
+foo == <span class="dv">23</span> <span class="co">#=&gt; true</span></code></pre>
+<h2 id="let-with">let / with</h2>
+<p>In Lispy languages, there’s something like a function called <code>let</code> which lets you define some names in a new lexical scope and operate with them. An example in Clojure:</p>
+<pre class="sourceCode clojure"><code class="sourceCode clojure">(<span class="kw">let</span> [x <span class="dv">1</span>] x) <span class="co">;-&gt; 1</span>
+x <span class="co">;-&gt; error, x is not defined outside the above form</span></code></pre>
+<p>In Ruby, we have something kind of like that called <code>#tap</code>, which Zach Hobson covered <a href="http://www.opensourcery.com/blog/zack-hobson/objectlet-ruby-0">here</a>. He suggested a simple way to define <code>#let</code>:</p>
+<pre class="sourceCode ruby"><code class="sourceCode ruby"><span class="kw">class</span> <span class="dt">Object</span>
+  <span class="kw">def</span> let
+    <span class="kw">yield</span> <span class="dv">self</span>
+  <span class="kw">end</span>
+<span class="kw">end</span>
+
+<span class="co"># Now you can do this:</span>
+
+((<span class="dv">2</span>).let {|x| puts x<span class="dv">+1</span>}) == <span class="dv">3</span> <span class="co">#=&gt; true</span></code></pre>
+<p>But I think an even more beautiful way to do it is like this:</p>
+<pre class="sourceCode ruby"><code class="sourceCode ruby"><span class="kw">def</span> with coll, &amp;b
+ coll.map &amp;b
+<span class="kw">end</span>
+
+with [[<span class="dv">1</span>,<span class="dv">2</span>]] {|x,y| puts x+y} <span class="co">#=&gt; 3</span></code></pre>
+<p>For more on destructuring and everything’s that’s possible there, check out <a href="http://po-ru.com/diary/destructuring-assignment-in-ruby/">this post</a>.</p>
+<h2 id="map-reduce-filter-pipe-call-body">map, reduce, filter, pipe, call, body</h2>
+<p>There’s a lot more craziness to explore. I’ll let the code, comments, and examples from my <a href="https://gist.github.com/3760519">gist</a> explain. This is just bits of code here and there, honestly. <a href="http://twitter.com/gnarmis">Tweet at me</a> to discuss! Also, the <a href="https://gist.github.com/3760519">gist</a> will be the most up-to-date version of this.</p>
+<pre class="sourceCode ruby"><code class="sourceCode ruby"><span class="co"># execute an array of lambdas one after another?</span>
+
+<span class="kw">def</span> body *args
+  args.each {|e| e.call}
+<span class="kw">end</span>
+
+(body (lambda {print <span class="dv">1</span>}), (lambda {print <span class="dv">2</span>})) <span class="co">#=&gt; output: 12</span>
+
+<span class="co"># map as a &quot;top-level&quot; function. This maps some lambda to an array, </span>
+<span class="co"># passing each element to the lambda to call.</span>
+<span class="co"># (also, who doesn't like stabby lambdas?)</span>
+
+<span class="kw">def</span> map fun, coll
+  coll.to_a.collect {|i| fun.call(i)}
+<span class="kw">end</span>
+
+(map -&gt;(x){x<span class="dv">+1</span>}, [<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>]) <span class="co">#=&gt; [2, 3, 4]</span>
+
+<span class="co"># reduce as a &quot;top-level&quot; function</span>
+
+<span class="kw">def</span> reduce fun, val=<span class="dv">nil</span>, coll
+  <span class="kw">return</span> coll.to_a.reduce(fun.to_sym) <span class="kw">unless</span> val
+  <span class="kw">return</span> coll.to_a.reduce(val) {|sum, i| sum.send fun.to_sym, i} <span class="kw">if</span> val
+<span class="kw">end</span>
+
+(reduce :+, [<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>]) <span class="co">#=&gt; 6</span>
+(reduce :+, <span class="dv">3</span>, [<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>]) <span class="co">#=&gt; 9</span>
+
+
+<span class="co"># piping a single input through a bunch of functions</span>
+<span class="co"># (yay, composable functions!)</span>
+
+<span class="kw">def</span> pipe args, *methods
+ methods.reduce(args) { |a, m| send(m, a) }
+<span class="kw">end</span>
+
+<span class="kw">def</span> foo(data)
+  data[<span class="st">:a</span>] += <span class="dv">1</span>
+  data
+<span class="kw">end</span>
+
+<span class="kw">def</span> bar(data)
+  data[<span class="st">:b</span>] += <span class="dv">10</span>
+  data
+<span class="kw">end</span>
+
+hash = {<span class="st">:a</span> =&gt; <span class="dv">0</span>, <span class="st">:b</span> =&gt; <span class="dv">0</span>}
+(pipe hash, <span class="st">:foo</span>, <span class="st">:bar</span>) <span class="co">#=&gt; {:a=&gt;1, :b=&gt;10}</span>
+
+<span class="co"># good old filter is also pretty easy to define</span>
+
+<span class="kw">def</span> filter pred, coll
+  coll.to_a.select &amp;pred
+<span class="kw">end</span>
+
+(filter -&gt;(x){x.even?}, [<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>]) == [<span class="dv">2</span>] <span class="co">#=&gt; true</span>
+
+<span class="co"># a function to call a lambda (forcing it to execute)</span>
+
+<span class="kw">def</span> call b; b.call; <span class="kw">end</span>
+
+saved = lambda {puts <span class="st">&quot;did I get called?&quot;</span>}
+<span class="co">#=&gt; #&lt;Proc:blahblahblah (lambda)&gt;</span>
+
+(call (lambda {puts <span class="st">&quot;I got called!&quot;</span>; reduce :+, [<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>]})) 
+<span class="co">#=&gt; output: I got called!\n =&gt; 6</span></code></pre>
+</div>
+
+        </article>
+        <hr>
+        <footer>
+          <nav>
+            <a href="../">Home</a>
+            <a href="../about.html">About</a>
+            <a href="../contact.html">Contact</a>
+            <a href="../archive.html">Archive</a>
+          </nav>
+        </footer>
+    </body>
+</html>

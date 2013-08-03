@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+        <meta name="viewport" content="width=756px">
+        <title>Kilotau - Running processes in background and redirecting to file</title>
+        <link rel="stylesheet" type="text/css" href="../css/base.css" />
+    </head>
+    <body>
+        <header>
+          <h1>
+            Running processes in background and redirecting to file
+          </h1>
+        </header>
+        <article>
+            <div class="meta">
+    Posted on November 11, 2011
+    
+</div>
+
+<div id="article-text">
+  <p>When developing locally, I find it useful to have the full development server logs available. Luckily, Rails 3.1 does this for you in the file ./log/development.log. However, if you want something similar for other frameworks/commands that run continuously and post any errors, etc, directly to the terminal, something like this is useful:</p>
+<pre><code>$ rails s &gt;&gt; console.out 2&gt;&amp;1 &amp;</code></pre>
+<p>(Replace <code>rails s</code> with any similar command)</p>
+<p>Also, you can easily send signals (like ctrl-c) to background processes with <code>kill</code>.</p>
+<p>List of signals:</p>
+<pre><code>$ kill -l</code></pre>
+<p>Closing a background process with id 1:</p>
+<pre><code>$ kill -s SIGKILL %1</code></pre>
+</div>
+
+        </article>
+        <hr>
+        <footer>
+          <nav>
+            <a href="../">Home</a>
+            <a href="../about.html">About</a>
+            <a href="../contact.html">Contact</a>
+            <a href="../archive.html">Archive</a>
+          </nav>
+        </footer>
+    </body>
+</html>

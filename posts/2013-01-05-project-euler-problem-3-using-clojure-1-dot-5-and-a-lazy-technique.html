@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+        <meta name="viewport" content="width=756px">
+        <title>Kilotau - Project Euler Problem 3 using Clojure 1.5 and a lazy technique</title>
+        <link rel="stylesheet" type="text/css" href="../css/base.css" />
+    </head>
+    <body>
+        <header>
+          <h1>
+            Project Euler Problem 3 using Clojure 1.5 and a lazy technique
+          </h1>
+        </header>
+        <article>
+            <div class="meta">
+    Posted on January  5, 2013
+    
+</div>
+
+<div id="article-text">
+  <p>The problem: find the largest prime factor of 600851475143.</p>
+<p>I used the Sieve of Eratosthenes and Ruby to solve it <a href="http://kilotau.com/blog/2011/06/28/primes-and-sieves/">last time</a>.</p>
+<p>This time, I tried a lazy, functional approach. The result was an efficient, straightfoward solution that involved no sieve or any static/full-realized data structure at all! I make a recipe for the kind of numbers I want and then take just as many as I need in order to finally output the answer.</p>
+<p>Here’s my lazy, functional implementation using Clojure 1.5 RC1 (mostly because I wanted to play with the new reducers library). It’s pretty efficient: less than a quarter of a second on my 2011 13&quot; base MBP!</p>
+<pre class="sourceCode clojure"><code class="sourceCode clojure">(<span class="kw">ns</span> euler.three
+ (<span class="kw">require</span> [clojure.core.reducers <span class="kw">:as</span> r]))
+
+(<span class="kw">declare</span> largest-prime-factor-for)
+(<span class="kw">declare</span> factors-of)
+(<span class="kw">declare</span> source-factors)
+(<span class="kw">declare</span> source-naturals)
+(<span class="kw">declare</span> factor?)
+(<span class="kw">declare</span> prime?)
+(<span class="kw">declare</span> certainty)
+
+(<span class="kw">defn</span><span class="fu"> answer </span>[]
+  (<span class="kw">time</span> (largest-prime-factor-for <span class="dv">600851475143</span>)))
+
+(<span class="kw">defn</span><span class="fu"> largest-prime-factor-for </span>[n]
+  (<span class="kw">let</span> [prime-factors (r/filter prime?
+                                (factors-of n))]
+    (<span class="kw">last</span> (<span class="kw">into</span> [] prime-factors))))
+
+(<span class="kw">defn</span><span class="fu"> factors-of </span>[n]
+  (r/filter #(factor? n %)
+            (source-factors n)))
+
+(<span class="kw">defn</span><span class="fu"> source-factors </span>[n]
+  (r/take-while #(<span class="kw">&lt;</span> % (<span class="kw">int</span> (Math/sqrt n)))
+                (source-naturals)))
+
+(<span class="kw">defn</span><span class="fu"> source-naturals </span>[]
+  (r/map #(<span class="kw">+</span> % <span class="dv">2</span>) (<span class="kw">range</span>)))
+
+(<span class="kw">defn</span><span class="fu"> factor</span>? [n possib]
+  (<span class="kw">zero?</span> (<span class="kw">mod</span> n possib)))
+
+(<span class="kw">defn</span><span class="fu"> prime</span>? [n]
+  (.isProbablePrime (BigInteger/valueOf n) certainty))
+
+(<span class="kw">def</span><span class="fu"> certainty </span><span class="dv">10</span>)</code></pre>
+</div>
+
+        </article>
+        <hr>
+        <footer>
+          <nav>
+            <a href="../">Home</a>
+            <a href="../about.html">About</a>
+            <a href="../contact.html">Contact</a>
+            <a href="../archive.html">Archive</a>
+          </nav>
+        </footer>
+    </body>
+</html>

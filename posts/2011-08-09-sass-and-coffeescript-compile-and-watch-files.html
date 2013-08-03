@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+        <meta name="viewport" content="width=756px">
+        <title>Kilotau - &quot;Sass and CoffeeScript - Compile and Watch Files with One Command&quot;</title>
+        <link rel="stylesheet" type="text/css" href="../css/base.css" />
+    </head>
+    <body>
+        <header>
+          <h1>
+            &quot;Sass and CoffeeScript - Compile and Watch Files with One Command&quot;
+          </h1>
+        </header>
+        <article>
+            <div class="meta">
+    Posted on August  9, 2011
+    
+</div>
+
+<div id="article-text">
+  <p>Do you use Sass and CoffeeScript? Tired of remembering and typing out the compile and watch commands on both of those command-line utilities? I used to do:</p>
+<pre><code>$ compass watch   
+$ coffee -o scripts/ -cw coffee/</code></pre>
+<p>…on all of my projects, in separate tabs on the terminal. There had to be an easier way.</p>
+<p>Do them both, with the standard configuration, using the script below.</p>
+<pre class="sourceCode bash"><code class="sourceCode bash"><span class="co">#!/bin/bash</span>
+<span class="co"># run `compass watch` at pwd</span>
+<span class="co"># run `coffee -o scripts/ -cw coffee/` at pwd</span>
+<span class="kw">type</span> -P compass <span class="kw">&amp;&gt;</span>/dev/null  <span class="kw">||</span> <span class="kw">{</span> <span class="kw">echo</span> <span class="st">&quot;Compass command not found.&quot;</span><span class="kw">;</span> <span class="kw">exit</span> 1<span class="kw">;</span> <span class="kw">}</span>
+<span class="kw">type</span> -P coffee <span class="kw">&amp;&gt;</span>/dev/null  <span class="kw">||</span> <span class="kw">{</span> <span class="kw">echo</span> <span class="st">&quot;Coffee command not found.&quot;</span><span class="kw">;</span> <span class="kw">exit</span> 1<span class="kw">;</span> <span class="kw">}</span>
+ 
+<span class="kw">if [</span> <span class="ot">!</span> <span class="ot">-d</span> sass/<span class="kw"> ]</span> <span class="kw">|| [</span> <span class="ot">!</span> <span class="ot">-d</span> scripts/<span class="kw"> ]</span>
+<span class="kw">then</span>
+  <span class="kw">echo</span> <span class="st">&quot;Project not setup correctly! Put sass files in sass/ and coffee in coffee/&quot;</span>
+<span class="kw">else</span>
+  <span class="kw">if [</span> <span class="ot">!</span> <span class="ot">-d</span> stylesheets/<span class="kw"> ]</span>
+  <span class="kw">then</span>
+    <span class="kw">mkdir</span> stylesheets
+  <span class="kw">fi</span>
+  <span class="kw">if [</span> <span class="ot">!</span> <span class="ot">-d</span> scripts/<span class="kw"> ]</span>
+  <span class="kw">then</span>
+    <span class="kw">mkdir</span> scripts
+  <span class="kw">fi</span>
+  <span class="kw">echo</span> <span class="st">&quot;Watching changes in sass/ and coffee/ and compiling to stylesheets/ and scripts/ ...&quot;</span>
+  <span class="kw">`compass</span> watch --quiet<span class="kw">`</span> <span class="kw">&amp;</span>
+  <span class="kw">`coffee</span> -o scripts/ -cw coffee/<span class="kw">`</span> <span class="kw">&amp;</span>
+  <span class="kw">wait</span>
+<span class="kw">fi</span></code></pre>
+<p>Add the script into your project, do</p>
+<pre><code>$ chmod +x sassycoffee.sh</code></pre>
+<p>to make it executable, and forget about it! I’m planning on some edits in the future, but it works well enough and gets the job done. Now, all you need to do is:</p>
+<pre><code>$ ./sassycoffee.sh</code></pre>
+<p>This was a quick little hack in bash but pretty helpful for my workflow.</p>
+<p>Tips? Improvements? I’d be glad to hear ’em.</p>
+<p>Update: https://github.com/gnarmis/SassyCoffee</p>
+</div>
+
+        </article>
+        <hr>
+        <footer>
+          <nav>
+            <a href="../">Home</a>
+            <a href="../about.html">About</a>
+            <a href="../contact.html">Contact</a>
+            <a href="../archive.html">Archive</a>
+          </nav>
+        </footer>
+    </body>
+</html>

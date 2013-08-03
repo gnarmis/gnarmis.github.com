@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+        <meta name="viewport" content="width=756px">
+        <title>Kilotau - Deploying TinyPM on Amazon EC2 with Tomcat</title>
+        <link rel="stylesheet" type="text/css" href="../css/base.css" />
+    </head>
+    <body>
+        <header>
+          <h1>
+            Deploying TinyPM on Amazon EC2 with Tomcat
+          </h1>
+        </header>
+        <article>
+            <div class="meta">
+    Posted on July 19, 2011
+    
+</div>
+
+<div id="article-text">
+  <p>I had a particularly interesting time trying to install TinyPM, which is a Java-based project management solution. After searching el goog for a bit, I couldn’t find an exact walkthrough or recipe, so I decided to make one here for anyone else who’s looking into doing the same.</p>
+<p>First, the platform. I chose Amazon’s Elastic Computing Cloud (EC2), although you could easily opt for Rackspace or one of the many Java hosts (Oxxus seemed compelling too). EC2 has a free usage tier that fit the needs of the project so I decided to go with it.</p>
+<p>Amazon’s EC2 allows you to select disk images, called AMI’s (Amazon Machine Image), and then install and run them seamlessly. You can spin up multiple instances rapidly and manage every last detail about them. Access to these AMI’s (what requests can go to them and from them) is controlled by Security Groups, which need to be applied to instances. In the free-tier, you can’t change a security group after selecting it at instance-creation-time. Also, there are a lot of community-submitted AMI’s that you can use as well.</p>
+<p>After logging in with my pre-existing Amazon AWS account, I went to the <a href="https://console.aws.amazon.com/">AWS management console</a> and selected EC2.</p>
+<p>Oh, cool! This console has a lot of options. You can actually launch your very own server instance by following a simple wizard.</p>
+<p>Ok, now that the platform has been selected and introduced, the next step is to select a good, base AMI that does most of the work for us. The AMI I used was the <a href="http://bitnami.org/stack/tomcatstack">Bitnami Tomcat stack</a> (ami-0eec1167), which is publicly available and can be used with the free-tier.</p>
+<p>Now, I launched the instance-creation wizard from the AWS console.</p>
+<p>As you can see, I entered the specific AMI id and then proceeded to select the search item that matched.</p>
+<p>Next, you need to select the first few configuration items about the new instance:</p>
+<p>The defaults should suffice. After that, you can optionally enter some unique key/value pairs for your own purposes.</p>
+<p>And now comes a very important step, making and downloading your key. You need to give a unique name and then download the given key to your computer. This key will be used to SSH into your instance.</p>
+<p>Most importantly, you need to define the Security Group to be used with your instance. Remember, if you’re doing free-tier, this cannot be changed later. For the different rules, add a Custom TCP rule for 0.0.0.0/0 with port 8080, an HTTP rule for 0.0.0.0/0, and a Custom TCP rule for 0.0.0.0/0 for port 22. Make sure the SSH port 22 rule shows up in the group’s definition.</p>
+<p>You should now have a functioning EC2 instance. Awesome! Now, SSH into that baby:</p>
+<pre><code>$ cd path/to/folder/containing/key 
+$ ssh -i ./ bitnami@</code></pre>
+<p>Replace with your key and with the instance’s public dns name (look in details). Also, you can right-click on the instance in the AWS console and select “Connect” to get your own personal ssh command.</p>
+<p><em><strong>Note</strong>: the root user for this AMI is manager/bitnami (check <a href="http://bitnami.org/faq/cloud_amazon_ec2">bitnami FAQ</a> for details). I tend to log in with the bitnami user to my instance and then use sudo for any admin commands.</em></p>
+<p>A bit of an overview about Tomcat and TinyPM:</p>
+<p>The webapps folder is like www in Apache. Individual WAR files can be unzipped into folders inside webapps to deploy them. The environment variable $CATALINA_HOME points to the root tomcat directory. Also, any .jar files that are dependencies go in the lib folder. The installation procedure that can now be followed is <a href="http://documentation.tinypm.com/display/DOC/Tomcat+6.0.x+%28from+WAR+file%29">here</a>.</p>
+<p>After you’re logged in, do the following:</p>
+<pre><code>$ Java -server -Xms256m -Xmx512m -XX:MaxPermSize=96m -XX:+UseParallelGC 
+$ cd /opt/bitnami/apache-tomcat/webapps 
+$ wget http://www.tinypm.com/downloads/tinypm-2.5.6-tomcat6.0.zip
+$ sudo unzip tinypm-2.5.6-tomcat6.0.zip 
+$ /opt/bitnami/apache-tomcat/bin/shutdown.sh 
+$ mkdir tinypm
+$ sudo unzip tinypm.war -d tinypm 
+$ sudo cp dependency/* ../lib</code></pre>
+<p>At this point, you have downloaded and installed the WAR file, taking care to shutdown Tomcat first. You’ve also moved TinyPM’s dependencies to Tomcat’s lib folder (you already have the mysql-java connector dependency fulfilled by the bitnami stack).</p>
+<p>Next, you need to setup the mysql database. To do this, follow the directions for the database setup <a href="http://documentation.tinypm.com/display/DOC/Tomcat+6.0.x+%28from+WAR+file%29">here</a>. I kept the defaults just to keep things simple. If you change something, it can easily be accounted for in the hibernate.properties files under webapps/tinypm/WEB-INF/classes.</p>
+<p>After that is done, you need to edit the file at $CATALINA_HOME/webapps/tinypm/WEB-INF/classes/hibernate.properties so as to uncomment the line:</p>
+<pre><code>#hibernate.search.default.indexBase = /var/search_index/tinypm</code></pre>
+<p>by removing the <code>#</code> sign. You might need to change permissions by doing:</p>
+<pre><code>$ sudo chmod +w hibernate.properties</code></pre>
+<p>Now, the next step is to create the folder that the above uncommented line mentions:</p>
+<pre><code>$ sudo mkdir /var/search_index /var/search_index/tinypm
+$ chown -R root /var/search_index/tinypm</code></pre>
+<p>Finally, start your Tomcat server:</p>
+<pre><code>$ /opt/bitnami/apache-tomcat/bin/startup.sh</code></pre>
+<p>And point your browser to /tinypm. The credentials are admin/admin.</p>
+<p>Hope this is helpful for someone out there!</p>
+</div>
+
+        </article>
+        <hr>
+        <footer>
+          <nav>
+            <a href="../">Home</a>
+            <a href="../about.html">About</a>
+            <a href="../contact.html">Contact</a>
+            <a href="../archive.html">Archive</a>
+          </nav>
+        </footer>
+    </body>
+</html>

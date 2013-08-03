@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+        <meta name="viewport" content="width=756px">
+        <title>Kilotau - Piping Arguments Through Multiple Functions in Ruby</title>
+        <link rel="stylesheet" type="text/css" href="../css/base.css" />
+    </head>
+    <body>
+        <header>
+          <h1>
+            Piping Arguments Through Multiple Functions in Ruby
+          </h1>
+        </header>
+        <article>
+            <div class="meta">
+    Posted on September 19, 2012
+    
+</div>
+
+<div id="article-text">
+  <p>After asking <code>#ruby</code> what the equivalent of Clojure’s <a href="http://clojuredocs.org/clojure_core/clojure.core/-%3E">-&gt; macro</a> could look like, I compiled the collective solution into a gist. You might find this useful somewhere, especially when you have multiple transformation functions operating on the same basic data structures.</p>
+<pre class="sourceCode ruby"><code class="sourceCode ruby"><span class="co"># piping example in Ruby</span>
+ 
+<span class="kw">def</span> foo(data)
+  data[<span class="st">:a</span>] += <span class="dv">1</span>
+  data
+<span class="kw">end</span>
+ 
+<span class="kw">def</span> bar(data)
+  data[<span class="st">:b</span>] += <span class="dv">10</span>
+  data
+<span class="kw">end</span>
+ 
+<span class="kw">def</span> pipe args, *methods
+ methods.reduce(args) { |a, m| send(m, a) }
+<span class="kw">end</span>
+ 
+hash = {<span class="st">:a</span> =&gt; <span class="dv">0</span>, <span class="st">:b</span> =&gt; <span class="dv">0</span>}
+pipe hash, <span class="st">:foo</span>, <span class="st">:bar</span>
+<span class="co">#=&gt; {:a=&gt;1, :b=&gt;10}</span></code></pre>
+</div>
+
+        </article>
+        <hr>
+        <footer>
+          <nav>
+            <a href="../">Home</a>
+            <a href="../about.html">About</a>
+            <a href="../contact.html">Contact</a>
+            <a href="../archive.html">Archive</a>
+          </nav>
+        </footer>
+    </body>
+</html>
